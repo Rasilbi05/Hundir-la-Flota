@@ -1,0 +1,5 @@
+Portaaviones/P/6/1
+Acorazado/A/5/1
+Crucero/C/4/1
+Destructor/D/3/1
+Fragata/F/2/1
