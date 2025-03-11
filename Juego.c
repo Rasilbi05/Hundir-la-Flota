@@ -33,6 +33,9 @@ void menuJuego(){
             //llamar a la función encargada de mostrar la configuración
 
         break;
+        default:
+            printf("\nError, elija una de las opciones disponibles.\n");    //si el usuario escribe un número que no este entre 1-4, salta error
+            menuJuego();
 
     }
 
