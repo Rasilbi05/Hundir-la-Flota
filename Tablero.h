@@ -4,3 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+void asignacionTablero();
+char **generarTablero(int n);
+asignacionManual();
+asignacionAutomatica();
+
+#endif
