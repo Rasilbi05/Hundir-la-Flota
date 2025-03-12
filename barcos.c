@@ -1,48 +1,38 @@
 #include "Barcos.h"
 
-#define llega printf("Llega\n");
-
 
 Barco* cargarBarcos(){
-    char linea[160];
-    char* token;
-    FILE* f = fopen("Barcos.txt", "r");
-    if(f == NULL){
+    char linea[160];        //Variable que almacena la linea leida
+    char* token;        //Variable que almacena el token
+    FILE* f = fopen("Barcos.txt", "r");         //Abre el archivo en modo lectura
+    if(f == NULL){          //Comprueba si se ha abierto correctamente
         printf("Error al abrir el archivo\n");
         return NULL;
     }
-    Barco* barcos = (Barco*)malloc(sizeof(Barco));
-    if(barcos == NULL){
+    Barco* barcos = (Barco*)malloc(NBarcos* sizeof(Barco));          //Reserva memoria para el vector de estructuras
+    if(barcos == NULL){         //Comprueba si se ha reservado correctamente
         printf("No hay memoria suficiente\n");
         return NULL;
     }
-    int NBarcos = 0;
-    while(fgets(linea, 160, f)!=NULL){
-        barcos = (Barco*)realloc((barcos),(NBarcos+1)*sizeof(Barco));
-        if(barcos == NULL){
-            printf("No hay memoria suficiente\n");
-            return NULL;
-        }
+    int i = 0;
+    while(fgets(linea, 160, f)!=NULL){          //Lee una linea del archivo por cada iteracion
         token = strtok(linea, "/");
-        strcpy(barcos[NBarcos].nombre, token);
+        strcpy(barcos[i].nombre, token);
         token = strtok(NULL, "/");
-        strcpy(barcos[NBarcos].Id_Barco, token);
-        token = strtok(NULL, "/");
-        barcos[NBarcos].Tam_Barco = atoi(token);
+        strcpy(barcos[i].Id_Barco, token);
         token = strtok(NULL, "\n");
-        barcos[NBarcos].valido = atoi(token);
-        NBarcos++;
+        barcos[i].Tam_Barco = atoi(token);
+        i++;
     }
-    fclose(f);
-    return barcos;
+    fclose(f);          //Cierra el archivo
+    return barcos;      //Devuelve el vector de estructuras
 }
 
 void mostrarBarcos(Barco* barcos){
     int i = 0;
-    while(barcos[i].valido == 1){
+    for(int i = 0; i < NBarcos; i++){          //Recorre el vector de estructuras
         printf("Nombre: %s\n", barcos[i].nombre);
         printf("Id: %s\n", barcos[i].Id_Barco);
         printf("Tamano: %d\n\n", barcos[i].Tam_Barco);
-        i++;
     }
 }
