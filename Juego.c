@@ -42,25 +42,44 @@ void menuJuego(){
 
 }
 
-//Precondición:
+//Precondición: El usuario ha configurado todo para poder comenzar el juego
 //Postcondición: Comenzar el juego
 void jugarPartida(){
 
+    printf("\n--------- Bienvenidos a Hundir La Flota ---------\n");
+
 
 
 }
 
-//Precondición:
+//Precondición: Se ha jugado una partida previamente
 //Postcondición: Reinicia los datos de la partida
 void reiniciarPartida(){
+    //limpiamos los tableros que se han jugado
 
 
 
 }
 
 //Precondición:
-//Postcondición: devuelve un resumen de los datos de la partida jugada
+//Postcondición: devuelve un resumen de los datos de la partida jugada, si no se ha jugado, no devuelve nada
 void resumenPartida(){
+
+
+
+}
+
+//Precondición: El usuario ha realizado un disparo
+//Postcondición: Devuelve 0 si ha fallado o 1 si ha impactado en un barco enemigo
+int comprobarDisparo(){
+
+
+
+}
+
+//Precondición: El usuario ha elegido que haya disparo automático
+//Postcondición: El programa realiza los disparos de forma autática
+void disparoAutomatico(){
 
 
 
