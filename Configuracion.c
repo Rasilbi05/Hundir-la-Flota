@@ -11,9 +11,10 @@ void menuConfiguracion(){
         printf("5. Salir\n");
         printf("Introduce una opcion: ");
         scanf("%d", &opcion);
+        Configuracion* datos;
         switch(opcion){
             case 1:
-                introducirDatos();
+                datos = introducirDatos();
                 break;
             case 2:
                 mostrarDatos();
@@ -25,7 +26,7 @@ void menuConfiguracion(){
                 cargarDatos();
                 break;
             case 5:
-                salir();
+                salir(datos);
                 break;
             default:
                 printf("Opcion no valida\n");
@@ -52,6 +53,9 @@ Configuracion* introducirDatos(){
         scanf("%d", &configuracion[i].NFragata);
         printf("Introduce quien comienza (0: Jugador1, 1: Jugador2): ");
         scanf("%d", &configuracion[i].comienza);
+        configuracion[i].NDisparos = 0;
+        configuracion[i].BarcosRest = configuracion[i].NPortaaviones + configuracion[i].NAcorazado + configuracion[i].NCrucero + configuracion[i].NDestructor + configuracion[i].NFragata;
     }
+    return configuracion;
 }
 
