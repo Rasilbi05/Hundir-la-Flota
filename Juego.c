@@ -30,7 +30,7 @@ void menuJuego(Configuracion* conf){
         break;
         case 4:
 
-            //llamar a la función encargada de mostrar la configuración
+            menuConfiguracion();    //llamamos a la función encargada de mostrar la configuración
 
         break;
         default:
@@ -51,16 +51,44 @@ void jugarPartida(Configuracion* conf){
     //Prueba de como se generaría un tablero: conf->flota=generarTablero(conf.tamTablero);
     
     
-
+    //CADA VEZ QUE SE DISPARA HAY QUE PEDIR SI SE QUIERE GUARDAR LA PARTIDA
 
 }
 
 //Precondición: Se ha jugado una partida previamente
 //Postcondición: Reinicia los datos de la partida
 void reiniciarPartida(Configuracion* conf){
-    //limpiamos los tableros que se han jugado
+    
+    //reiniciamos todas las variables del usuario
+    for(int i=0;i<2;i++){
 
+        conf[i].NDisparos=0;
+        conf[i].ganador=0;
+        conf[i].tocadas=0;
+        conf[i].casHundidas=0;
+        conf[i].barHundidos=0;
+        conf[i].barRestantes=conf[i].NAcorazado+conf[i].NCrucero+conf[i].NFragata+conf[i].NPortaaviones+conf[i].NDestructor;
 
+        //Hacemos otro bucle para limpiar los tableros
+        for(int f=0;f<conf[i].tamTablero;f++){
+
+            for(int c=0;c<conf[i].tamTablero;c++){
+
+                if(conf[i].flota[f][c]!=' '){
+
+                    conf[i].flota[f][c]=' ';
+
+                }else if(conf[i].oponente[f][c]!=' '){
+
+                    conf[i].oponente[f][c]=' ';
+
+                }
+
+            }
+
+        }
+
+    }
 
 }
 
@@ -75,43 +103,58 @@ void resumenPartida(Configuracion* conf){
     printf("-----------------------|--------|------|----|-------|--------|--------|------|-------|\n");
     for(int i=0;i<2;i++){
 
-        //calculamos quien es el ganador
-        if(conf[i].barRestantes==0)
-            ganador=1;
         //calculamos las casillas vacías
         vacia = conf[i].NDisparos-pow(conf[i].tamTablero,2);
 
-        printf("%s                     |     %d|   %d| %d|    %d|     %d|     %d|   %d|    %d|\n",conf[i].nombre,conf[i].NDisparos,vacia,conf[i].agua,conf[i].tocadas,conf[i].casHundidas,conf[i].barHundidos,conf[i].barRestantes,ganador);
+        printf("%s                     |     %d|   %d| %d|    %d|     %d|     %d|   %d|    %d|\n",conf[i].nombre,conf[i].NDisparos,vacia,conf[i].agua,conf[i].tocadas,conf[i].casHundidas,conf[i].barHundidos,conf[i].barRestantes,conf[i].ganador);
     
     }
 
     int c=0;    //usamos esta variable para poder mostrar las casillas
-    //mostramos los tableros de cada jugador
+
+    //hacemos un bucle principal para poder mostrar los datos de ambos jugadores
     for(int j=0;j<2;j++){
 
         printf("%s: FLOTA                       OPONENTE\n",conf[j].nombre);
         
-        printf("  |");
+      
         while(c<conf[j].tamTablero){
 
             printf("%d|",c);
             c++;
         }
 
-        //bucles para imprimir la matriz
+        //imprimimos el tablero
         for(int i=0;i<conf[j].tamTablero;i++){
 
-            for(int c=0;c<conf[j].tamTablero;c++){
+            printf("%d|",i);            
 
-
+            //imprimimos las filas del tablero Flota
+            for(int f=0;f<conf[j].tamTablero;f++){
+     
+              printf("%c|",conf[j].flota[i][f]);  //vamos mostrando cada casilla de Flota      
 
             }
 
+            printf("  %d|",i);
+
+            //imprimimos las filas del tablero Oponente
+            for(int f=0;f<conf[j].tamTablero;f++){
+
+                printf("%c|",conf[j].oponente[i][f]);  //vamos mostrando cada casilla de Oponente
+
+            }
+
+            printf("\n");   //saltamos a la siguiente fila
+
         }
 
-
+        
     }
-
+    
+    //le pedimos al usuario que confirme pulsando una tecla para poder continuar 
+    system("Pause");
+    system("cls");
 
 }
 
@@ -128,6 +171,9 @@ int comprobarDisparo(){
 //Postcondición: El programa realiza los disparos de forma autática
 void disparoAutomatico(){
 
-
+    /*cuando encuentro un barco, necesito saber donde empieza este, asi que compruebo todas las casillas posibles
+        si se encuentra una, intento buscar en la zona opuesta a la encontrada, para ver si sigue el barco por ahi,
+        sino sigo por donde he dado previamente, hasta que se haya hundido el agua
+    */
 
 }
