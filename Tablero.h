@@ -5,9 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "Barcos.h"
+#include "Configuracion.h"
+#include "Juego.h"
+
 void asignacionTablero();
 char **generarTablero(int n);
-asignacionManual();
-asignacionAutomatica();
+char **asignacionManual();
+char **asignacionAutomatica();
 
 #endif

@@ -7,17 +7,17 @@ void asignacionTablero(){
 	printf("\n¿Qué modo de asignación de posición de barcos desea? (1. Manual\n2. Automático)\n");  //Se pide al usuario que elija si coloca los barcos  manualmente o que sea automaticamente
 	scanf("%d",&x);
 	
-	switch (x){  //
+	switch (x){  //Distintas opciones en la elección
 		
 		case 1:
 
-			asignacionManual();
+			char **asignacionManual();
 		
 		break;
 		
 		case 2:
 		
-			asignacionAutomatica();
+			char **asignacionAutomatica();
 
 		break;
 		
@@ -33,7 +33,7 @@ void asignacionTablero(){
 char **generarTablero(int n){
 	int i;
 	char **M;
-	//Falta  comprobar si caben los barcos en el tablero
+	
 	M=(char**) malloc(sizeof(char)*n);
 	for(i=0;i<n;i++){
 	
@@ -43,3 +43,28 @@ char **generarTablero(int n){
 	return **M;
 }
 
+char **asignacionManual(){
+	if (){  //Si el usuario sitúa un barco en una posición ya seleccionada
+		printf("Esa casilla ya ha sido seleccionada.\n")
+	}
+
+	if (){  //Si el usuario sitúa un barco literalmente pegado a otro
+		printf("Debe dejar al menos una casilla de espacio entre dos barcos.\n")
+	}
+	
+	if (){  //Si el usuario selecciona una casilla que no está en los límites del tablero
+		printf("No puede situar un barco fuera de los límites del tablero.\n")
+	}
+
+}
+
+char **asignacionAutomatica(){
+	Barco* VBarcos = cargarBarcos();
+
+}
+
+int comprobarTamaño(){
+	if (){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
+
+	} 
+}
