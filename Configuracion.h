@@ -11,12 +11,16 @@ typedef struct{
     int NPortaaviones, NAcorazado, NCrucero, NDestructor, NFragata;
     int comienza;               //0: Jugador1, 1: Jugador2
     int tamTablero;
-    char** flota, oponente;
-    int NDisparos, agua, tocadas, casHundidas, barHundidos, barRestantes;
+    char **flota, **oponente;
+    int NDisparos, agua, tocadas, casHundidas, barHundidos, barRestantes, ganador;
 }Configuracion;
 
-void menuConfiguracion();
+Configuracion* menuConfiguracion();
 Configuracion* introducirDatos(Configuracion* configuracion);
 void mostrarDatos(Configuracion* datos);
+
+
+
+void menuPrincipal();
 
 #endif // _CONFIGURACION_

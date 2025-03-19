@@ -1,7 +1,7 @@
 #include "Configuracion.h"
 
 
-void menuConfiguracion(){
+Configuracion* menuConfiguracion(Configuracion *datos){
     int opcion;
     do{
         printf("1. Introducir datos\n");
@@ -11,15 +11,14 @@ void menuConfiguracion(){
         printf("5. Salir\n");
         printf("Introduce una opcion: ");
         scanf("%d", &opcion);
-        Configuracion* datos[2];
         switch(opcion){
             case 1:
-                *datos = introducirDatos(datos);
-                menuConfiguracion();
+                datos = introducirDatos(datos);
+                menuConfiguracion(datos);
                 break;
             case 2:
                 mostrarDatos(datos);
-                menuConfiguracion();
+                menuConfiguracion(datos);
                 break;
             case 3:
                 //guardarDatos(datos);
@@ -34,6 +33,7 @@ void menuConfiguracion(){
                 printf("Opcion no valida\n");
         }
     }while(opcion < 1 || opcion > 5);
+    return datos;
 }
 
 Configuracion* introducirDatos(Configuracion* configuracion){
@@ -90,6 +90,7 @@ Configuracion* introducirDatos(Configuracion* configuracion){
 }
 
 void mostrarDatos(Configuracion* datos){
+    system("cls");
     for(int i = 0; i < 2; i++){
         printf("Nombre: %s\n", datos[i].nombre);
         printf("Tipo de disparo: %d\n", datos[i].tipoDisparo);
@@ -99,7 +100,7 @@ void mostrarDatos(Configuracion* datos){
         printf("Numero de Destructores: %d\n", datos[i].NDestructor);
         printf("Numero de Fragatas: %d\n", datos[i].NFragata);
         printf("Comienza: %d\n", datos[i].comienza);
-        printf("Tamaño del tablero: %d\n", datos[i].tamTablero);
+        printf("Tamano del tablero: %d\n", datos[i].tamTablero);
         printf("Numero de disparos: %d\n", datos[i].NDisparos);
         printf("Agua: %d\n", datos[i].agua);
         printf("Tocadas: %d\n", datos[i].tocadas);
@@ -107,4 +108,51 @@ void mostrarDatos(Configuracion* datos){
         printf("Barcos hundidos: %d\n", datos[i].barHundidos);
         printf("Barcos restantes: %d\n", datos[i].barRestantes);
     }
+    system("pause");
+}
+
+
+
+
+
+
+
+
+
+
+void menuPrincipal(){
+    printf("Hola mundo\n");
+    system("pause");
+    int opcion;
+    Configuracion* datos;
+    datos = malloc(sizeof(Configuracion)*2);
+    if(datos == NULL){
+        printf("Error al reservar memoria\n");
+        exit(1);
+    }
+    do{
+        system("cls");
+        printf("1. Configuracion\n\n");
+        printf("2. Jugar\n\n");
+        printf("3. Salir\n\n");
+        printf("Introduzca un numero para continuar\n\n\n");
+        scanf("%d", &opcion);
+        switch(opcion){
+            case 1:
+                datos = menuConfiguracion(datos);
+                menuPrincipal();
+                break;
+            case 2:
+                //menuJuego(datos);
+                menuPrincipal();
+                break;
+            case 3:
+                
+                mostrarDatos(datos);
+                free(datos);
+                break;
+            default:
+                printf("Opcion no valida\n");
+        }
+    }while(opcion < 1 || opcion > 3);
 }
