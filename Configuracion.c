@@ -1,42 +1,44 @@
 #include "Configuracion.h"
 
 
-Configuracion* menuConfiguracion(Configuracion *datos){
+void menuConfiguracion(Configuracion *datos){
     int opcion;
-    do{
-        printf("1. Introducir datos\n");
-        printf("2. Mostrar datos\n");
-        printf("3. Guardar datos\n");
-        printf("4. Cargar datos\n");
-        printf("5. Salir\n");
-        printf("Introduce una opcion: ");
-        scanf("%d", &opcion);
-        switch(opcion){
-            case 1:
-                datos = introducirDatos(datos);
-                menuConfiguracion(datos);
-                break;
-            case 2:
-                mostrarDatos(datos);
-                menuConfiguracion(datos);
-                break;
-            case 3:
-                //guardarDatos(datos);
-                break;
-            case 4:
-                //cargarDatos(datos);
-                break;
-            case 5:
-                //menuPrincipal(datos);
-                break;
-            default:
-                printf("Opcion no valida\n");
-        }
-    }while(opcion < 1 || opcion > 5);
-    return datos;
+    while(opcion != 5){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
+        do{
+            system("cls");
+            printf("1. Introducir datos\n");
+            printf("2. Mostrar datos\n");
+            printf("3. Guardar datos\n");
+            printf("4. Cargar datos\n");
+            printf("5. Salir\n");
+            printf("Introduce una opcion: ");
+            scanf("%d", &opcion);
+            switch(opcion){
+                case 1:
+                    introducirDatos(datos);
+                    break;
+                case 2:
+                    mostrarDatos(datos);
+                    break;
+                case 3:
+                    //guardarDatos(datos);
+                    break;
+                case 4:
+                    //cargarDatos(datos);
+                    break;
+                case 5:
+                    break;
+                default:
+                    printf("Opcion no valida\n");
+                    break;
+            }
+        }while(opcion < 1 || opcion > 5);
+    }
 }
 
-Configuracion* introducirDatos(Configuracion* configuracion){
+void introducirDatos(Configuracion* configuracion){
+    int aux = 0, suma = 0, comienza = 0;        //Variables auxiliares para el numero de barcos y la suma de ellos y para saber quien comienza
+    
     for(int i = 0; i < 2; i++){             //Recorre el vector de estructuras para inicializar los datos
         printf("Introduce el nombre del jugador %d: ", i+1);
         fflush(stdin);
@@ -51,18 +53,32 @@ Configuracion* introducirDatos(Configuracion* configuracion){
         configuracion[i].barHundidos = 0;
     }
     printf("Introduce el numero de Portaaviones: ");
-    scanf("%d", &configuracion[0].NPortaaviones, &configuracion[1].NPortaaviones);
+    scanf("%d", &aux);
+    suma += aux;
+    configuracion[0].NPortaaviones = aux;
+    configuracion[1].NPortaaviones = aux;
     printf("Introduce el numero de Acorazados: ");
-    scanf("%d", &configuracion[0].NAcorazado, &configuracion[1].NAcorazado);
+    scanf("%d", &aux);
+    suma += aux;
+    configuracion[0].NAcorazado = aux;
+    configuracion[1].NAcorazado = aux;
     printf("Introduce el numero de Cruceros: ");
-    scanf("%d", &configuracion[0].NCrucero, &configuracion[1].NCrucero);
+    scanf("%d", &aux);
+    suma += aux;
+    configuracion[0].NCrucero = aux;
+    configuracion[1].NCrucero = aux;
     printf("Introduce el numero de Destructores: ");
-    scanf("%d", &configuracion[0].NDestructor, &configuracion[1].NDestructor);
+    scanf("%d", &aux);
+    suma += aux;
+    configuracion[0].NDestructor = aux;
+    configuracion[1].NDestructor = aux;
     printf("Introduce el numero de Fragatas: ");
-    scanf("%d", &configuracion[0].NFragata, &configuracion[1].NFragata);
-    configuracion[0].barRestantes = configuracion[0].NPortaaviones + configuracion[0].NAcorazado + configuracion[0].NCrucero + configuracion[0].NDestructor + configuracion[0].NFragata;
-    configuracion[1].barRestantes = configuracion[1].NPortaaviones + configuracion[1].NAcorazado + configuracion[1].NCrucero + configuracion[1].NDestructor + configuracion[1].NFragata;
-    int comienza;
+    scanf("%d", &aux);
+    suma += aux;
+    configuracion[0].NFragata = aux;
+    configuracion[1].NFragata = aux;
+    configuracion[0].barRestantes = suma;
+    configuracion[1].barRestantes = suma;
     do{                    //Bucle para comprobar que se introduce una opcion valida
         printf("Introduce quien comienza (0: Jugador1, 1: Jugador2): ");
         scanf("%d", &comienza);
@@ -86,7 +102,6 @@ Configuracion* introducirDatos(Configuracion* configuracion){
     }
     //Para el tamaño del tablero preguntar a funcion de cristian para saber si es posible ese valor o no
     */
-    return configuracion;
 }
 
 void mostrarDatos(Configuracion* datos){
@@ -123,36 +138,35 @@ void mostrarDatos(Configuracion* datos){
 void menuPrincipal(){
     printf("Hola mundo\n");
     system("pause");
-    int opcion;
-    Configuracion* datos;
-    datos = malloc(sizeof(Configuracion)*2);
-    if(datos == NULL){
+    int opcion = 0;
+    Configuracion *datos;       //Declaro el vector de estructuras
+    datos = malloc(sizeof(Configuracion)*2);        //Reservo memoria para el vector de estructuras
+    if(datos == NULL){      //Compruebo que se haya reservado la memoria correctamente
         printf("Error al reservar memoria\n");
         exit(1);
     }
-    do{
-        system("cls");
-        printf("1. Configuracion\n\n");
-        printf("2. Jugar\n\n");
-        printf("3. Salir\n\n");
-        printf("Introduzca un numero para continuar\n\n\n");
-        scanf("%d", &opcion);
-        switch(opcion){
-            case 1:
-                datos = menuConfiguracion(datos);
-                menuPrincipal();
-                break;
-            case 2:
-                //menuJuego(datos);
-                menuPrincipal();
-                break;
-            case 3:
-                
-                mostrarDatos(datos);
-                free(datos);
-                break;
-            default:
-                printf("Opcion no valida\n");
-        }
-    }while(opcion < 1 || opcion > 3);
+    while(opcion != 3){     //Bucle para mostrar el menu principal, sale de el cuando se elige la opcion 3
+        do{
+            system("cls");
+            printf("1. Configuracion\n\n");
+            printf("2. Jugar\n\n");
+            printf("3. Salir\n\n");
+            printf("Introduzca un numero para continuar\n\n\n");
+            scanf("%d", &opcion);
+            switch(opcion){
+                case 1:
+                    menuConfiguracion(datos);
+                    break;
+                case 2:
+                    menuJuego(datos);
+                    break;
+                case 3:
+                    free(datos);
+                    break;
+                default:
+                    printf("Opcion no valida\n");
+                    break;
+            }
+        }while(opcion < 1 || opcion > 3);
+    }
 }
