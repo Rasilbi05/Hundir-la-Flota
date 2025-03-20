@@ -30,7 +30,7 @@ void menuJuego(Configuracion* conf){
         break;
         case 4:
 
-            menuConfiguracion();    //llamamos a la función encargada de mostrar la configuración
+            menuPrincipal();    //llamamos a la función encargada de mostrar el menú principal
 
         break;
         default:
