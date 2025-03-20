@@ -30,7 +30,7 @@ void menuJuego(Configuracion* conf){
         break;
         case 4:
 
-            menuPrincipal();    //llamamos a la función encargada de mostrar el menú principal
+            printf("Volviendo al inicio.\n");
 
         break;
         default:
