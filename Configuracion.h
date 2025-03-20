@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Juego.h"
 //#include "Tablero.h"
 
 
@@ -29,9 +28,5 @@ void introducirDatos(Configuracion* configuracion);
 //pre: recibe el vector de estructuras de configuración
 //post: muestra los datos introducidos
 void mostrarDatos(Configuracion* datos);
-//cabecera: void menuPrincipal();
-//pre: -
-//post: muestra el menú principal
-void menuPrincipal();
 
 #endif // _CONFIGURACION_

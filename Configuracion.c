@@ -96,6 +96,14 @@ void introducirDatos(Configuracion* configuracion){
                 break;
         }
     }while(comienza != 0 && comienza != 1);
+
+
+    configuracion[0].tamTablero = 10;        //Tamaño del tablero fijo
+    configuracion[1].tamTablero = 10;
+
+
+
+
     /*while(comprobar con funcion == 0){              //Bucle para comprobar que el tamaño del tablero es valido
         printf("Introduce el tamaño del tablero: ");
         scanf("%d", &configuracion[0].tamTablero);
@@ -124,49 +132,4 @@ void mostrarDatos(Configuracion* datos){
         printf("Barcos restantes: %d\n", datos[i].barRestantes);
     }
     system("pause");
-}
-
-
-
-
-
-
-
-
-
-
-void menuPrincipal(){
-    printf("Hola mundo\n");
-    system("pause");
-    int opcion = 0;
-    Configuracion *datos;       //Declaro el vector de estructuras
-    datos = malloc(sizeof(Configuracion)*2);        //Reservo memoria para el vector de estructuras
-    if(datos == NULL){      //Compruebo que se haya reservado la memoria correctamente
-        printf("Error al reservar memoria\n");
-        exit(1);
-    }
-    while(opcion != 3){     //Bucle para mostrar el menu principal, sale de el cuando se elige la opcion 3
-        do{
-            system("cls");
-            printf("1. Configuracion\n\n");
-            printf("2. Jugar\n\n");
-            printf("3. Salir\n\n");
-            printf("Introduzca un numero para continuar\n\n\n");
-            scanf("%d", &opcion);
-            switch(opcion){
-                case 1:
-                    menuConfiguracion(datos);
-                    break;
-                case 2:
-                    menuJuego(datos);
-                    break;
-                case 3:
-                    free(datos);
-                    break;
-                default:
-                    printf("Opcion no valida\n");
-                    break;
-            }
-        }while(opcion < 1 || opcion > 3);
-    }
 }
