@@ -1,5 +1,6 @@
 #include "Juego.h"
 
+//Cabecera: void menuJuego(Configuracion*)
 //Precondición: se debe de haber configurado el juego para poder entrar a este menú
 //Postcondición: devuelve la opción que elija el usuario
 void menuJuego(Configuracion* conf){
@@ -13,7 +14,7 @@ void menuJuego(Configuracion* conf){
 
         case 1:
 
-            jugarPartida(conf); //función encargada de comenzar la partida
+            jugarPartida(conf,0); //función encargada de comenzar la partida
 
         break;
         case 2:
@@ -42,19 +43,111 @@ void menuJuego(Configuracion* conf){
 
 }
 
+//Cabecera: void jugarPartida(Configuracion*)
 //Precondición: El usuario ha configurado todo para poder comenzar el juego
 //Postcondición: Comenzar el juego
-void jugarPartida(Configuracion* conf){
+void jugarPartida(Configuracion* conf,int cargar){
 
-    printf("\n--------- Bienvenidos a Hundir La Flota ---------\n");
+    system("cls");
+    
+    //hay que concretar bien como va a funcionar al variable que indique quien comienza (de momento, se usa la asignación de i)
+    int i=conf[0].comienza,cont=0,resp=0;    //i es un índice que nos servirá para poder elegir a los dos jugadores, 
+    //el contador sirve para saber que hemos terminado con ambos jugadores
+    //resp se utiliza para saber que opción elige el jugador
+    
+    //cargar es un entero que sirve para saber si se ha cargado partida, si fuese así, los tableros y la partida ya estaría definida,
+    //por lo que no es necesario 
+    if(cargar==0){
+        //preguntamos si quieren colocar sus barcos de forma manual o automática
+        while(cont<2){
 
-    //Prueba de como se generaría un tablero: conf->flota=generarTablero(conf.tamTablero);
+            //generamos los tableros:
+            conf[cont].flota=generarTablero(conf[cont].tamTablero);
+            conf[cont].oponente=generarTablero(conf[cont].tamTablero);
+
+            printf("\n¿De que forma desea colocar sus barcos %s?\n1. Manual\n2.Automático\n--> ",conf[cont].nombre);
+            scanf("%d",&resp);
+
+            //llamamos a la función respectiva pasando como parámetro el tablero FLOTA
+            if(resp=1){
+
+                //llamamos a la función encargada de realizar la asignación manual de los barcos
+
+            }else{
+
+                //llamamos a la función encargada de realizar la asignación automática de los barcos
+
+            }
+
+            cont++;
+
+        }
+
+    }
+
+    int f=0,c=0,op=0;    //variables encargadas de las coordenadas que elija el jugador
+    //op sirve para saber cual es el índice del oponente
+    
+    if(i==0)
+        op++;
+    else
+        op--;
+
+    //creamos el bucle principal para el juego
+    while(conf[0].ganador!=1||conf[1].ganador!=1){
+
+        printf("Turno de %s:\n",conf[i].nombre);
+
+        //vemos si el disparo es manual o automático
+        if(conf[i].tipoDisparo==0)/*disparo manual*/{
+
+            printf("Elija las coordenadas del disparo:\n--> ");
+            scanf("%d %d",&f,&c);
+
+            if(conf[op].flota[f][c]==' '){
+
+                printf("\nAgua\n");
+                conf[i].oponente[f][c]='*';
+
+            }else{
+
+                while(conf[op].flota[f][c]!=' '){//hacemos que el jugador pueda seguir disparando hasta que de en agua
+
+
+
+                }
+
+                prinf("\nAgua\n");  //como ha salido del bucle al dar en agua, se lo indicamos
+
+            }
+
+        }else{
+
+            disparoAutomatico(conf);    //llamamos a la función que realiza el disparo automático
+
+        }
+
+        //este condicional nos sirve para ir intercambiando entre los turnos de los jugadores
+        if(i==0){
+        
+            op=i;
+            i++;
+        
+        }else{
+         
+            op=i;
+            i--;
+        
+        }
+
+    }
     
     
     //CADA VEZ QUE SE DISPARA HAY QUE PEDIR SI SE QUIERE GUARDAR LA PARTIDA
 
 }
 
+//Cabecera: void reiniciarPartida(Configuracion*)
 //Precondición: Se ha jugado una partida previamente
 //Postcondición: Reinicia los datos de la partida
 void reiniciarPartida(Configuracion* conf){
@@ -92,6 +185,7 @@ void reiniciarPartida(Configuracion* conf){
 
 }
 
+//Cabecera: void resumenPartida(Configuracion*)
 //Precondición: Resumen de la partida que se ha estado jugando
 //Postcondición: devuelve un resumen de los datos de la partida jugada, si no se ha jugado, no devuelve nada
 void resumenPartida(Configuracion* conf){
@@ -158,18 +252,19 @@ void resumenPartida(Configuracion* conf){
 
 }
 
-
+//Cabecera: int comprobarDisparo(Configuracion*)
 //Precondición: El usuario ha realizado un disparo
 //Postcondición: Devuelve 0 si ha fallado o 1 si ha impactado en un barco enemigo
-int comprobarDisparo(){
+int comprobarDisparo(Configuracion* conf){
 
 
 
 }
 
+//Cabecera: void disparoAutomatico(Configuracion*)
 //Precondición: El usuario ha elegido que haya disparo automático
 //Postcondición: El programa realiza los disparos de forma autática
-void disparoAutomatico(){
+void disparoAutomatico(Configuracion* conf){
 
     /*cuando encuentro un barco, necesito saber donde empieza este, asi que compruebo todas las casillas posibles
         si se encuentra una, intento buscar en la zona opuesta a la encontrada, para ver si sigue el barco por ahi,
