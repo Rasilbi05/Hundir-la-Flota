@@ -21,10 +21,10 @@ void menuConfiguracion(Configuracion *datos){
                     mostrarDatos(datos);
                     break;
                 case 3:
-                    //guardarDatos(datos);
+                    guardarDatos(datos);
                     break;
                 case 4:
-                    //cargarDatos(datos);
+                    cargarDatos(datos);
                     break;
                 case 5:
                     break;
@@ -146,7 +146,7 @@ void guardarDatos(Configuracion* datos){
     fprintf(f,"%i-%i\n",datos[0].tamTablero,datos[0].NBarcos);
     fprintf(f,"%i-%i-%i-%i-%i",datos[0].NPortaaviones,datos[0].NAcorazado,datos[0].NCrucero,datos[0].NDestructor,datos[0].NFragata);
     for(int i = 0; i < 2; i++){
-        fprintf(f,"%s-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador);
+        fprintf(f,"%s-%i-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador, datos[i].comienza);
         for(int i = 0; i < datos[0].tamTablero; i++){
             for(int j = 0; j < datos[0].tamTablero; j++){
                 fprintf(f,"%c", datos[i].flota[i][j]);
@@ -155,11 +155,13 @@ void guardarDatos(Configuracion* datos){
         }
     }
     fclose(f);
+    printf("Datos guardados correctamente\n");
+    system("pause");
 }
 
 void cargarDatos(Configuracion* datos){
     FILE *f;
-    f = fopen("datos.dat", "rb");
+    f = fopen("Juego.txt", "r");
     if(f == NULL){
         printf("Error al abrir el fichero\n");
         exit(1);
@@ -175,4 +177,6 @@ void cargarDatos(Configuracion* datos){
         }
     }
     fclose(f);
+    printf("Datos cargados correctamente\n");
+    system("pause");
 }

@@ -28,5 +28,13 @@ void introducirDatos(Configuracion* configuracion);
 //pre: recibe el vector de estructuras de configuración
 //post: muestra los datos introducidos
 void mostrarDatos(Configuracion* datos);
+//cabecera: void guardarDatos(Configuracion* datos);
+//pre: recibe el vector de estructuras de configuración
+//post: guarda los datos introducidos en un fichero
+void guardarDatos(Configuracion* datos);
+//cabecera: void cargarDatos(Configuracion* datos);
+//pre: recibe el vector de estructuras de configuración
+//post: carga los datos de un fichero
+void cargarDatos(Configuracion* datos);
 
 #endif // _CONFIGURACION_
