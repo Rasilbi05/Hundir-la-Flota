@@ -77,6 +77,8 @@ void introducirDatos(Configuracion* configuracion){
     suma += aux;
     configuracion[0].NFragata = aux;
     configuracion[1].NFragata = aux;
+    configuracion[0].NBarcos = suma;
+    configuracion[1].NBarcos = suma;
     configuracion[0].barRestantes = suma;
     configuracion[1].barRestantes = suma;
     do{                    //Bucle para comprobar que se introduce una opcion valida
@@ -84,12 +86,12 @@ void introducirDatos(Configuracion* configuracion){
         scanf("%d", &comienza);
         switch(comienza){
             case 0:
-                configuracion[0].comienza = 0;
-                configuracion[1].comienza = 1;
-                break;
-            case 1:
                 configuracion[0].comienza = 1;
                 configuracion[1].comienza = 0;
+                break;
+            case 1:
+                configuracion[0].comienza = 0;
+                configuracion[1].comienza = 1;
                 break;
             default:
                 printf("Opcion no valida\n");
@@ -132,4 +134,45 @@ void mostrarDatos(Configuracion* datos){
         printf("Barcos restantes: %d\n", datos[i].barRestantes);
     }
     system("pause");
+}
+
+void guardarDatos(Configuracion* datos){
+    FILE *f;
+    f = fopen("juego.txt", "w");
+    if(f == NULL){
+        printf("Error al abrir el fichero\n");
+        exit(1);
+    }
+    fprintf(f,"%i-%i\n",datos[0].tamTablero,datos[0].NBarcos);
+    fprintf(f,"%i-%i-%i-%i-%i",datos[0].NPortaaviones,datos[0].NAcorazado,datos[0].NCrucero,datos[0].NDestructor,datos[0].NFragata);
+    for(int i = 0; i < 2; i++){
+        fprintf(f,"%s-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador);
+        for(int i = 0; i < datos[0].tamTablero; i++){
+            for(int j = 0; j < datos[0].tamTablero; j++){
+                fprintf(f,"%c", datos[i].flota[i][j]);
+            }
+            fprintf(f,"\n");
+        }
+    }
+    fclose(f);
+}
+
+void cargarDatos(Configuracion* datos){
+    FILE *f;
+    f = fopen("datos.dat", "rb");
+    if(f == NULL){
+        printf("Error al abrir el fichero\n");
+        exit(1);
+    }
+    for(int i = 0; i < 2; i++){
+        fscanf(f,"%i-%i\n",datos[i].tamTablero, datos[i].NBarcos);
+        fscanf(f,"%i-%i-%i-%i-%i",datos[i].NPortaaviones,datos[i].NAcorazado,datos[i].NCrucero,datos[i].NDestructor,datos[i].NFragata);
+        fscanf(f,"%s-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador);
+        for(int i = 0; i < datos[0].tamTablero; i++){
+            for(int j = 0; j < datos[0].tamTablero; j++){
+                fscanf(f,"%c", &datos[i].flota[i][j]);
+            }
+        }
+    }
+    fclose(f);
 }

@@ -5,7 +5,7 @@ int main(){
     
     printf("Hola mundo\n");     // PONER EL TITULO DEL JUEGO
     system("pause");
-    int opcion = 0;
+    int opcion = 0, configurado = 0;
     Configuracion *datos;       //Declaro el vector de estructuras
     datos = malloc(sizeof(Configuracion)*2);        //Reservo memoria para el vector de estructuras
     if(datos == NULL){      //Compruebo que se haya reservado la memoria correctamente
@@ -23,9 +23,15 @@ int main(){
             switch(opcion){
                 case 1:
                     menuConfiguracion(datos);
+                    configurado = 1;
                     break;
                 case 2:
-                    menuJuego(datos);
+                    if(configurado == 0){
+                        printf("Primero debes configurar el juego\n");
+                        system("pause");
+                    }else{
+                        menuJuego(datos);
+                    }
                     break;
                 case 3:
                     free(datos);

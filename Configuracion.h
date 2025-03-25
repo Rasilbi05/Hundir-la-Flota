@@ -9,7 +9,7 @@
 typedef struct{
     char nombre[20];
     int tipoDisparo;            //0: Disparo normal, 1: Disparo automático
-    int NPortaaviones, NAcorazado, NCrucero, NDestructor, NFragata;
+    int NPortaaviones, NAcorazado, NCrucero, NDestructor, NFragata, NBarcos;
     int comienza;               //0: Jugador1, 1: Jugador2
     int tamTablero;
     char **flota, **oponente;

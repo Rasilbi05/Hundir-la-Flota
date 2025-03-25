@@ -9,7 +9,7 @@ Barco* cargarBarcos(){
         printf("Error al abrir el archivo\n");
         return NULL;
     }
-    Barco* barcos = (Barco*)malloc(NBarcos* sizeof(Barco));          //Reserva memoria para el vector de estructuras
+    Barco* barcos = (Barco*)malloc(5* sizeof(Barco));          //Reserva memoria para el vector de estructuras
     if(barcos == NULL){         //Comprueba si se ha reservado correctamente
         printf("No hay memoria suficiente\n");
         return NULL;
@@ -30,7 +30,7 @@ Barco* cargarBarcos(){
 
 void mostrarBarcos(Barco* barcos){
     int i = 0;
-    for(int i = 0; i < NBarcos; i++){          //Recorre el vector de estructuras
+    for(int i = 0; i < 5; i++){          //Recorre el vector de estructuras
         printf("Nombre: %s\n", barcos[i].nombre);
         printf("Id: %s\n", barcos[i].Id_Barco);
         printf("Tamano: %d\n\n", barcos[i].Tam_Barco);

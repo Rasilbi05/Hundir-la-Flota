@@ -1,6 +1,5 @@
 #ifndef _BARCOS_
 #define _BARCOS_
-#define NBarcos 5
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
