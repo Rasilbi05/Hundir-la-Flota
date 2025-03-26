@@ -104,6 +104,7 @@ void jugarPartida(Configuracion* conf,int cargar){
             printf("Elija las coordenadas del disparo:\n--> ");
             scanf("%d %d",&f,&c);
 
+            //comprobamos si el disparo ha sido o no agua
             if(conf[op].flota[f][c]==' '){
 
                 printf("\nAgua\n");
@@ -111,9 +112,14 @@ void jugarPartida(Configuracion* conf,int cargar){
 
             }else{
 
+                conf[i].oponente[f][c]='T'; //marcamos en estado de 'Tocado' en el tablero oponente
+                
                 while(conf[op].flota[f][c]!=' '){//hacemos que el jugador pueda seguir disparando hasta que de en agua
-
-
+                    
+                    comprobarDisparo(conf,f,c,i,op); //comprobamos si se ha hundido un barco
+                    
+                    printf("\nElija las coordenadas del disparo:\n--> ");
+                    scanf("%d %d",&f,&c);
 
                 }
 
@@ -252,12 +258,131 @@ void resumenPartida(Configuracion* conf){
 
 }
 
-//Cabecera: int comprobarDisparo(Configuracion*)
+//Cabecera: void comprobarDisparo(Configuracion*,int,int,int,int)
 //Precondición: El usuario ha realizado un disparo
-//Postcondición: Devuelve 0 si ha fallado o 1 si ha impactado en un barco enemigo
-int comprobarDisparo(Configuracion* conf){
+//Postcondición: Devuelve si el barco ha sido hundido o no
+void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
+    
+    int fO=f, cO=c,i=1,j=1,tam=1,tocadas=1; //declaramos las variables para guardar las coordenadas del origen del barco
+    //i nos sirve para ir comprobando las coordenadas origen
+    //j nos sirve para comprobar la otra parte tras encontrar las coordenadas origen
+    //tam sirve para ver el tamaño del barco (está a 1 ya que ya hemos dado a una casilla)
+    //tocadas nos sirve para ver cuantas casillas están en estado 'Tocado' en nuestro tablero
+    
+    /*cuando encuentro un barco, necesito saber donde empieza este, asi que compruebo todas las casillas posibles
+    si se encuentra una, intento buscar en la zona opuesta a la encontrada, para ver si sigue el barco por ahi,
+    sino sigo por donde he dado previamente, hasta que se haya hundido el agua
+    */
 
+    if(conf[op].flota[f+1][c]=='X'){//El barco está en vertical (comprobando si sigue por arriba)
 
+        i=f;
+        j=f;
+        //comprobamos cuales son las coordenadas iniciales
+        while(conf[op].flota[i-1][c]!=' '){
+
+            i--;    //vamos hacia abajo buscando el origen del barco
+            tam++;
+
+        }
+
+        fO=i;   //tenemos la coordenada X origen, la Y ya la tenemos ya que está en vertical
+
+        //comprobamos el resto para determinar el tamaño total del barco
+        while(conf[op].flota[j+1][c]!=' '){
+
+            j++;    //vamos hacia arriba hasta llegar al final del barco
+            tam++;
+
+        }
+
+        i=1;    //reiniciamos la variable i
+
+        //Comprobamos si el usuario ha dado a todas las casillas
+        while(conf[op].flota[fO+i][cO]!=' '){
+
+            if(conf[at].oponente[fO+i][cO]=='T'){   //comprobamos si se han marcado como tocadas las posiciones del barco
+
+                tocadas++;
+
+            }
+
+            i++;
+
+        }
+
+        if(tocadas==tam){//se ha tocado todo el barco
+
+            i=0;
+
+            while(conf[at].oponente[fO+i][cO]!=' '){
+
+                conf[at].oponente[fO+i][cO]='H';    //vamos marcando como Hundido todas las casillas
+
+                i++;
+
+            }
+
+            conf[at].casHundidas+=tam;
+
+        }
+
+    }
+
+    if(conf[op].flota[f-1][c]=='X'){//El barco está en vertical (comprobando si sigue por abajo)
+
+        i=f;
+        j=f;
+        //comprobamos cuales son las coordenadas iniciales
+        while(conf[op].flota[i+1][c]!=' '){
+
+            i++;    //vamos hacia arriba buscando el origen del barco
+            tam++;
+
+        }
+
+        fO=i;   //tenemos la coordenada X origen, la Y ya la tenemos ya que está en vertical
+
+        //comprobamos el resto para determinar el tamaño total del barco
+        while(conf[op].flota[j-1][c]!=' '){
+
+            j--;    //vamos hacia abajo hasta llegar al final del barco
+            tam++;
+
+        }
+
+        i=1;    //reiniciamos la variable i
+
+        //Comprobamos si el usuario ha dado a todas las casillas
+        while(conf[op].flota[fO-i][cO]!=' '){
+
+            if(conf[at].oponente[fO-i][cO]=='T'){   //comprobamos si se han marcado como tocadas las posiciones del barco
+
+                tocadas++;
+
+            }
+
+            i++;
+
+        }
+
+        if(tocadas==tam){//se ha tocado todo el barco
+
+            i=0;
+
+            while(conf[at].oponente[fO-i][cO]!=' '){
+
+                conf[at].oponente[fO-i][cO]='H';    //vamos marcando como Hundido todas las casillas
+
+                i++;
+
+            }
+
+            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
+
+        }
+
+    }
 
 }
 
@@ -266,9 +391,9 @@ int comprobarDisparo(Configuracion* conf){
 //Postcondición: El programa realiza los disparos de forma autática
 void disparoAutomatico(Configuracion* conf){
 
-    /*cuando encuentro un barco, necesito saber donde empieza este, asi que compruebo todas las casillas posibles
-        si se encuentra una, intento buscar en la zona opuesta a la encontrada, para ver si sigue el barco por ahi,
-        sino sigo por donde he dado previamente, hasta que se haya hundido el agua
+    /*
+        la maquina NO sabe donde esta el barco, lo que si puede suponer es que si da dos seguidas es que el barco esta
+        en horizontal, vertical...
     */
 
 }

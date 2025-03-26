@@ -34,9 +34,9 @@ void resumenPartida(Configuracion* conf);
 //Postcondición: El programa realiza los disparos de forma autática
 void disparoAutomatico();
 
-//Cabecera: int comprobarDisparo(Configuracion*)
+//Cabecera: void comprobarDisparo(Configuracion*,int,int,int)
 //Precondición: El usuario ha realizado un disparo
-//Postcondición: Devuelve 0 si ha fallado o 1 si ha impactado en un barco enemigo
-int comprobarDisparo();
+//Postcondición: Devuelve si el barco ha sido hundido o no
+void comprobarDisparo(Configuracion* conf, int f, int c, int op);
 
 #endif
