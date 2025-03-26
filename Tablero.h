@@ -9,9 +9,9 @@
 #include "Configuracion.h"
 #include "Juego.h"
 
-void asignacionTablero();
 char **generarTablero(int n);
 char **asignacionManual();
 char **asignacionAutomatica();
+int comprobarTamaño();
 
 #endif
