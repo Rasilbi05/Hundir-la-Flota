@@ -7,11 +7,38 @@
 
 typedef struct{         //Estructura de los barcos
     char nombre[20];
-    char Id_Barco[1];
+    int Id_Barco;
     int Tam_Barco;
 }Barco;
 
-Barco* cargarBarcos();      //Funcion que carga los barcos desde un fichero
-void mostrarBarcos(Barco* barcos);      //Funcion que muestra los barcos
+
+//cabecera: int obtenerNBarcos();
+//pre: -
+//post: devuelve el numero de barcos
+int obtenerNBarcos();
+//cabecera: int obtenerIDBarco(Barco* barcos);
+//pre: recibe un vector de estructuras de barcos
+//post: devuelve el ID del barco
+int obtenerIDBarco(Barco* barcos);
+//cabecera: void guardarBarcos(Barco* barcos, int NBarcos);
+//pre: recibe un vector de estructuras de barcos y el numero de barcos
+//post: guarda los barcos en un fichero
+void guardarBarcos(Barco* barcos, int NBarcos);
+//cabecera: Barco* cargarBarcos();
+//pre: -
+//post: carga los barcos desde un fichero
+Barco* cargarBarcos();
+//cabecera: void crearBarco(Barco* barcos);
+//pre: recibe un vector de estructuras de barcos
+//post: crea un barco
+void crearBarco(Barco* barcos);
+//cabecera: void eliminarBarco(Barco* barcos);
+//pre: recibe un vector de estructuras de barcos
+//post: elimina un barco
+void eliminarBarco(Barco* barcos);
+//cabecera: void mostrarBarcos(Barco* barcos);
+//pre: recibe un vector de estructuras de barcos
+//post: muestra los barcos
+void mostrarBarcos(Barco* barcos);
 
 #endif // _BARCOS_
