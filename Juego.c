@@ -166,7 +166,6 @@ void reiniciarPartida(Configuracion* conf){
         conf[i].tocadas=0;
         conf[i].casHundidas=0;
         conf[i].barHundidos=0;
-        conf[i].barRestantes=conf[i].NAcorazado+conf[i].NCrucero+conf[i].NFragata+conf[i].NPortaaviones+conf[i].NDestructor;
 
         //Hacemos otro bucle para limpiar los tableros
         for(int f=0;f<conf[i].tamTablero;f++){
@@ -379,6 +378,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             }
 
             conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
+            conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
