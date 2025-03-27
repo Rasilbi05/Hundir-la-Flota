@@ -3,14 +3,15 @@
 
 void menuConfiguracion(Configuracion *datos){
     int opcion;
-    while(opcion != 5){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
+    while(opcion != 6){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
         do{
             system("cls");
             printf("1. Introducir datos\n");
-            printf("2. Mostrar datos\n");
-            printf("3. Guardar datos\n");
-            printf("4. Cargar datos\n");
-            printf("5. Salir\n");
+            printf("2. Barcos\n");
+            printf("3. Mostrar datos\n");
+            printf("4. Guardar datos\n");
+            printf("5. Cargar datos\n");
+            printf("6. Salir\n");
             printf("Introduce una opcion: ");
             scanf("%d", &opcion);
             switch(opcion){
@@ -18,27 +19,33 @@ void menuConfiguracion(Configuracion *datos){
                     introducirDatos(datos);
                     break;
                 case 2:
-                    mostrarDatos(datos);
+                    menuBarcos();
                     break;
                 case 3:
-                    guardarDatos(datos);
+                    mostrarDatos(datos);
                     break;
                 case 4:
-                    cargarDatos(datos);
+                    guardarDatos(datos);
                     break;
                 case 5:
+                    cargarDatos(datos);
+                    break;
+                case 6:
                     break;
                 default:
                     printf("Opcion no valida\n");
                     break;
             }
-        }while(opcion < 1 || opcion > 5);
+        }while(opcion < 1 || opcion > 6);
     }
 }
 
 void introducirDatos(Configuracion* configuracion){
-    int aux = 0, suma = 0, comienza = 0;        //Variables auxiliares para el numero de barcos y la suma de ellos y para saber quien comienza
-    
+    int suma = 0, comienza = 0;        //Variables auxiliares para el numero de barcos y la suma de ellos y para saber quien comienza
+    int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
+    Barco* barcos = cargarBarcos();     //Carga los barcos
+    configuracion[0].NBarcos = (int*)malloc(Barcos*sizeof(int));        //Reserva memoria para el vector de barcos
+    configuracion[1].NBarcos = (int*)malloc(Barcos*sizeof(int));        //Reserva memoria para el vector de barcos
     for(int i = 0; i < 2; i++){             //Recorre el vector de estructuras para inicializar los datos
         printf("Introduce el nombre del jugador %d: ", i+1);
         fflush(stdin);
@@ -52,33 +59,14 @@ void introducirDatos(Configuracion* configuracion){
         configuracion[i].casHundidas = 0;
         configuracion[i].barHundidos = 0;
     }
-    printf("Introduce el numero de Portaaviones: ");
-    scanf("%d", &aux);
-    suma += aux;
-    configuracion[0].NPortaaviones = aux;
-    configuracion[1].NPortaaviones = aux;
-    printf("Introduce el numero de Acorazados: ");
-    scanf("%d", &aux);
-    suma += aux;
-    configuracion[0].NAcorazado = aux;
-    configuracion[1].NAcorazado = aux;
-    printf("Introduce el numero de Cruceros: ");
-    scanf("%d", &aux);
-    suma += aux;
-    configuracion[0].NCrucero = aux;
-    configuracion[1].NCrucero = aux;
-    printf("Introduce el numero de Destructores: ");
-    scanf("%d", &aux);
-    suma += aux;
-    configuracion[0].NDestructor = aux;
-    configuracion[1].NDestructor = aux;
-    printf("Introduce el numero de Fragatas: ");
-    scanf("%d", &aux);
-    suma += aux;
-    configuracion[0].NFragata = aux;
-    configuracion[1].NFragata = aux;
-    configuracion[0].NBarcos = suma;
-    configuracion[1].NBarcos = suma;
+    for(int i = 0; i < Barcos; i++){
+        printf("Introduce el numero de %s: ", barcos[i].nombre);
+        scanf("%i", &configuracion[0].NBarcos[i]);
+        configuracion[1].NBarcos[i] = configuracion[0].NBarcos[i];
+        suma += configuracion[0].NBarcos[i];
+    }
+    configuracion[0].totalBarcos = suma;
+    configuracion[1].totalBarcos = suma;
     configuracion[0].barRestantes = suma;
     configuracion[1].barRestantes = suma;
     do{                    //Bucle para comprobar que se introduce una opcion valida
@@ -116,14 +104,14 @@ void introducirDatos(Configuracion* configuracion){
 
 void mostrarDatos(Configuracion* datos){
     system("cls");
+    int Barcos = obtenerNBarcos();
+    Barco* barcos = cargarBarcos();
     for(int i = 0; i < 2; i++){
         printf("Nombre: %s\n", datos[i].nombre);
         printf("Tipo de disparo: %d\n", datos[i].tipoDisparo);
-        printf("Numero de Portaaviones: %d\n", datos[i].NPortaaviones);
-        printf("Numero de Acorazados: %d\n", datos[i].NAcorazado);
-        printf("Numero de Cruceros: %d\n", datos[i].NCrucero);
-        printf("Numero de Destructores: %d\n", datos[i].NDestructor);
-        printf("Numero de Fragatas: %d\n", datos[i].NFragata);
+        for(int j = 0; j < Barcos; j++){
+            printf("Numero de %s: %d\n", barcos[j].nombre, datos[i].NBarcos[j]);
+        }
         printf("Comienza: %d\n", datos[i].comienza);
         printf("Tamano del tablero: %d\n", datos[i].tamTablero);
         printf("Numero de disparos: %d\n", datos[i].NDisparos);
@@ -137,6 +125,7 @@ void mostrarDatos(Configuracion* datos){
 }
 
 void guardarDatos(Configuracion* datos){
+    int Barcos = obtenerNBarcos();
     FILE *f;
     f = fopen("juego.txt", "w");
     if(f == NULL){
@@ -144,7 +133,10 @@ void guardarDatos(Configuracion* datos){
         exit(1);
     }
     fprintf(f,"%i-%i\n",datos[0].tamTablero,datos[0].NBarcos);
-    fprintf(f,"%i-%i-%i-%i-%i",datos[0].NPortaaviones,datos[0].NAcorazado,datos[0].NCrucero,datos[0].NDestructor,datos[0].NFragata);
+    for(int i = 0; i < Barcos-1; i++){
+        fprintf(f,"%i-",datos[0].NBarcos[i]);
+    }
+    fprintf(f,"%i\n",datos[0].NBarcos[Barcos-1]);
     for(int i = 0; i < 2; i++){
         fprintf(f,"%s-%i-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador, datos[i].comienza);
         for(int i = 0; i < datos[0].tamTablero; i++){
@@ -160,6 +152,9 @@ void guardarDatos(Configuracion* datos){
 }
 
 void cargarDatos(Configuracion* datos){
+    char* token;
+    char linea[160];
+    int j = 0;
     FILE *f;
     f = fopen("Juego.txt", "r");
     if(f == NULL){
@@ -168,7 +163,14 @@ void cargarDatos(Configuracion* datos){
     }
     for(int i = 0; i < 2; i++){
         fscanf(f,"%i-%i\n",datos[i].tamTablero, datos[i].NBarcos);
-        fscanf(f,"%i-%i-%i-%i-%i",datos[i].NPortaaviones,datos[i].NAcorazado,datos[i].NCrucero,datos[i].NDestructor,datos[i].NFragata);
+        while(fgets(linea, 160, f)!=NULL){
+            token = strtok(linea, "-");
+            while(token != NULL){
+                datos[0].NBarcos[j] = atoi(token);
+                datos[1].NBarcos[j] = atoi(token);
+                token = strtok(NULL, "-");
+            }
+        }
         fscanf(f,"%s-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador);
         for(int i = 0; i < datos[0].tamTablero; i++){
             for(int j = 0; j < datos[0].tamTablero; j++){

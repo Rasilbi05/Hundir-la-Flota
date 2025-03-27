@@ -1,5 +1,5 @@
-Portaaviones/0/6
-Acorazado/1/5
-Crucero/2/4
-Destructor/3/3
-Fragata/4/2
+Portaaviones-0-6
+Acorazado-1-5
+Crucero-2-4
+Destructor-3-3
+Fragata-4-2

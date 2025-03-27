@@ -12,6 +12,10 @@ typedef struct{         //Estructura de los barcos
 }Barco;
 
 
+//cabecera: void menuBarcos();
+//pre: -
+//post: muestra el menu de barcos
+void menuBarcos();
 //cabecera: int obtenerNBarcos();
 //pre: -
 //post: devuelve el numero de barcos
@@ -36,9 +40,17 @@ void crearBarco(Barco* barcos);
 //pre: recibe un vector de estructuras de barcos
 //post: elimina un barco
 void eliminarBarco(Barco* barcos);
+//cabecera: void modificarBarco(Barco* barcos);
+//pre: recibe un vector de estructuras de barcos
+//post: modifica un barco
+void modificarBarco(Barco* barcos);
 //cabecera: void mostrarBarcos(Barco* barcos);
 //pre: recibe un vector de estructuras de barcos
 //post: muestra los barcos
 void mostrarBarcos(Barco* barcos);
+//cabecera: char* leerCadena();
+//pre: -
+//post: devuelve una cadena de caracteres
+char* leerCadena();
 
 #endif // _BARCOS_

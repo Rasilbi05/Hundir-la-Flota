@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Barcos.h"
 //#include "Tablero.h"
 
 
@@ -13,7 +14,7 @@ typedef struct{
     int comienza;               //0: Jugador1, 1: Jugador2
     int tamTablero;
     char **flota, **oponente;
-    int NDisparos, agua, tocadas, casHundidas, barHundidos, barRestantes, ganador;      //0: perdedor, 1: ganador
+    int NDisparos, agua, tocadas, casHundidas, barHundidos, barRestantes, ganador, totalBarcos;      //0: perdedor, 1: ganador
 }Configuracion;
 
 //cabecera: Configuracion* menuConfiguracion();
