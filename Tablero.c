@@ -12,13 +12,11 @@ char **generarTablero(int n){
 	}
 	for(i=0;i<n;i++){
 
-		M[i] = ' ';
+		for(j=0;j<n;j++){
 
-	}
-	for(j=0;j<n;j++){
+		M[i][j] = ' ';
 
-		M[j] = ' ';
-
+		}
 	}
 	return **M;
 }
@@ -67,11 +65,14 @@ char **asignacionAutomatica(Configuracion* datos){
 }
 
 int comprobarTamaño(){
+
 	if (){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
 		
 		return 1;
-
 	
+	} else {
+		
+		return 0;
 	} 
 }
 
