@@ -29,6 +29,11 @@ void reiniciarPartida(Configuracion* conf);
 //Postcondición: devuelve un resumen de los datos de la partida jugada
 void resumenPartida(Configuracion* conf);
 
+//Cabecera: void MostrarTableros(Configuracion*,int)
+//Precondición: se solicita ver el tablero del jugador
+//Postcondición: muestra los tableros Flota y Oponente del jugador
+void MostrarTableros(Configuracion* conf, int j);
+
 //Cabecera: void disparoAutomatico(Configuracion*)
 //Precondición: El usuario ha elegido que haya disparo automático
 //Postcondición: El programa realiza los disparos de forma autática
