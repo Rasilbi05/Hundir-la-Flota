@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include "Configuracion.h"
 #include "Tablero.h"
 //incluimos los .h necesarios
@@ -14,10 +15,10 @@
 //Postcondición: devuelve la opción que elija el usuario
 void menuJuego(Configuracion* conf);
 
-//Cabecera: void jugarPartida(Configuracion*)
+//Cabecera: void jugarPartida(Configuracion*, int)
 //Precondición:
 //Postcondición: Comenzar el juego
-void jugarPartida(Configuracion* conf);
+void jugarPartida(Configuracion* conf,int cargar);
 
 //Cabecera: void reiniciarPartida(Configuracion*)
 //Precondición:
@@ -34,14 +35,14 @@ void resumenPartida(Configuracion* conf);
 //Postcondición: muestra los tableros Flota y Oponente del jugador
 void MostrarTableros(Configuracion* conf, int j);
 
-//Cabecera: void disparoAutomatico(Configuracion*)
+//Cabecera: void disparoAutomatico(Configuracion*, int, int)
 //Precondición: El usuario ha elegido que haya disparo automático
 //Postcondición: El programa realiza los disparos de forma autática
-void disparoAutomatico();
+void disparoAutomatico(Configuracion* conf, int at, int op);
 
-//Cabecera: void comprobarDisparo(Configuracion*,int,int,int)
+//Cabecera: void comprobarDisparo(Configuracion*,int,int,int,int)
 //Precondición: El usuario ha realizado un disparo
 //Postcondición: Devuelve si el barco ha sido hundido o no
-void comprobarDisparo(Configuracion* conf, int f, int c, int op);
+void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op);
 
 #endif

@@ -73,7 +73,7 @@ void jugarPartida(Configuracion* conf,int cargar){
             scanf("%d",&resp);
 
             //llamamos a la función respectiva pasando como parámetro el tablero FLOTA
-            if(resp=1){
+            if(resp==1){
 
                 //llamamos a la función encargada de realizar la asignación manual de los barcos
 
@@ -134,6 +134,14 @@ void jugarPartida(Configuracion* conf,int cargar){
                     comprobarDisparo(conf,f,c,i,op); //comprobamos si se ha hundido un barco
                     
                     do{
+
+                        //preguntamos si quiere guardar la partida tras disparar
+                        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+                        scanf("%d",resp);
+
+                        if(resp==1)
+                            guardarDatos(conf);
+
                         printf("Elija las coordenadas del disparo:\n--> ");
                         scanf("%d %d",&f,&c);
         
@@ -149,19 +157,27 @@ void jugarPartida(Configuracion* conf,int cargar){
                 }
 
                 //como ha salido del bucle al dar en agua, se lo indicamos y lo marcamos
-                prinf("\nAgua\n");  
+                printf("\nAgua\n");  
                 conf[i].oponente[f][c]='*';
 
             }
 
+            //preguntamos si quiere guardar la partida tras disparar
+            printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+            scanf("%d",resp);
+
+        if(resp==1)
+            guardarDatos(conf);
+
         }else{//disparo automático
 
-            disparoAutomatico(conf);    //llamamos a la función que realiza el disparo automático
+            disparoAutomatico(conf,f,c,i,op);    //llamamos a la función que realiza el disparo automático
 
         }
 
         //mostramos los tableros del jugador
         MostrarTableros(conf,i);
+
 
         //este condicional nos sirve para ir intercambiando entre los turnos de los jugadores
         if(i==0){
@@ -177,9 +193,6 @@ void jugarPartida(Configuracion* conf,int cargar){
         }
 
     }
-    
-    
-    //CADA VEZ QUE SE DISPARA HAY QUE PEDIR SI SE QUIERE GUARDAR LA PARTIDA
 
 }
 
@@ -224,7 +237,7 @@ void reiniciarPartida(Configuracion* conf){
 //Precondición: Resumen de la partida que se ha estado jugando
 //Postcondición: devuelve un resumen de los datos de la partida jugada, si no se ha jugado, no devuelve nada
 void resumenPartida(Configuracion* conf){
-    int vacia,ganador=0;
+    int vacia=0;
 
     //mostramos por pantalla el resumen
     printf("                       |         Valor de las casillas       |                       |\n");
@@ -1013,14 +1026,112 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
 }
 
-//Cabecera: void disparoAutomatico(Configuracion*)
+//Cabecera: void disparoAutomatico(Configuracion*,int,int)
 //Precondición: El usuario ha elegido que haya disparo automático
 //Postcondición: El programa realiza los disparos de forma autática
-void disparoAutomatico(Configuracion* conf){
+void disparoAutomatico(Configuracion* conf, int at, int op){
 
     /*
         la maquina NO sabe donde esta el barco, lo que si puede suponer es que si da dos seguidas es que el barco esta
         en horizontal, vertical...
     */
+
+    int i=0,j=0, x=0,y=0, resp=0,sX=0,sY=0,pDisparo=0;  //i y j nos sirven para comprobar si se ha disparado previamente
+                             //x e y son las coordenadas que elige la máquina
+                            //resp nos sirve para saber si el usuario quiere guardar
+                            //sX y sY nos sirve para saber el sentido que va elegir la máquina tras acertar el disparo
+                            //pDisparo es para comprobar si es la primera vez que se ha disparado a un barco
+
+    //comprobamos si ya se ha disparado previamente o no
+    while(conf[at].oponente[i][j]!='T'||i<conf[at].tamTablero){
+
+        while(conf[at].oponente[i][j]!='T'||j<conf[at].tamTablero){
+            //comprobamos que ya se ha disparado previamente y guardamos la coordenada
+            if(conf[at].oponente[i][j]=='T'){
+            
+                pDisparo++;
+                
+                //como hemos encontrado un barco tocado, guardamos las coordenadas para seguir desde ahí
+                x=i;
+                y=j;
+
+            }
+
+            j++;
+            
+        }
+        
+        i++;
+    }
+
+    if(pDisparo==0){
+        //hacemos que la máquina elija las coordenadas
+        do{
+
+            //hacemos que los números varíen en cada ejecución
+            srand(time(NULL));
+            x = rand() % conf[at].tamTablero;   //elige un número entre 0 y tamTablero-1
+            
+            //hacemos que los números varíen en cada ejecución
+            srand(time(NULL));
+            y = rand();                         //elige un número entre 0 y tamTablero-1
+
+        }while(conf[at].oponente[x][y]!=' ');
+    
+        //La máquina dispara
+        if(conf[op].flota[x][y]==' '){  //da en agua
+
+            printf("\nAgua\n");
+            conf[at].oponente[x][y]='*';
+
+        }else{  //acierta el tiro
+
+            conf[at].oponente[x][y]='T'; //marcamos en estado de 'Tocado' en el tablero oponente
+
+            comprobarDisparo(conf,x,y,at,op); //comprobamos si se ha hundido un barco
+
+            //preguntamos si quiere guardar la partida tras disparar
+            printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+            scanf("%d",resp);
+
+            //la máquina decide donde disparar tras su primer disparo
+            srand(time(NULL));
+            sX=(rand() % 3) - 1;    //elegimos un valor entre [-1,1]
+            srand(time(NULL));
+            sY=(rand() % 3) - 1;    //elegimos un valor entre [-1,1]
+
+            //realizamos los cambios en las coordenadas
+            x+=sX;
+            y+=sY;
+            
+            pDisparo++; //aumentamos pDisparo para que, si falla en el siguiente, cuando vuelva a disparar, sepa que tiene que disparar cerca
+        
+        }
+
+    }else{
+
+        
+
+    }
+
+
+    while(conf[op].flota[x][y]!=' '){//hacemos que la máquina pueda seguir disparando hasta que de en agua
+        
+        comprobarDisparo(conf,x,y,at,op); //comprobamos si se ha hundido un barco
+        
+        //preguntamos si quiere guardar la partida tras disparar
+        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+        scanf("%d",resp);
+
+        if(resp==1)
+            guardarDatos(conf);
+
+    }
+
+    printf("\nAgua\n");  
+    conf[at].oponente[x][y]='*';
+
+    
+
 
 }
