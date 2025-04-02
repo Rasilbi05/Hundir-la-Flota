@@ -10,8 +10,8 @@
 #include "Juego.h"
 
 char **generarTablero(int n);
-char **asignacionManual();
-char **asignacionAutomatica();
+void asignacionManual(Configuracion* datos, int i);
+void asignacionAutomatica(Configuracion* datos, int u);
 int comprobarTamaño();
 
 #endif
