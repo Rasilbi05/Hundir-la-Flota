@@ -7,48 +7,48 @@
 
 typedef struct{         //Estructura de los barcos
     char nombre[20];
-    int Id_Barco;
+    char Id_Barco;
     int Tam_Barco;
 }Barco;
 
 
-//cabecera: void menuBarcos();
+//cabecera: void menuBarcos()
 //pre: -
 //post: muestra el menu de barcos
 void menuBarcos();
-//cabecera: int obtenerNBarcos();
+//cabecera: int obtenerNBarcos()
 //pre: -
 //post: devuelve el numero de barcos
 int obtenerNBarcos();
-//cabecera: int obtenerIDBarco(Barco* barcos);
-//pre: recibe un vector de estructuras de barcos
+//cabecera: int obtenerIDBarco(char *nombre)
+//pre: recibe el nombre del barco
 //post: devuelve el ID del barco
-int obtenerIDBarco(Barco* barcos);
-//cabecera: void guardarBarcos(Barco* barcos, int NBarcos);
+char obtenerIDBarco(char *nombre);
+//cabecera: void guardarBarcos(Barco* barcos, int NBarcos)
 //pre: recibe un vector de estructuras de barcos y el numero de barcos
 //post: guarda los barcos en un fichero
 void guardarBarcos(Barco* barcos, int NBarcos);
-//cabecera: Barco* cargarBarcos();
+//cabecera: Barco* cargarBarcos()
 //pre: -
 //post: carga los barcos desde un fichero
 Barco* cargarBarcos();
-//cabecera: void crearBarco(Barco* barcos);
+//cabecera: void crearBarco(Barco* barcos)
 //pre: recibe un vector de estructuras de barcos
 //post: crea un barco
 void crearBarco(Barco* barcos);
-//cabecera: void eliminarBarco(Barco* barcos);
+//cabecera: void eliminarBarco(Barco* barcos)
 //pre: recibe un vector de estructuras de barcos
 //post: elimina un barco
 void eliminarBarco(Barco* barcos);
-//cabecera: void modificarBarco(Barco* barcos);
+//cabecera: void modificarBarco(Barco* barcos)
 //pre: recibe un vector de estructuras de barcos
 //post: modifica un barco
 void modificarBarco(Barco* barcos);
-//cabecera: void mostrarBarcos(Barco* barcos);
+//cabecera: void mostrarBarcos(Barco* barcos)
 //pre: recibe un vector de estructuras de barcos
 //post: muestra los barcos
 void mostrarBarcos(Barco* barcos);
-//cabecera: char* leerCadena();
+//cabecera: char* leerCadena()
 //pre: -
 //post: devuelve una cadena de caracteres
 char* leerCadena();

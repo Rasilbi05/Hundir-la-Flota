@@ -126,15 +126,16 @@ void mostrarDatos(Configuracion* datos){
 
 void guardarDatos(Configuracion* datos){
     int Barcos = obtenerNBarcos();
+    Barco* B = cargarBarcos();
     FILE *f;
     f = fopen("juego.txt", "w");
     if(f == NULL){
         printf("Error al abrir el fichero\n");
         exit(1);
     }
-    fprintf(f,"%i-%i\n",datos[0].tamTablero,datos[0].NBarcos);
-    for(int i = 0; i < Barcos-1; i++){
-        fprintf(f,"%i-",datos[0].NBarcos[i]);
+    fprintf(f,"%i-%i\n", datos[0].tamTablero, datos[0].NBarcos);
+    for(int i = 0; i < Barcos; i++){
+        fprintf(f,"%c-%i\n", B[i].Id_Barco, datos[0].NBarcos[i]);
     }
     fprintf(f,"%i\n",datos[0].NBarcos[Barcos-1]);
     for(int i = 0; i < 2; i++){
@@ -162,19 +163,25 @@ void cargarDatos(Configuracion* datos){
         exit(1);
     }
     for(int i = 0; i < 2; i++){
-        fscanf(f,"%i-%i\n",datos[i].tamTablero, datos[i].NBarcos);
-        while(fgets(linea, 160, f)!=NULL){
+        while(fgets(linea, 160, f)!=NULL){          //Lee una linea del archivo por cada iteracion
             token = strtok(linea, "-");
-            while(token != NULL){
+            datos[0].tamTablero = atoi(token);
+            datos[1].tamTablero = atoi(token);
+            token = strtok(linea, "-");
+            datos[0].totalBarcos = atoi(token);
+            datos[1].totalBarcos = atoi(token);
+            token = strtok(NULL, "\n");
+            while(token != NULL){                       //SEGUIR ARREGLANDO
+                token = strtok(NULL, "-");
+                token = strtok(linea, "\n");
                 datos[0].NBarcos[j] = atoi(token);
                 datos[1].NBarcos[j] = atoi(token);
-                token = strtok(NULL, "-");
             }
         }
         fscanf(f,"%s-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador);
-        for(int i = 0; i < datos[0].tamTablero; i++){
+        for(int n = 0; n < datos[0].tamTablero; n++){
             for(int j = 0; j < datos[0].tamTablero; j++){
-                fscanf(f,"%c", &datos[i].flota[i][j]);
+                fscanf(f,"%c", &datos[i].flota[n][j]);
             }
         }
     }

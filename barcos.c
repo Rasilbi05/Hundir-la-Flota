@@ -40,7 +40,7 @@ void menuBarcos(){
 Barco* cargarBarcos(){
     char linea[160];        //Variable que almacena la linea leida
     char* token;        //Variable que almacena el token
-    int NBarcos = obtenerNBarcos();
+    int NBarcos = obtenerNBarcos();     //Obtiene el numero de barcos
     FILE* f = fopen("Barcos.txt", "r");         //Abre el archivo en modo lectura
     if(f == NULL){          //Comprueba si se ha abierto correctamente
         printf("Error al abrir el archivo\n");
@@ -56,7 +56,7 @@ Barco* cargarBarcos(){
         token = strtok(linea, "-");
         strcpy(barcos[i].nombre, token);
         token = strtok(NULL, "-");
-        barcos[i].Id_Barco = atoi(token);
+        barcos[i].Id_Barco = token[0];
         token = strtok(NULL, "\n");
         barcos[i].Tam_Barco = atoi(token);
         i++;
@@ -70,7 +70,7 @@ void mostrarBarcos(Barco* barcos){
     int t = obtenerNBarcos();
     for(int i = 0; i < t; i++){          //Recorre el vector de estructuras
         printf("Nombre: %s\n", barcos[i].nombre);
-        printf("Id: %i\n", barcos[i].Id_Barco);
+        printf("Id: %c\n", barcos[i].Id_Barco);
         printf("Tamano: %i\n\n", barcos[i].Tam_Barco);
     }
     system("pause");
@@ -78,6 +78,7 @@ void mostrarBarcos(Barco* barcos){
 
 void crearBarco(Barco* barcos){
     system("cls");
+    char nombre[20];
     int NBarcos = obtenerNBarcos();
     NBarcos += 1;
     barcos = (Barco*)realloc(barcos, (NBarcos)*sizeof(Barco));          //Reserva memoria para un barco mas
@@ -91,7 +92,7 @@ void crearBarco(Barco* barcos){
     fflush(stdin);
     printf("Introduce el tamano del barco: ");          //Pide al usuario que introduzca el tamaño del barco
     scanf("%i", &barcos[NBarcos-1].Tam_Barco);
-    barcos[NBarcos-1].Id_Barco = obtenerIDBarco(barcos);          //Obtiene el ID del barco
+    barcos[NBarcos-1].Id_Barco = obtenerIDBarco(barcos[NBarcos-1].nombre);          //Obtiene el ID del barco
 
     guardarBarcos(barcos, NBarcos);          //Guarda los barcos en un fichero
 }
@@ -99,13 +100,15 @@ void crearBarco(Barco* barcos){
 void eliminarBarco(Barco* barcos){
     system("cls");
     int NBarcos = obtenerNBarcos();
-    int i, Id_Barco;
+    int i; 
+    char Id_Barco;
     mostrarBarcos(barcos);
     printf("Escriba el Id que desee eliminar: ");
-    scanf("%i", &Id_Barco);
-    printf("LLEGA");
+    fflush(stdin);
+    scanf("%c", &Id_Barco);          //Pide al usuario que introduzca el ID del barco a eliminar
+    fflush(stdin);
     for(i = 0 ; i < NBarcos ; i++){
-        if(Id_Barco == barcos[i].Id_Barco){
+        if(Id_Barco == barcos[i].Id_Barco){          //Busca el barco por su ID
             strcpy(barcos[i].nombre , barcos[NBarcos-1].nombre);
             barcos[i].Id_Barco = barcos[NBarcos-1].Id_Barco;
             NBarcos--;
@@ -119,9 +122,11 @@ void modificarBarco(Barco* barcos){
     system("cls");
     mostrarBarcos(barcos);
     int NBarcos = obtenerNBarcos();
-    int Id_Barco;
+    char Id_Barco;
     printf("Escriba el Id que desee modificar: ");
-    scanf("%i", &Id_Barco);
+    fflush(stdin);
+    scanf("%c", &Id_Barco);
+    fflush(stdin);
     for(int i = 0 ; i < NBarcos ; i++){
         if(Id_Barco == barcos[i].Id_Barco){
             printf("Introduce el nombre del barco: ");          //Pide al usuario que introduzca el nombre del barco
@@ -154,13 +159,9 @@ int obtenerNBarcos(){
     return NBarcos;      //Devuelve el numero de barcos
 }
 
-int obtenerIDBarco(Barco* barcos){
-    int ID = 0, i = 0;
-    int NBarcos = obtenerNBarcos();
-    while(ID == barcos[i].Id_Barco && i < NBarcos){          //Recorre el vector de estructuras
-        i++;
-        ID++;
-    }
+char obtenerIDBarco(char nombre[20]){
+    char ID;
+    ID = nombre[0];
     return ID;
 }
 
@@ -169,7 +170,7 @@ void guardarBarcos(Barco* barcos, int NBarcos){
     FILE* f = fopen("Barcos.txt","w");
     if(f!= NULL){
         for(i=0; i<NBarcos; i++){
-            fprintf(f,"%s-%i-%i\n",barcos[i].nombre, barcos[i].Id_Barco, barcos[i].Tam_Barco);
+            fprintf(f,"%s-%c-%i\n",barcos[i].nombre, barcos[i].Id_Barco, barcos[i].Tam_Barco);
         }
     }else{
         printf("Ha ocurrido un error con el guardado");
