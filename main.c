@@ -8,6 +8,8 @@ int main(){
     int opcion = 0, configurado = 0;
     Configuracion *datos;       //Declaro el vector de estructuras
     datos = malloc(sizeof(Configuracion)*2);        //Reservo memoria para el vector de estructuras
+    datos[0].NBarcos = (int*)malloc(sizeof(int)*obtenerNBarcos());        //Reservo memoria para el vector de barcos del jugador 1
+    datos[1].NBarcos = (int*)malloc(sizeof(int)*obtenerNBarcos());        //Reservo memoria para el vector de barcos del jugador 2
     Barco* barcos;        //Declaro el vector de estructuras de barcos
     barcos = cargarBarcos();        //Cargo los barcos
     if(datos == NULL || barcos == NULL){      //Compruebo que se haya reservado la memoria correctamente

@@ -40,18 +40,18 @@ void menuBarcos(){
 Barco* cargarBarcos(){
     char linea[160];        //Variable que almacena la linea leida
     char* token;        //Variable que almacena el token
+    int i = 0;
     int NBarcos = obtenerNBarcos();     //Obtiene el numero de barcos
+    Barco* barcos = (Barco*)malloc(NBarcos* sizeof(Barco));          //Reserva memoria para el vector de estructuras
     FILE* f = fopen("Barcos.txt", "r");         //Abre el archivo en modo lectura
     if(f == NULL){          //Comprueba si se ha abierto correctamente
         printf("Error al abrir el archivo\n");
         return NULL;
     }
-    Barco* barcos = (Barco*)malloc(NBarcos* sizeof(Barco));          //Reserva memoria para el vector de estructuras
     if(barcos == NULL){         //Comprueba si se ha reservado correctamente
         printf("No hay memoria suficiente\n");
         return NULL;
     }
-    int i = 0;
     while(fgets(linea, 160, f)!=NULL){          //Lee una linea del archivo por cada iteracion
         token = strtok(linea, "-");
         strcpy(barcos[i].nombre, token);
