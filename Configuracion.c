@@ -1,7 +1,7 @@
 #include "Configuracion.h"
 
 
-void menuConfiguracion(Configuracion *datos){
+void menuConfiguracion(Configuracion *datos, Barco* barcos){
     int opcion;
     while(opcion != 6){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
         do{
@@ -28,7 +28,7 @@ void menuConfiguracion(Configuracion *datos){
                     guardarDatos(datos);
                     break;
                 case 5:
-                    cargarDatos(datos);
+                    cargarDatos(datos, barcos);
                     break;
                 case 6:
                     break;
@@ -152,10 +152,11 @@ void guardarDatos(Configuracion* datos){
     system("pause");
 }
 
-void cargarDatos(Configuracion* datos){
+void cargarDatos(Configuracion* datos, Barco* barcos){
+    int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
     char* token;
     char linea[160];
-    int j = 0;
+    char ID_Barco;
     FILE *f;
     f = fopen("Juego.txt", "r");
     if(f == NULL){
@@ -170,18 +171,35 @@ void cargarDatos(Configuracion* datos){
             token = strtok(linea, "-");
             datos[0].totalBarcos = atoi(token);
             datos[1].totalBarcos = atoi(token);
-            token = strtok(NULL, "\n");
-            while(token != NULL){                       //SEGUIR ARREGLANDO
-                token = strtok(NULL, "-");
+            token = strtok(linea, "\n");
+            while(atoi(token) != 1){
+                token = strtok(linea, "-");
+                ID_Barco = linea[0];
                 token = strtok(linea, "\n");
-                datos[0].NBarcos[j] = atoi(token);
-                datos[1].NBarcos[j] = atoi(token);
+                for(int j = 0; j < Barcos; j++){          //Busca el barco en el vector de estructuras
+                    if(barcos[j].Id_Barco == ID_Barco){          //Si lo encuentra, guarda el numero de barcos
+                        datos[0].NBarcos[j] = atoi(token);
+                        datos[1].NBarcos[j] = atoi(token);
+                    }
+                }
             }
         }
-        fscanf(f,"%s-%i-%i-%i\n",datos[i].nombre, datos[i].NDisparos, datos[i].tipoDisparo, datos[i].ganador);
+        fgets(linea, 160, f);          //Lee una linea del archivo por cada iteracion
+        token = strtok(linea, "-");
+        strcpy(datos[i].nombre, token);
+        token = strtok(linea, "-");
+        datos[i].NDisparos = atoi(token);
+        token = strtok(linea, "-");
+        if(token[0] == 'A'){
+            datos[i].tipoDisparo = 1;
+        }else{
+            datos[i].tipoDisparo = 0;
+        }
+        token = strtok(linea, "\n");
+        datos[i].ganador = atoi(token);                     //SEGUIR ARREGLANDO
         for(int n = 0; n < datos[0].tamTablero; n++){
-            for(int j = 0; j < datos[0].tamTablero; j++){
-                fscanf(f,"%c", &datos[i].flota[n][j]);
+            for(int o = 0; o < datos[0].tamTablero; o++){
+                fscanf(f,"%c", &datos[i].flota[n][o]);
             }
         }
     }

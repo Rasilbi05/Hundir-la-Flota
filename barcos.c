@@ -93,7 +93,7 @@ void crearBarco(Barco* barcos){
     printf("Introduce el tamano del barco: ");          //Pide al usuario que introduzca el tamaño del barco
     scanf("%i", &barcos[NBarcos-1].Tam_Barco);
     barcos[NBarcos-1].Id_Barco = obtenerIDBarco(barcos[NBarcos-1].nombre);          //Obtiene el ID del barco
-
+    
     guardarBarcos(barcos, NBarcos);          //Guarda los barcos en un fichero
 }
 
@@ -135,10 +135,9 @@ void modificarBarco(Barco* barcos){
             fflush(stdin);
             printf("Introduce el tamano del barco: ");          //Pide al usuario que introduzca el tamaño del barco
             scanf("%i", &barcos[i].Tam_Barco);
+            barcos[i].Id_Barco = obtenerIDBarco(barcos[i].nombre);          //Obtiene el ID del barco
         }
     }
-    printf("Barco modificado correctamente\n");
-    system("pause");
     guardarBarcos(barcos, NBarcos);
 }
 
@@ -175,8 +174,6 @@ void guardarBarcos(Barco* barcos, int NBarcos){
     }else{
         printf("Ha ocurrido un error con el guardado");
     }
-    printf("Datos guardados correctamente\n");
-    system("pause");
     fclose(f);
 }
 

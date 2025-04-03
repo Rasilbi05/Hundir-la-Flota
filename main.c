@@ -2,13 +2,15 @@
 //#include "Juego.h"
 
 int main(){
-    
+    system("cls");
     printf("Hola mundo\n");     // PONER EL TITULO DEL JUEGO
     system("pause");
     int opcion = 0, configurado = 0;
     Configuracion *datos;       //Declaro el vector de estructuras
     datos = malloc(sizeof(Configuracion)*2);        //Reservo memoria para el vector de estructuras
-    if(datos == NULL){      //Compruebo que se haya reservado la memoria correctamente
+    Barco* barcos;        //Declaro el vector de estructuras de barcos
+    barcos = cargarBarcos();        //Cargo los barcos
+    if(datos == NULL || barcos == NULL){      //Compruebo que se haya reservado la memoria correctamente
         printf("Error al reservar memoria\n");
         exit(1);
     }
@@ -22,7 +24,7 @@ int main(){
             scanf("%d", &opcion);
             switch(opcion){
                 case 1:
-                    menuConfiguracion(datos);
+                    menuConfiguracion(datos, barcos);     //Llama a la funcion de configuracion
                     configurado = 1;
                     break;
                 case 2:
