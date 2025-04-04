@@ -9,7 +9,7 @@
 
 typedef struct{
     char nombre[20];
-    int tipoDisparo;            //0: Disparo normal, 1: Disparo automático
+    int tipoDisparo;            //0: Disparo manual, 1: Disparo automático
     int *NBarcos;
     int comienza;               //0: Jugador1, 1: Jugador2
     int tamTablero;

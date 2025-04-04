@@ -107,19 +107,22 @@ void mostrarDatos(Configuracion* datos){
     int Barcos = obtenerNBarcos();
     Barco* barcos = cargarBarcos();
     for(int i = 0; i < 2; i++){
-        printf("Nombre: %s\n", datos[i].nombre);
-        printf("Tipo de disparo: %d\n", datos[i].tipoDisparo);
+        printf("Nombre:                     %s\n", datos[i].nombre);
+        if(datos[i].tipoDisparo == 0)
+            printf("Disparo manual\n");
+        else
+            printf("Disparo automatico\n");
         for(int j = 0; j < Barcos; j++){
             printf("Numero de %s: %d\n", barcos[j].nombre, datos[i].NBarcos[j]);
         }
-        printf("Comienza: %d\n", datos[i].comienza);
-        printf("Tamano del tablero: %d\n", datos[i].tamTablero);
-        printf("Numero de disparos: %d\n", datos[i].NDisparos);
-        printf("Agua: %d\n", datos[i].agua);
-        printf("Tocadas: %d\n", datos[i].tocadas);
-        printf("Casillas hundidas: %d\n", datos[i].casHundidas);
-        printf("Barcos hundidos: %d\n", datos[i].barHundidos);
-        printf("Barcos restantes: %d\n", datos[i].barRestantes);
+        printf("Comienza:                   %d\n", datos[i].comienza);
+        printf("Tamano del tablero:         %d\n", datos[i].tamTablero);
+        printf("Numero de disparos:         %d\n", datos[i].NDisparos);
+        printf("Agua:                       %d\n", datos[i].agua);
+        printf("Tocadas:                    %d\n", datos[i].tocadas);
+        printf("Casillas hundidas:          %d\n", datos[i].casHundidas);
+        printf("Barcos hundidos:            %d\n", datos[i].barHundidos);
+        printf("Barcos restantes:           %d\n\n\n", datos[i].barRestantes);
     }
     system("pause");
 }
@@ -169,6 +172,7 @@ void guardarDatos(Configuracion* datos, Barco* barcos){
 }
 
 void cargarDatos(Configuracion* datos, Barco* barcos){
+    system("cls");
     int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
     int l = 0, c = 0;         //Variables auxiliares para el bucle
     char* token;
@@ -188,38 +192,67 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
     datos[0].totalBarcos = atoi(token);
     datos[1].totalBarcos = atoi(token);
     token = strtok(NULL, "\n");
+    datos[0].comienza = 1;
+    datos[1].comienza = 0;
 
-    while(fgets(linea, 160, f) != NULL){          //Lee una linea del archivo por cada iteracion
-        token = strtok(linea, "-");
+    for(int i = 0; i < Barcos; i++){            //Inizializa el vector de numero de barcos a 0
+        datos[0].NBarcos[i] = 0;
+        datos[1].NBarcos[i] = 0;
+    }
+    datos[0].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
+    datos[0].casHundidas = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[0].barHundidos = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[0].barRestantes = 0;       //Inicializa el numero de barcos restantes a 0
+    datos[0].agua = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[1].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
+    datos[1].casHundidas = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[1].barHundidos = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[1].barRestantes = 0;       //Inicializa el numero de barcos restantes a 0
+    datos[1].agua = 0;       //Inicializa el numero de barcos hundidos a 0
+
+    while(fgets(linea, 160, f) != NULL && atoi((token = strtok(linea, "-"))) != 1){          //Lee una linea del archivo por cada iteracion
         ID_Barco = linea[0];
         token = strtok(NULL, "\n");
         for(int j = 0; j < Barcos; j++){          //Busca el barco en el vector de estructuras
             if(barcos[j].Id_Barco == ID_Barco){          //Si lo encuentra, guarda el numero de barcos
                 datos[0].NBarcos[j] = atoi(token);
                 datos[1].NBarcos[j] = atoi(token);
-            }else{
-                datos[0].NBarcos[j] = 0;
-                datos[1].NBarcos[j] = 0;
             }
         }
     }
-    fgets(linea, 160, f);
-    token = strtok(linea, "-");
+    token = strtok(NULL, "-");
     strcpy(datos[0].nombre, token);
     token = strtok(NULL, "-");
     datos[0].NDisparos = atoi(token);
     token = strtok(NULL, "-");
-    printf("%c", linea[0]);
-    if(linea[0] == 'A'){
+    if(token[0] == 'A'){
         datos[0].tipoDisparo = 1;
     }else{
         datos[0].tipoDisparo = 0;
     }
     token = strtok(NULL, "\n");
     datos[0].ganador = atoi(token);
-    while(l < datos[0].tamTablero && fgets(linea, 160, f) != NULL){
-        token = strtok(linea, "-");
-        if(token[0] == ' ')
+    
+    datos[0].flota = (char**)malloc(datos[0].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de flota del jugador 1
+    for(int i = 0; i < datos[0].tamTablero; i++){
+        datos[0].flota[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
+    }
+    datos[0].oponente = (char**)malloc(datos[0].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de oponente del jugador 1
+    for(int i = 0; i < datos[0].tamTablero; i++){
+        datos[0].oponente[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
+    }
+    datos[1].flota = (char**)malloc(datos[1].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de flota del jugador 2
+    for(int i = 0; i < datos[0].tamTablero; i++){
+        datos[1].flota[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
+    }
+    datos[1].oponente = (char**)malloc(datos[1].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de oponente del jugador 2
+    for(int i = 0; i < datos[0].tamTablero; i++){
+        datos[1].oponente[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
+    }
+    
+    while(l < datos[0].tamTablero && fgets(linea, 160, f) != NULL){             //Lee el tablero de flota del jugador 1
+        token = strtok(linea, " ");
+        if(token[0] == '-')
             datos[0].flota[l][c] = ' ';
         else
             datos[0].flota[l][c] = token[0];
@@ -229,33 +262,83 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
             datos[0].flota[l][c] = token[0];
             c++;
         }
-        token = strtok(linea, "\n");
+        token = strtok(NULL, "\n");
         if(token[0] == '-')
             datos[0].flota[l][c] = ' ';
         else
             datos[0].flota[l][c] = token[0];
         l++;
+        c = 0;
     }
     l = 0;
     c = 0;
-    
-    while(l < datos[0].tamTablero && fgets(linea, 160, f) != NULL){
-        token = strtok(linea, "-");
-        if(token[0] == ' ')
-            datos[0].oponente[l][c] = ' ';
-        else
-            datos[0].oponente[l][c] = token[0];
+
+    while(l < datos[0].tamTablero && fgets(linea, 160, f) != NULL){             //Lee el tablero de oponente del jugador 1
+        token = strtok(linea, " ");
+        switch(token[0]){
+            case '-':
+                datos[0].oponente[l][c] = ' ';
+                break;
+            case 'T':
+                datos[0].oponente[l][c] = token[0];
+                datos[0].tocadas++;
+                break;
+            case 'H':
+                datos[0].oponente[l][c] = token[0];
+                datos[0].casHundidas++;
+                break;
+            case '*':
+                datos[0].oponente[l][c] = token[0];
+                datos[0].agua++;
+                break;
+            default:
+                break;    
+        }
         c++;
         while(c < datos[0].tamTablero-1){
             token = strtok(NULL, " ");
-            datos[0].oponente[l][c] = token[0];
+            switch(token[0]){
+                case '-':
+                    datos[0].oponente[l][c] = ' ';
+                    break;
+                case 'T':
+                    datos[0].oponente[l][c] = token[0];
+                    datos[0].tocadas++;
+                    break;
+                case 'H':
+                    datos[0].oponente[l][c] = token[0];
+                    datos[0].casHundidas++;
+                    break;
+                case '*':
+                    datos[0].oponente[l][c] = token[0];
+                    datos[0].agua++;
+                    break;
+                default:
+                    break;    
+            }
             c++;
         }
-        token = strtok(linea, "\n");
-        if(token[0] == '-')
-            datos[0].oponente[l][c] = ' ';
-        else
-            datos[0].oponente[l][c] = token[0];
+        c = 0;
+        token = strtok(NULL, "\n");
+        switch(token[0]){
+            case '-':
+                datos[0].oponente[l][c] = ' ';
+                break;
+            case 'T':
+                datos[0].oponente[l][c] = token[0];
+                datos[0].tocadas++;
+                break;
+            case 'H':
+                datos[0].oponente[l][c] = token[0];
+                datos[0].casHundidas++;
+                break;
+            case '*':
+                datos[0].oponente[l][c] = token[0];
+                datos[0].agua++;
+                break;
+            default:
+                break;    
+        }
         l++;
     }
     l = 0;
@@ -263,21 +346,22 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
 
     fgets(linea, 160, f);
     token = strtok(linea, "-");
+    token = strtok(NULL, "-");
     strcpy(datos[1].nombre, token);
-    token = strtok(linea, "-");
+    token = strtok(NULL, "-");
     datos[1].NDisparos = atoi(token);
-    token = strtok(linea, "-");
+    token = strtok(NULL, "-");
     if(token[0] == 'A'){
         datos[1].tipoDisparo = 1;
     }else{
         datos[1].tipoDisparo = 0;
     }
-    token = strtok(linea, "\n");
+    token = strtok(NULL, "\n");
     datos[1].ganador = atoi(token);
 
-    while(l < datos[1].tamTablero && fgets(linea, 160, f) != NULL){
-        token = strtok(linea, "-");
-        if(token[0] == ' ')
+    while(l < datos[1].tamTablero && fgets(linea, 160, f) != NULL){             //Lee el tablero de flota del jugador 2
+        token = strtok(linea, " ");
+        if(token[0] == '-')
             datos[1].flota[l][c] = ' ';
         else
             datos[1].flota[l][c] = token[0];
@@ -287,33 +371,83 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
             datos[1].flota[l][c] = token[0];
             c++;
         }
-        token = strtok(linea, "\n");
+        token = strtok(NULL, "\n");
         if(token[0] == '-')
             datos[1].flota[l][c] = ' ';
         else
             datos[1].flota[l][c] = token[0];
         l++;
+        c = 0;
     }
     l = 0;
     c = 0;
     
-    while(l < datos[1].tamTablero && fgets(linea, 160, f) != NULL){
-        token = strtok(linea, "-");
-        if(token[0] == ' ')
-            datos[1].oponente[l][c] = ' ';
-        else
-            datos[1].oponente[l][c] = token[0];
+    while(l < datos[1].tamTablero && fgets(linea, 160, f) != NULL){             //Lee el tablero de oponente del jugador 2
+        token = strtok(linea, " ");
+        switch(token[0]){
+            case '-':
+                datos[1].oponente[l][c] = ' ';
+                break;
+            case 'T':
+                datos[1].oponente[l][c] = token[0];
+                datos[1].tocadas++;
+                break;
+            case 'H':
+                datos[1].oponente[l][c] = token[0];
+                datos[1].casHundidas++;
+                break;
+            case '*':
+                datos[1].oponente[l][c] = token[0];
+                datos[1].agua++;
+                break;
+            default:
+                break;    
+        }
         c++;
         while(c < datos[1].tamTablero-1){
             token = strtok(NULL, " ");
-            datos[1].oponente[l][c] = token[0];
+            switch(token[0]){
+                case '-':
+                    datos[1].oponente[l][c] = ' ';
+                    break;
+                case 'T':
+                    datos[1].oponente[l][c] = token[0];
+                    datos[1].tocadas++;
+                    break;
+                case 'H':
+                    datos[1].oponente[l][c] = token[0];
+                    datos[1].casHundidas++;
+                    break;
+                case '*':
+                    datos[1].oponente[l][c] = token[0];
+                    datos[1].agua++;
+                    break;
+                default:
+                    break;    
+            }
             c++;
         }
-        token = strtok(linea, "\n");
-        if(token[0] == '-')
-            datos[1].oponente[l][c] = ' ';
-        else
-            datos[1].oponente[l][c] = token[0];
+        c = 0;
+        token = strtok(NULL, "\n");
+        switch(token[0]){
+            case '-':
+                datos[1].oponente[l][c] = ' ';
+                break;
+            case 'T':
+                datos[1].oponente[l][c] = token[0];
+                datos[1].tocadas++;
+                break;
+            case 'H':
+                datos[1].oponente[l][c] = token[0];
+                datos[1].casHundidas++;
+                break;
+            case '*':
+                datos[1].oponente[l][c] = token[0];
+                datos[1].agua++;
+                break;
+            default:
+                break;    
+        }
         l++;
     }
     fclose(f);
