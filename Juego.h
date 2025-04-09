@@ -45,4 +45,9 @@ void disparoAutomatico(Configuracion* conf, int at, int op);
 //Postcondición: Devuelve si el barco ha sido hundido o no
 void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op);
 
+//Cabecera: primerDisparo(Configuracion*, int, int, int, int, int, int)
+//Precondición: el sistema va a realizar el primer disparo ya que no hay ningún barco tocado
+//Postcondición: realiza el primer disparo del sistema
+void primerDisparo(Configuracion* conf, int x, int y, int at, int op, int sX, int sY);
+
 #endif
