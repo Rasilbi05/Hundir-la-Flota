@@ -14,7 +14,7 @@ typedef struct{
     int comienza;               //0: Jugador1, 1: Jugador2
     int tamTablero;
     char **flota, **oponente;
-    int NDisparos, agua, tocadas, casHundidas, barHundidos, barRestantes, ganador, totalBarcos;      //0: perdedor, 1: ganador
+    int NDisparos, agua, tocadas, barHundidos, barRestantes, ganador, totalBarcos;      //0: perdedor, 1: ganador
 }Configuracion;
 
 //cabecera: Configuracion* menuConfiguracion()
@@ -29,13 +29,13 @@ void introducirDatos(Configuracion* configuracion);
 //pre: recibe el vector de estructuras de configuración
 //post: muestra los datos introducidos
 void mostrarDatos(Configuracion* datos);
-//cabecera: void guardarDatos(Configuracion* datos, Barco* barcos)
+//cabecera: void guardarDatos(Configuracion* datos)
 //pre: recibe el vector de estructuras de configuración
 //post: guarda los datos introducidos en un fichero
-void guardarDatos(Configuracion* datos, Barco* barcos);
-//cabecera: void cargarDatos(Configuracion* datos, Barco* barcos)
+void guardarDatos(Configuracion* datos);
+//cabecera: void cargarDatos(Configuracion* datos)
 //pre: recibe el vector de estructuras de configuración
 //post: carga los datos de un fichero
-void cargarDatos(Configuracion* datos, Barco* barcos);
+void cargarDatos(Configuracion* datos);
 
 #endif // _CONFIGURACION_

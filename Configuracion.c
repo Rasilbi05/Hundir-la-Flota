@@ -26,10 +26,10 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
                     mostrarDatos(datos);
                     break;
                 case 4:
-                    guardarDatos(datos, barcos);
+                    guardarDatos(datos);
                     break;
                 case 5:
-                    cargarDatos(datos, barcos);
+                    cargarDatos(datos);
                     completado = 1;        //Si se ha completado la configuracion, se cambia la variable a 1
                     break;
                 case 6:
@@ -58,7 +58,6 @@ void introducirDatos(Configuracion* configuracion){
         configuracion[i].NDisparos = 0;
         configuracion[i].agua = 0;
         configuracion[i].tocadas = 0;
-        configuracion[i].casHundidas = 0;
         configuracion[i].barHundidos = 0;
     }
     for(int i = 0; i < Barcos; i++){
@@ -89,19 +88,12 @@ void introducirDatos(Configuracion* configuracion){
         }
     }while(comienza != 0 && comienza != 1);
 
-
-    configuracion[0].tamTablero = 10;        //Tamaño del tablero fijo
-    configuracion[1].tamTablero = 10;
-
-
-
-
-    /*while(comprobar con funcion == 0){              //Bucle para comprobar que el tamaño del tablero es valido
+    /*while(comprobarTamano(configuracion) == 0){              //Bucle para comprobar que el tamaño del tablero es valido
         printf("Introduce el tamaño del tablero: ");
         scanf("%d", &configuracion[0].tamTablero);
-    }
-    //Para el tamaño del tablero preguntar a funcion de cristian para saber si es posible ese valor o no
-    */
+        if(comprobarTamano(configuracion) == 0)
+            printf("El tamaño del tablero no es valido\n");
+    }*/
 }
 
 void mostrarDatos(Configuracion* datos){
@@ -122,14 +114,14 @@ void mostrarDatos(Configuracion* datos){
         printf("Numero de disparos:         %d\n", datos[i].NDisparos);
         printf("Agua:                       %d\n", datos[i].agua);
         printf("Tocadas:                    %d\n", datos[i].tocadas);
-        printf("Casillas hundidas:          %d\n", datos[i].casHundidas);
         printf("Barcos hundidos:            %d\n", datos[i].barHundidos);
         printf("Barcos restantes:           %d\n\n\n", datos[i].barRestantes);
     }
     system("pause");
 }
 
-void guardarDatos(Configuracion* datos, Barco* barcos){
+void guardarDatos(Configuracion* datos){
+    Barco* barcos = cargarBarcos();     //Carga los barcos
     int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
     FILE *f = fopen("juego.txt", "w");      //Abre el fichero en modo escritura
     if(f == NULL){
@@ -143,11 +135,11 @@ void guardarDatos(Configuracion* datos, Barco* barcos){
     }
     for(int i = 0; i < 2; i++){         //Recorre el vector de estructuras para guardar los datos de cada jugador
         fprintf(f, "%i-%s-%i-", i+1, datos[i].nombre, datos[i].NDisparos);
-        if(datos[i].tipoDisparo == 1){
+        if(datos[i].tipoDisparo == 1)
             fprintf(f, "A-");
-        }else{
+        else
             fprintf(f, "M-");
-        }
+
         fprintf(f, "%i\n", datos[i].ganador);
         for(int l = 0; l < datos[i].tamTablero; l++){
             for(int c = 0; c < datos[i].tamTablero; c++){
@@ -173,8 +165,9 @@ void guardarDatos(Configuracion* datos, Barco* barcos){
     system("pause");
 }
 
-void cargarDatos(Configuracion* datos, Barco* barcos){
+void cargarDatos(Configuracion* datos){
     system("cls");
+    Barco* barcos = cargarBarcos();     //Carga los barcos
     int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
     int l = 0, c = 0;         //Variables auxiliares para el bucle
     char* token;
@@ -202,12 +195,10 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
         datos[1].NBarcos[i] = 0;
     }
     datos[0].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
-    datos[0].casHundidas = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[0].barHundidos = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[0].barRestantes = 0;       //Inicializa el numero de barcos restantes a 0
     datos[0].agua = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[1].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
-    datos[1].casHundidas = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[1].barHundidos = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[1].barRestantes = 0;       //Inicializa el numero de barcos restantes a 0
     datos[1].agua = 0;       //Inicializa el numero de barcos hundidos a 0
@@ -287,7 +278,6 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
                 break;
             case 'H':
                 datos[0].oponente[l][c] = token[0];
-                datos[0].casHundidas++;
                 break;
             case '*':
                 datos[0].oponente[l][c] = token[0];
@@ -309,7 +299,6 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
                     break;
                 case 'H':
                     datos[0].oponente[l][c] = token[0];
-                    datos[0].casHundidas++;
                     break;
                 case '*':
                     datos[0].oponente[l][c] = token[0];
@@ -332,7 +321,6 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
                 break;
             case 'H':
                 datos[0].oponente[l][c] = token[0];
-                datos[0].casHundidas++;
                 break;
             case '*':
                 datos[0].oponente[l][c] = token[0];
@@ -396,7 +384,6 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
                 break;
             case 'H':
                 datos[1].oponente[l][c] = token[0];
-                datos[1].casHundidas++;
                 break;
             case '*':
                 datos[1].oponente[l][c] = token[0];
@@ -418,7 +405,6 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
                     break;
                 case 'H':
                     datos[1].oponente[l][c] = token[0];
-                    datos[1].casHundidas++;
                     break;
                 case '*':
                     datos[1].oponente[l][c] = token[0];
@@ -441,7 +427,6 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
                 break;
             case 'H':
                 datos[1].oponente[l][c] = token[0];
-                datos[1].casHundidas++;
                 break;
             case '*':
                 datos[1].oponente[l][c] = token[0];
@@ -452,6 +437,12 @@ void cargarDatos(Configuracion* datos, Barco* barcos){
         }
         l++;
     }
+
+
+    printf("%c", datos[0].oponente[9][9]);
+    printf("%c", datos[1].oponente[9][9]);
+
+
     fclose(f);
     printf("Datos cargados correctamente\n");
     system("pause");
