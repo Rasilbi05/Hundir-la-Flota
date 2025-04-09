@@ -21,22 +21,25 @@ char **generarTablero(int n){
 	return **M;
 }
 
-void asignacionManual(Configuracion* datos, int i){
+void asignacionManual(Configuracion* datos, int u){
 	
+	int i=obtenerNBarcos();
+	Barco* barcos = malloc(sizeof(Barco)*i);
+	barcos = cargarBarcos();
 	int c, f;
+	int d;
+	int s;
+	int j;
+	int k;
 
 	printf("Elija las coordenadas de inicio del barco (c f), siendo c columna y f fila.\n");
-	scanf("%d %d", &c, &f);
-	
-	int d;
+	scanf("%d, %d", &c, &f);
 
 	if(datos[i].flota[c][f] == ' '){
 
 		do{
 			printf("A continuación, elija en qué dirección desea situar el barco:\n 1. Diagonal\n 2. Vertical\n 3. Horizontal\n");
 			scanf("%d", &d);
-
-			int s;
 		
 			switch(d){
 
@@ -51,9 +54,13 @@ void asignacionManual(Configuracion* datos, int i){
 
 							case 1:
 
-								for(){
+								for(j=0;j<i;j++){
 									
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+									for(k=0;k<datos[0].NBarcos[j];k++){
+										
+										for(j=0;j<barcos[k].Tam_Barco;j++){
+									
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
 										if(){
 
@@ -79,53 +86,55 @@ void asignacionManual(Configuracion* datos, int i){
 											}	
 										}
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
 
 									}	
 								
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{	
 
-										}	
-									}
+												}	
+											}
 									
-									if(d != 5){
+											if(d != 5){
 										
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 									
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
+												}	
+											}
+										}
 									}
 								}
 
@@ -863,7 +872,7 @@ void asignacionManual(Configuracion* datos, int i){
 
 	}else{
 
-		if([c][f] == 'X'){
+		if(datos[i].flota[c][f] == 'X'){
 			
 			printf("Introduzca otras coordenadas, estas ya están ocupadas por otro barco.");
 		
@@ -872,7 +881,7 @@ void asignacionManual(Configuracion* datos, int i){
 			printf("Introduzca otras coordenadas, estas se salen de los límites del tablero.");
 		}
 		
-		return asignacionManual();
+		return asignacionManual;
 	}
 }
 
@@ -882,29 +891,39 @@ void asignacionAutomatica(Configuracion* datos, int u){
 	Barco* barcos = malloc(sizeof(Barco)*i);
 	barcos = cargarBarcos();
 	int j;
-	
+	int k;
+
 	for(j=0;j<i;j++){
-
-		int k;
 		
-		for(k=0;k<datos[j].NBarcos;k++){
+		for(k=0;k<datos[0].NBarcos[j];k++){
 
-			int t;
-
-			for(t=0;t<barcos[j].Tam_Barco;t++){
-
-			}
 		}
 	}
 }		
 	
 
 
-int comprobarTamaño(){
+int comprobarTamano(Configuracion* datos){
 
+	int i=obtenerNBarcos();
+	Barco* barcos = malloc(sizeof(Barco)*i);
+	barcos = cargarBarcos();
+	int j;
+	int k;
+	int t_total;
 
+	t_total=0;
 
-	if (){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
+	for(j=0;j<i;j++){
+		
+		for(k=0;k<datos[0].NBarcos[j];k++){
+
+			t_total=t_total+barcos[j].Tam_Barco*datos[0].NBarcos[j]+(8+4*(barcos[j].Tam_Barco-1));
+
+		}
+	}
+
+	if (t_total<=datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
 		
 		return 1;
 	
@@ -913,11 +932,3 @@ int comprobarTamaño(){
 		return 0;
 	} 
 }
-
-//for(t=0;t<tam;<t++)
-//Si el barco cabe j+t<tam
-//if (flota [i] [j+t] = ' ')
-
-//for(t=0;t<tam;t++)
-//Si el barco cabe j-t>0
-//if (flota [i] [j-t] = ' ')
