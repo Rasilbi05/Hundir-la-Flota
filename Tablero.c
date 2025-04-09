@@ -29,36 +29,34 @@ void asignacionManual(Configuracion* datos, int u){
 	int c, f;
 	int d;
 	int s;
-	int j;
-	int k;
+	int j, k, t;
 
-	printf("Elija las coordenadas de inicio del barco (c f), siendo c columna y f fila.\n");
-	scanf("%d, %d", &c, &f);
+	for(j=0;j<i;j++){
 
-	if(datos[i].flota[c][f] == ' '){
+		for(k=0;k<datos[0].NBarcos[j];k++){
+			printf("Elija las coordenadas de inicio de un barco de tamaño %d (c f), siendo c columna y f fila.\n", barcos[j].Tam_Barco);
+			scanf("%d, %d", &c, &f);
 
-		do{
-			printf("A continuación, elija en qué dirección desea situar el barco:\n 1. Diagonal\n 2. Vertical\n 3. Horizontal\n");
-			scanf("%d", &d);
+			if(datos[i].flota[c][f] == ' '){
+
+				do{
+					printf("A continuación, elija en qué dirección desea situar el barco:\n 1. Diagonal\n 2. Vertical\n 3. Horizontal\n");
+					scanf("%d", &d);
 		
-			switch(d){
+					switch(d){
 
-				case 1: 
+						case 1: 
 
-					do{
+							do{
 						
-						printf("Elija en qué sentido diagonal se situará el barco:\n 1. Arriba-derecha\n 2. Abajo-derecha\n 3. Arriba-izquierda\n 4. Abajo-izquierda\n");
-						scanf("%d", &s);
+								printf("Elija en qué sentido diagonal se situará el barco:\n 1. Arriba-derecha\n 2. Abajo-derecha\n 3. Arriba-izquierda\n 4. Abajo-izquierda\n");
+								scanf("%d", &s);
 
-						switch(s){
+								switch(s){
 
-							case 1:
-
-								for(j=0;j<i;j++){
-									
-									for(k=0;k<datos[0].NBarcos[j];k++){
+									case 1:
 										
-										for(j=0;j<barcos[k].Tam_Barco;j++){
+										for(t=0;t<barcos[j].Tam_Barco;t++){
 									
 											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
@@ -107,7 +105,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												}	
 											}
-									
+								
 											if(d != 5){
 
 												if(){
@@ -135,16 +133,14 @@ void asignacionManual(Configuracion* datos, int u){
 												}	
 											}
 										}
-									}
-								}
 
-								break;
+										break;
 
-							case 2:
+									case 2:
 								
-								for(){
+										for(){
 									
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
 										if(){
 
@@ -170,63 +166,63 @@ void asignacionManual(Configuracion* datos, int u){
 											}	
 										}
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
 
 									}	
 							
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{	
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
+												}
+											}	
 										}
-									}	
-								}
 								
-								break;
+										break;
 
-							case 3:
+									case 3:
 
-								for(){
+										for(){
 									
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
 										if(){
 
@@ -252,63 +248,63 @@ void asignacionManual(Configuracion* datos, int u){
 											}	
 										}
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
 
 									}	
 							
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}	
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}	
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}
-									}
+												}
+											}
 									
-									if(d != 5){
+											if(d != 5){
 							
-										if(){
+												if(){
 
-										}else{
+												}else{
 
+												}
+											}	
 										}
-									}	
-								}
 
-								break;
+										break;
 						
-							case 4:
+									case 4:
 
-								for(){
+										for(){
 									
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
 										if(){
 
@@ -334,80 +330,80 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
 
 									}	
 									
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}	
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}	
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
-										}	
-									}
+												}		
+											}
 
-									if(d != 5){
+											if(d != 5){
 
-										if(){
+												if(){
 
-										}else{
+												}else{
 
+												}
+											}	
 										}
-									}	
-								}
 							
-								break;
+										break;
 							
-							default:
+									default:
 
-								printf("Elija una opción válida: 1, 2, 3 ó 4.");
+										printf("Elija una opción válida: 1, 2, 3 ó 4.");
 
-								break;
-							}
-					}while(1<s||s>4);
+										break;
+									}
+							}while(1<s||s>4);
 					
-					break;
+							break;
 
-				case 2: 
-					do{
-						printf("Elija en qué sentido vertical se situará el barco:\n 1. Arriba\n 2. Abajo\n");
-						scanf("%d", &s);
+						case 2: 
+							do{
+								printf("Elija en qué sentido vertical se situará el barco:\n 1. Arriba\n 2. Abajo\n");
+								scanf("%d", &s);
 
-						switch(s){
+								switch(s){
 
-							case 1:
+									case 1:
 
-								for(){
+										for(){
 
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 										
 										if(){
 
@@ -478,7 +474,7 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 										
 										if(d != 5){
 
@@ -507,15 +503,15 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}	
 									}
-								}
+										}
 
-								break;
+										break;
 
-							case 2:
+									case 2:
 							
-								for(){
+										for(){
 
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
 										if(){
 
@@ -586,7 +582,7 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 									
 										if(d != 5){
 
@@ -615,32 +611,32 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}	
 									}
+										}
+
+										break;
+
+									default:
+
+										printf("Elija una opción válida: 1 ó 2.");
+
+										break;
 								}
-
-								break;
-
-							default:
-
-								printf("Elija una opción válida: 1 ó 2.");
-
-								break;
-						}
-					}while(1<s||s>2);
+							}while(1<s||s>2);
 					
-					break;
+							break;
 
-				case 3: 
-					do{
-						printf("Elija en qué sentido horizontal se situará el barco:\n 1. Izquierda\n 2. Derecha\n");
-						scanf("%d", &s);
+						case 3: 
+							do{
+								printf("Elija en qué sentido horizontal se situará el barco:\n 1. Izquierda\n 2. Derecha\n");
+								scanf("%d", &s);
 
-						switch(s){
+								switch(s){
 
-							case 1:
+									case 1:
 
-								for(){
+										for(){
 
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
 										if(){
 
@@ -711,7 +707,7 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}	
 
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 									
 										if(d != 5){
 
@@ -740,15 +736,15 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}
 									}
-								}
+										}
 
-								break;
+										break;
 
-							case 2:
+									case 2:
 							
-								for(){
+										for(){
 
-									if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
 										if(){
 
@@ -819,69 +815,72 @@ void asignacionManual(Configuracion* datos, int u){
 											}
 										}
 									
-									}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+											}else{ //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 									
-										if(d != 5){
+												if(d != 5){
 
-											if(){
+													if(){
 
-											}else{
+													}else{
 
+													}
+												}
+
+												if(d != 5){
+
+													if(){
+
+													}else{
+
+													}
+												}
+
+												if(d != 5){
+
+													if(){
+
+													}else{
+
+													}
+												}
 											}
-										}
+										}	
 
-										if(d != 5){
+										break;
 
-											if(){
+									default:
 
-											}else{
-
-											}
-										}
-
-										if(d != 5){
-
-											if(){
-
-											}else{
-
-											}
-										}
-									}
-								}	
-
-								break;
-
-							default:
-
-								printf("Elija una opción válida: 1 ó 2.");
+										printf("Elija una opción válida: 1 ó 2.");
 								
-								break;
-						}
-					}while(1<s||s>2);
+										break;
+								}
+							}while(1<s||s>2);
 					
-					break;
+							break;
 
-				default: 
+						default: 
 				
-					printf("Elija una opción válida: 1, 2 ó 3.");
+							printf("Elija una opción válida: 1, 2 ó 3.");
 
-					break;
-				}
-		}while(d<1||d>3);		
+							break;
+						}
+				}while(d<1||d>3);		
 
-	}else{
+			}else{
 
-		if(datos[i].flota[c][f] == 'X'){
+				if(datos[i].flota[c][f] == 'X'){
 			
 			printf("Introduzca otras coordenadas, estas ya están ocupadas por otro barco.");
 		
-		}else{
+				}else{
 			
-			printf("Introduzca otras coordenadas, estas se salen de los límites del tablero.");
-		}
+					printf("Introduzca otras coordenadas, estas se salen de los límites del tablero.");
+				
+				}
 		
-		return asignacionManual;
+				return asignacionManual;
+			}
+		}
 	}
 }
 
