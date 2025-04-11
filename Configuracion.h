@@ -14,7 +14,7 @@ typedef struct{
     int comienza;               //0: Jugador1, 1: Jugador2
     int tamTablero;
     char **flota, **oponente;
-    int NDisparos, agua, tocadas, barHundidos, barRestantes, ganador, totalBarcos;      //0: perdedor, 1: ganador
+    int NDisparos, agua, tocadas, hundidas, barHundidos, barRestantes, ganador, totalBarcos;      //0: perdedor, 1: ganador
 }Configuracion;
 
 //cabecera: Configuracion* menuConfiguracion()
@@ -37,5 +37,9 @@ void guardarDatos(Configuracion* datos);
 //pre: recibe el vector de estructuras de configuración
 //post: carga los datos de un fichero
 void cargarDatos(Configuracion* datos);
+//cabecera: int comprobarTamano(Configuracion* datos)
+//pre: recibe el vector de estructuras de configuración y la posicion del jugador en el vector de estructuras jugador
+//post: devuelve 1 si el tamaño del tablero es válido, 0 si no lo es
+int barcosHundidos(Configuracion* datos, int jugador);
 
 #endif // _CONFIGURACION_

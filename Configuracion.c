@@ -114,6 +114,7 @@ void mostrarDatos(Configuracion* datos){
         printf("Numero de disparos:         %d\n", datos[i].NDisparos);
         printf("Agua:                       %d\n", datos[i].agua);
         printf("Tocadas:                    %d\n", datos[i].tocadas);
+        printf("Hundidas:                   %d\n", datos[i].hundidas);
         printf("Barcos hundidos:            %d\n", datos[i].barHundidos);
         printf("Barcos restantes:           %d\n\n\n", datos[i].barRestantes);
     }
@@ -157,7 +158,7 @@ void guardarDatos(Configuracion* datos){
                 else
                     fprintf(f, "%c ", datos[i].oponente[l][c]);
             }
-            fprintf(f,"\n");
+            fprintf(f, "\n");
         }
     }
     fclose(f);
@@ -195,12 +196,8 @@ void cargarDatos(Configuracion* datos){
         datos[1].NBarcos[i] = 0;
     }
     datos[0].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
-    datos[0].barHundidos = 0;       //Inicializa el numero de barcos hundidos a 0
-    datos[0].barRestantes = 0;       //Inicializa el numero de barcos restantes a 0
     datos[0].agua = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[1].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
-    datos[1].barHundidos = 0;       //Inicializa el numero de barcos hundidos a 0
-    datos[1].barRestantes = 0;       //Inicializa el numero de barcos restantes a 0
     datos[1].agua = 0;       //Inicializa el numero de barcos hundidos a 0
 
     while(fgets(linea, 160, f) != NULL && atoi((token = strtok(linea, "-"))) != 1){          //Lee una linea del archivo por cada iteracion
@@ -230,17 +227,17 @@ void cargarDatos(Configuracion* datos){
     for(int i = 0; i < datos[0].tamTablero; i++){
         datos[0].flota[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
     }
-    datos[0].oponente = (char**)malloc(datos[0].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de oponente del jugador 1
+    datos[0].oponente = (char**)malloc(datos[0].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de flota del jugador 1
     for(int i = 0; i < datos[0].tamTablero; i++){
         datos[0].oponente[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
     }
     datos[1].flota = (char**)malloc(datos[1].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de flota del jugador 2
     for(int i = 0; i < datos[0].tamTablero; i++){
-        datos[1].flota[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
+        datos[1].flota[i] = (char*)malloc(datos[1].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
     }
-    datos[1].oponente = (char**)malloc(datos[1].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de oponente del jugador 2
+    datos[1].oponente = (char**)malloc(datos[1].tamTablero*sizeof(char*));        //Reserva memoria para el tablero de flota del jugador 1
     for(int i = 0; i < datos[0].tamTablero; i++){
-        datos[1].oponente[i] = (char*)malloc(datos[0].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
+        datos[1].oponente[i] = (char*)malloc(datos[1].tamTablero*sizeof(char));        //Reserva memoria para cada fila del tablero de flota del jugador 1
     }
     
     while(l < datos[0].tamTablero && fgets(linea, 160, f) != NULL){             //Lee el tablero de flota del jugador 1
@@ -278,13 +275,14 @@ void cargarDatos(Configuracion* datos){
                 break;
             case 'H':
                 datos[0].oponente[l][c] = token[0];
+                datos[0].hundidas++;
                 break;
             case '*':
                 datos[0].oponente[l][c] = token[0];
                 datos[0].agua++;
                 break;
             default:
-                break;    
+                break;
         }
         c++;
         while(c < datos[0].tamTablero-1){
@@ -299,6 +297,7 @@ void cargarDatos(Configuracion* datos){
                     break;
                 case 'H':
                     datos[0].oponente[l][c] = token[0];
+                    datos[0].hundidas++;
                     break;
                 case '*':
                     datos[0].oponente[l][c] = token[0];
@@ -309,7 +308,6 @@ void cargarDatos(Configuracion* datos){
             }
             c++;
         }
-        c = 0;
         token = strtok(NULL, "\n");
         switch(token[0]){
             case '-':
@@ -321,14 +319,16 @@ void cargarDatos(Configuracion* datos){
                 break;
             case 'H':
                 datos[0].oponente[l][c] = token[0];
+                datos[0].hundidas++;
                 break;
             case '*':
                 datos[0].oponente[l][c] = token[0];
                 datos[0].agua++;
                 break;
             default:
-                break;    
+                break;
         }
+        c = 0;
         l++;
     }
     l = 0;
@@ -384,6 +384,7 @@ void cargarDatos(Configuracion* datos){
                 break;
             case 'H':
                 datos[1].oponente[l][c] = token[0];
+                datos[1].hundidas++;
                 break;
             case '*':
                 datos[1].oponente[l][c] = token[0];
@@ -405,6 +406,7 @@ void cargarDatos(Configuracion* datos){
                     break;
                 case 'H':
                     datos[1].oponente[l][c] = token[0];
+                    datos[1].hundidas++;
                     break;
                 case '*':
                     datos[1].oponente[l][c] = token[0];
@@ -415,7 +417,6 @@ void cargarDatos(Configuracion* datos){
             }
             c++;
         }
-        c = 0;
         token = strtok(NULL, "\n");
         switch(token[0]){
             case '-':
@@ -427,6 +428,7 @@ void cargarDatos(Configuracion* datos){
                 break;
             case 'H':
                 datos[1].oponente[l][c] = token[0];
+                datos[1].hundidas++;
                 break;
             case '*':
                 datos[1].oponente[l][c] = token[0];
@@ -435,15 +437,54 @@ void cargarDatos(Configuracion* datos){
             default:
                 break;    
         }
+        c = 0;
         l++;
     }
 
-
-    printf("%c", datos[0].oponente[9][9]);
-    printf("%c", datos[1].oponente[9][9]);
-
+    for(int i = 0; i < 2; i++){
+        datos[i].barHundidos = barcosHundidos(datos, i);        //Calcula el numero de barcos hundidos
+        datos[i].barRestantes = datos[i].totalBarcos - datos[i].barHundidos;        //Calcula el numero de barcos restantes
+    }
 
     fclose(f);
     printf("Datos cargados correctamente\n");
     system("pause");
+}
+
+int barcosHundidos(Configuracion* datos, int jugador){
+    int hundidos = 0;
+    
+    for(int f = 0; f < datos[jugador].tamTablero; f++){
+        for(int c = 0; c < datos[jugador].tamTablero; c++){
+            if(f == 0){
+                if(c == 0){
+                    if(datos[jugador].oponente[f][c] == 'H'){
+                        hundidos++;
+                    }
+                }else{
+                    if(datos[jugador].oponente[f][c] == 'H' && datos[jugador].oponente[f][c-1] != 'H'){
+                        hundidos++;
+                    }
+                }
+            }else{
+                if(c == datos[jugador].tamTablero){
+                    if(datos[jugador].oponente[f][c] == 'H' && datos[jugador].oponente[f-1][c] != 'H' && datos[jugador].oponente[f-1][c-1] != 'H'){
+                        hundidos++;
+                    }
+                }else{
+                    if(c == 0){
+                        if(datos[jugador].oponente[f][c] == 'H' && datos[jugador].oponente[f-1][c] != 'H' && datos[jugador].oponente[f-1][c+1] != 'H'){
+                            hundidos++;
+                        }
+                    }else{
+                        if(datos[jugador].oponente[f][c] == 'H' && (datos[jugador].oponente[f][c-1] != 'H' && datos[jugador].oponente[f-1][c-1] != 'H' && datos[jugador].oponente[f-1][c] != 'H' && datos[jugador].oponente[f-1][c+1] != 'H')){
+                        hundidos++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return hundidos;
 }
