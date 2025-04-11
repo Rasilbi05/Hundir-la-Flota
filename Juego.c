@@ -50,7 +50,6 @@ void jugarPartida(Configuracion* conf,int cargar){
 
     system("cls");
     
-    //hay que concretar bien como va a funcionar al variable que indique quien comienza (de momento, se usa la asignación de i)
     int i=0,cont=0,resp=0;    //i es un índice que nos servirá para poder elegir a los dos jugadores (de forma predeterminada, es el jugador1), 
     //el contador sirve para saber que hemos terminado con ambos jugadores
     //resp se utiliza para saber que opción elige el jugador
@@ -75,11 +74,11 @@ void jugarPartida(Configuracion* conf,int cargar){
             //llamamos a la función respectiva pasando como parámetro el tablero FLOTA
             if(resp==1){
 
-                //llamamos a la función encargada de realizar la asignación manual de los barcos
+                asignacionManual(conf,i);   //llamamos a la función encargada de realizar la asignación manual de los barcos
 
             }else{
 
-                //llamamos a la función encargada de realizar la asignación automática de los barcos
+                asignacionAutomatica(conf,i);   //llamamos a la función encargada de realizar la asignación automática de los barcos
 
             }
 
@@ -89,16 +88,17 @@ void jugarPartida(Configuracion* conf,int cargar){
 
     }
 
-    int f=0,c=0,op=0;    //variables encargadas de las coordenadas que elija el jugador
-    //op sirve para saber cual es el índice del oponente
-    
+    int f=0,c=0,op=0,restantes,hundidas;    //f y c son las variables encargadas de las coordenadas que elija el jugador
+                                                //op sirve para saber cual es el índice del oponente
+                                                //restantes sirve para saber las casillas restantes que le queda al jugador i para ganar
+                                                //hundidas son las casillas que ha hundido el jugador i
     if(i==0)
         op++;
     else
         op--;
 
     //creamos el bucle principal para el juego
-    while(conf[0].ganador!=1||conf[1].ganador!=1){
+    while(conf[0].ganador!=1||conf[1].ganador!=1||resp==3){
 
         printf("Turno de %s:\n",conf[i].nombre);
 
@@ -137,7 +137,7 @@ void jugarPartida(Configuracion* conf,int cargar){
 
                         //preguntamos si quiere guardar la partida tras disparar
                         printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
-                        scanf("%d",resp);
+                        scanf("%d",&resp);
 
                         if(resp==1)
                             guardarDatos(conf);
@@ -164,7 +164,7 @@ void jugarPartida(Configuracion* conf,int cargar){
 
             //preguntamos si quiere guardar la partida tras disparar
             printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
-            scanf("%d",resp);
+            scanf("%d",&resp);
 
         if(resp==1)
             guardarDatos(conf);
@@ -179,6 +179,36 @@ void jugarPartida(Configuracion* conf,int cargar){
         MostrarTableros(conf,i);
 
 
+        //preguntamos al usuario si desea continuar, guardar o salir de la partida
+        printf("Desea realizar alguna de las siguientes acciones?\n1. Guardar partida y continuar\n2. Continuar sin guardar\n3. Guardar y salir\n--> ");
+        scanf("%d",&resp);
+        
+        //a no ser de que el usuario decida no guardar, guardamos la partida
+        if(resp!=2)
+        guardarPartida();  
+        else if(resp==3)    //y si ha decidido salir, termina el juego, habiendo guardado previamente la partida y despidiendo al jugador
+        printf("Saliendo de la partida, que tenga un buen dia.");
+        
+        
+        //comprobamos si ha ganado la partida
+        restantes=0;
+        hundidas=0;
+        for(f=0;f<conf[i].tamTablero;f++){
+            
+            for(c=0;c<conf[i].tamTablero;c++){
+                
+                if(conf[i].oponente[f][c]=='H')
+                hundidas++;
+                else if(conf[op].flota[f][c]=='X')
+                restantes++;
+                
+            }
+            
+        }
+        
+        if(restantes-hundidas==0)
+            conf[i].ganador=1;
+        
         //este condicional nos sirve para ir intercambiando entre los turnos de los jugadores
         if(i==0){
         
@@ -194,6 +224,12 @@ void jugarPartida(Configuracion* conf,int cargar){
 
     }
 
+    //mostramos por pantalla si alguien ha ganado, si es así, se muestra cual de los dos ha ganado
+    for(i=0;i<2;i++)
+
+        if(conf[i].ganador==1)
+            printf("FELICIDADES %s, HAS GANADO!!!", conf[i].nombre);
+    
 }
 
 //Cabecera: void reiniciarPartida(Configuracion*)
@@ -206,11 +242,10 @@ void reiniciarPartida(Configuracion* conf){
 
         conf[i].NDisparos=0;
         conf[i].ganador=0;
-        conf[i].tocadas=0;
-        conf[i].casHundidas=0;
         conf[i].barHundidos=0;
+        conf[i].barRestantes = conf[i].NBarcos;
 
-        //Hacemos otro bucle para limpiar los tableros
+        //Reiniciamos los tableros marcando sus casillas como agua para que sea como un tablero recién generado
         for(int f=0;f<conf[i].tamTablero;f++){
 
             for(int c=0;c<conf[i].tamTablero;c++){
@@ -237,16 +272,17 @@ void reiniciarPartida(Configuracion* conf){
 //Precondición: Resumen de la partida que se ha estado jugando
 //Postcondición: devuelve un resumen de los datos de la partida jugada, si no se ha jugado, no devuelve nada
 void resumenPartida(Configuracion* conf){
-    int vacia,hundidas;
+    int vacia,hundidas,tocadas;
 
     //mostramos por pantalla el resumen
-    printf("                       |         Valor de las casillas       |                       |\n");
-    printf("        Jugador        |Disparos|Vacías|Agua|Tocadas|Hundidas|Hundidos|Restan|Ganador|\n");
-    printf("-----------------------|--------|------|----|-------|--------|--------|------|-------|\n");
+    printf("                     |         Valor de las casillas       |                       |\n");
+    printf("       Jugador       |Disparos|Vacías|Agua|Tocadas|Hundidas|Hundidos|Restan|Ganador|\n");
+    printf("---------------------|--------|------|----|-------|--------|--------|------|-------|\n");
     for(int i=0;i<2;i++){
 
-        //marcamos primero como las casillas hundidas a 0
+        //marcamos primero como las casillas hundidas y tocadas a 0
         hundidas=0;
+        tocadas=0;
 
         //vemos el número de casillas hundidas del jugador
         for(int f = 0;f<conf[i].tamTablero;f++){
@@ -257,15 +293,19 @@ void resumenPartida(Configuracion* conf){
                 if(conf[i].oponente[f][c]=='H')
                     hundidas++;
 
+                //si la casilla está marcada como tocada, aumentamos tocadas
+                if(conf[i].oponente[f][c]=='T')
+                    tocadas++;
+
         
             }
 
         }
 
         //calculamos las casillas vacías
-        vacia = conf[i].NDisparos-pow(conf[i].tamTablero,2);
+        vacia = pow(conf[i].tamTablero,2)-conf[i].NDisparos;
 
-        printf("%s                     |     %d|   %d| %d|    %d|     %d|     %d|   %d|    %d|\n",conf[i].nombre,conf[i].NDisparos,vacia,conf[i].agua,conf[i].tocadas,hundidas,conf[i].barHundidos,conf[i].barRestantes,conf[i].ganador);
+        printf(" %20s| %7d| %5d| %3d| %6d| %7d| %7d| %5d| %6d|\n",conf[i].nombre,conf[i].NDisparos,vacia,conf[i].agua,tocadas,hundidas,conf[i].barHundidos,conf[i].barRestantes,conf[i].ganador);
 
     }
 
@@ -289,40 +329,51 @@ void resumenPartida(Configuracion* conf){
 void MostrarTableros(Configuracion* conf, int j){
 
     int c=0;    //c se refiere a la casilla
+                    
+    //cuadramos la posición de FLOTA y OPONENTE
+    printf("\n%20s: FLOTA",conf[j].nombre);
 
-    printf("%s: FLOTA                       OPONENTE\n",conf[j].nombre);
-        
-      
-    while(c<conf[j].tamTablero){
+        for(int m=0;m<conf[j].tamTablero*3;m++)
+            printf(" ");
 
-        printf("%d|",c);
-        c++;
+    printf("%8cOPONENTE\n%21c|",' ',' ');
+
+    //imrpimimos por pantalla la primera fila que indicará el número de columna
+    for(int n=0;n<2;n++){
+
+        //si se ha llegado al final del primer tablero, ponemos los espacios necesarios para que se muestre el segundo
+        if(n==1){
+
+            printf("%5c|",' ');
+
+        }
+
+        //vamos imprimiendo los números
+        for(c=0;c<conf[j].tamTablero;c++){
+
+            printf("%2d|",c);
+
+        }
     }
 
-    //imprimimos el tablero
+    //imprimimos los espacios necesarios para mostrar bien cada fila
     for(int i=0;i<conf[j].tamTablero;i++){
 
-        printf("%d|",i);            
+        printf("\n%18c|%2d|",' ',i);
 
         //imprimimos las filas del tablero Flota
-        for(int f=0;f<conf[j].tamTablero;f++){
- 
-          printf("%c|",conf[j].flota[i][f]);  //vamos mostrando cada casilla de Flota      
+        for(int f=0;f<conf[j].tamTablero;f++)
+          printf("%2c|",conf[j].flota[i][f]);
 
-        }
-
-        printf("  %d|",i);
+        printf("  |%2d|",i);
 
         //imprimimos las filas del tablero Oponente
-        for(int f=0;f<conf[j].tamTablero;f++){
-
-            printf("%c|",conf[j].oponente[i][f]);  //vamos mostrando cada casilla de Oponente
-
-        }
-
-        printf("\n");   //saltamos a la siguiente fila
+        for(int f=0;f<conf[j].tamTablero;f++)
+            printf("%2c|",conf[j].oponente[i][f]);  
 
     }
+
+    printf("\n");
 
 }
 
@@ -354,7 +405,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         conf[op].flota[f+1][c-1]='*';
         conf[op].flota[f+1][c+1]='*';
 
-        conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
         conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
         conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
@@ -427,7 +477,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO-i][cO-1]='*';
             conf[at].oponente[fO-i][cO+1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         }
@@ -501,7 +550,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO+1][cO-1]='*';
             conf[at].oponente[fO+1][cO+1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
@@ -578,7 +626,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO+1][cO-1]='*';
             conf[at].oponente[fO-1][cO-1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         
@@ -656,7 +703,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO+1][cO+1]='*';
             conf[at].oponente[fO-1][cO+1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         
@@ -748,7 +794,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //marcamos las casillas alrededor de la casilla final del barco como Agua
             conf[at].oponente[fO-i-1][cO-j-1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         
@@ -840,7 +885,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //marcamos las casillas alrededor de la casilla final del barco como Agua
             conf[at].oponente[fO-i-1][cO-j+1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         
@@ -932,7 +976,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //marcamos las casillas alrededor de la casilla final del barco como Agua
             conf[at].oponente[fO-i+1][cO-j-1]='*';
 
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         
@@ -1024,8 +1067,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //marcamos las casillas alrededor de la casilla final del barco como Agua
             conf[at].oponente[fO-i+1][cO-j+1]='*';
 
-
-            conf[at].casHundidas+=tam;  //aumentamos el número de casillas que ha hundido
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
             conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
         
@@ -1119,7 +1160,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
         
         }
 
-        if(conf[at].oponente[x-1][y-1]==' '){//El barco sigue por abajo-derecha
+        if(conf[at].oponente[x-1][y-1]==' '){//El barco sigue por abajo-izquierda
         
             sX=-1;
             sY=-1;
@@ -1145,12 +1186,14 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
 
     while(conf[op].flota[x][y]!=' '){//hacemos que la máquina pueda seguir disparando hasta que de en agua
 
+        //marcamos como tocado
+        conf[at].oponente[x][y]='T';
         
         comprobarDisparo(conf,x,y,at,op); //comprobamos si se ha hundido un barco
         
         //preguntamos si quiere guardar la partida tras disparar
         printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
-        scanf("%d",resp);
+        scanf("%d",&resp);
         
         
         if(resp==1)
@@ -1162,7 +1205,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
         
         //si la siguiente casilla está marcada por agua, indicará que el barco se ha hundido, por lo que buscamos otra posición
         if(conf[at].oponente[x][y]=='*')
-            primerDisparo(conf,x,y,at,op,sX,sY)
+            primerDisparo(conf,x,y,at,op,sX,sY);
     
     }
 
@@ -1206,7 +1249,7 @@ void primerDisparo(Configuracion* conf, int x, int y, int at, int op, int sX, in
 
         //preguntamos si quiere guardar la partida tras disparar
         printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
-        scanf("%d",resp);
+        scanf("%d",&resp);
 
         if(resp==1)
         guardarDatos(conf);

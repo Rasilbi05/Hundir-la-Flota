@@ -6,9 +6,9 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+//incluimos los .h necesarios
 #include "Configuracion.h"
 #include "Tablero.h"
-//incluimos los .h necesarios
 
 //Cabecera: void menuJuego(Configuracion*)
 //Precondición: se debe de haber configurado el juego para poder entrar a este menú
