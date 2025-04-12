@@ -50,14 +50,11 @@ void jugarPartida(Configuracion* conf,int cargar){
 
     system("cls");
     
-    int i=0,cont=0,resp=0;    //i es un índice que nos servirá para poder elegir a los dos jugadores (de forma predeterminada, es el jugador1), 
+    int i=0,cont=0,resp=0, turno=0;    //i es un índice que nos servirá para poder elegir a los dos jugadores (de forma predeterminada, es el jugador1), 
     //el contador sirve para saber que hemos terminado con ambos jugadores
     //resp se utiliza para saber que opción elige el jugador
+    //turno nos sirve para conocer, en caso de que se haya cargado la partida, cual de los dos jugadores es el que tiene el primer turno
     
-    //comprobamos si es el jugador2 el que empieza
-    if(conf[1].comienza==1)
-        i=1;
-
     //cargar es un entero que sirve para saber si se ha cargado partida, si fuese así, los tableros y la partida ya estaría definida,
     //por lo que no es necesario 
     if(cargar==0){
@@ -86,7 +83,23 @@ void jugarPartida(Configuracion* conf,int cargar){
 
         }
 
+    }else{  //si la partida ha sido cargada, preguntamos de que jugador es el primer turno
+
+        printf("Cual es el jugador con el primer turno?\n1. %s\n2. %s\n--> ",conf[0].nombre, conf[1].nombre);
+        scanf("%d",&turno);
+
+        //definimos quien tiene el primer turno
+        if(turno-1==0)
+            conf[0].comienza=1;
+        else
+            conf[1].comienza=1;
+
     }
+
+    //comprobamos si es el jugador2 el que empieza
+    if(conf[1].comienza==1)
+        i=1;
+
 
     int f=0,c=0,op=0,restantes,hundidas;    //f y c son las variables encargadas de las coordenadas que elija el jugador
                                                 //op sirve para saber cual es el índice del oponente
@@ -223,6 +236,8 @@ void jugarPartida(Configuracion* conf,int cargar){
             i--;
         
         }
+
+        system("cls");
 
     }
 
