@@ -12,7 +12,7 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
             printf("4. Guardar datos\n");
             printf("5. Cargar datos\n");
             printf("6. Salir\n");
-            printf("Introduce una opcion: ");
+            printf("Introduce una opcion\n\n\n--> ");
             scanf("%i", &opcion);
             switch(opcion){
                 case 1:
@@ -36,6 +36,7 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
                     break;
                 default:
                     printf("Opcion no valida\n");
+                    system("pause");
                     break;
             }
         }while(opcion < 1 || opcion > 6);
@@ -50,11 +51,13 @@ void introducirDatos(Configuracion* configuracion){
     configuracion[0].NBarcos = (int*)malloc(Barcos*sizeof(int));        //Reserva memoria para el vector de barcos
     configuracion[1].NBarcos = (int*)malloc(Barcos*sizeof(int));        //Reserva memoria para el vector de barcos
     for(int i = 0; i < 2; i++){             //Recorre el vector de estructuras para inicializar los datos
-        printf("Introduce el nombre del jugador %d: ", i+1);
+        system("cls");
+        printf("Introduce el nombre del jugador %i\n\n--> ", i+1);
         fflush(stdin);
         fgets(configuracion[i].nombre, 20, stdin);
         fflush(stdin);
-        printf("Introduce el tipo de disparo del jugador %d (0: Disparo normal, 1: Disparo automatico): ", i+1);
+        system("cls");
+        printf("Introduce el tipo de disparo del jugador %i (0: Disparo normal, 1: Disparo automatico)\n\n--> ", i+1);
         scanf("%d", &configuracion[i].tipoDisparo);
         configuracion[i].NDisparos = 0;
         configuracion[i].agua = 0;
@@ -63,7 +66,8 @@ void introducirDatos(Configuracion* configuracion){
         configuracion[i].barHundidos = 0;
     }
     for(int i = 0; i < Barcos; i++){
-        printf("Introduce el numero de %s: ", barcos[i].nombre);
+        system("cls");
+        printf("Introduce el numero de %s\n\n--> ", barcos[i].nombre);
         scanf("%i", &configuracion[0].NBarcos[i]);
         configuracion[1].NBarcos[i] = configuracion[0].NBarcos[i];
         suma += configuracion[0].NBarcos[i];
@@ -74,15 +78,17 @@ void introducirDatos(Configuracion* configuracion){
     configuracion[1].barRestantes = suma;
     
     do{
-        printf("Itroduce como quieres seleccionar quien comienzo (M: Manual, A: Aleatorio): ");
+        system("cls");
+        printf("Introduce como quieres seleccionar quien comienza (M: Manual, A: Aleatorio)\n\n--> ");
         fflush(stdin);
         scanf("%c", &opcion);
         fflush(stdin);
         switch(opcion){
             case 'M':
                 do{                    //Bucle para comprobar que se introduce una opcion valida
-                    printf("Introduce quien comienza (0: Jugador1, 1: Jugador2): ");
-                    scanf("%d", &comienza);
+                    system("cls");
+                    printf("Introduce quien comienza (0: Jugador1, 1: Jugador2)\n\n--> ");
+                    scanf("%i", &comienza);
                     switch(comienza){
                     case 0:
                         configuracion[0].comienza = 1;
@@ -94,11 +100,14 @@ void introducirDatos(Configuracion* configuracion){
                         break;
                     default:
                         printf("Opcion no valida\n");
+                        system("pause");
                         break;
                     }
                 }while(comienza != 0 && comienza != 1);
                 break;
             case 'A':
+                    system("cls");
+                    srand(time(NULL));        //Inicializa la semilla del generador de numeros aleatorios
                     aleatorio = rand()%2;        //Genera un numero aleatorio entre 0 y 1
                     if(aleatorio == 0){
                         configuracion[0].comienza = 1;
@@ -110,6 +119,7 @@ void introducirDatos(Configuracion* configuracion){
                 break;
             default:
                 printf("Opcion no valida\n");
+                system("pause");
                 break;
         }
     }while(opcion != 'M' && opcion != 'A');        //Bucle para comprobar que se introduce una opcion valida
@@ -130,15 +140,17 @@ void mostrarDatos(Configuracion* datos){
     system("cls");
     int Barcos = obtenerNBarcos();
     Barco* barcos = cargarBarcos();
+    printf("---Barcos disponibles---\n\n");
+    for(int j = 0; j < Barcos; j++){
+        printf("Numero de %s: %d\n", barcos[j].nombre, datos[0].NBarcos[j]);
+    }
+    printf("\n\n---Datos de los jugadores---\n\n");
     for(int i = 0; i < 2; i++){
         printf("Nombre:                     %s\n", datos[i].nombre);
         if(datos[i].tipoDisparo == 0)
             printf("Disparo manual\n");
         else
             printf("Disparo automatico\n");
-        for(int j = 0; j < Barcos; j++){
-            printf("Numero de %s: %d\n", barcos[j].nombre, datos[i].NBarcos[j]);
-        }
         printf("Comienza:                   %d\n", datos[i].comienza);
         printf("Tamano del tablero:         %d\n", datos[i].tamTablero);
         printf("Numero de disparos:         %d\n", datos[i].NDisparos);
@@ -155,6 +167,7 @@ void guardarDatos(Configuracion* datos){
     Barco* barcos = cargarBarcos();     //Carga los barcos
     int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
     FILE *f = fopen("juego.txt", "w");      //Abre el fichero en modo escritura
+    system("cls");
     if(f == NULL){
         printf("Error al abrir el fichero\n");
         exit(1);
@@ -227,8 +240,10 @@ void cargarDatos(Configuracion* datos){
     }
     datos[0].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
     datos[0].agua = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[0].hundidas = 0;       //Inicializa el numero de barcos hundidos a 0
     datos[1].tocadas = 0;       //Inicializa el numero de barcos tocados a 0
     datos[1].agua = 0;       //Inicializa el numero de barcos hundidos a 0
+    datos[1].hundidas = 0;       //Inicializa el numero de barcos hundidos a 0
 
     while(fgets(linea, 160, f) != NULL && atoi((token = strtok(linea, "-"))) != 1){          //Lee una linea del archivo por cada iteracion
         ID_Barco = linea[0];

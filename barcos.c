@@ -12,7 +12,7 @@ void menuBarcos(){
             printf("3. Modificar barco\n");
             printf("4. Mostrar barcos\n");
             printf("5. Salir\n");
-            printf("Introduce una opcion: ");
+            printf("Introduce una opcion\n\n\n--> ");
             scanf("%i", &opcion);
             switch(opcion){
                 case 1:
@@ -68,6 +68,8 @@ Barco* cargarBarcos(){
 void mostrarBarcos(Barco* barcos){
     int i = 0;
     int t = obtenerNBarcos();
+    system("cls");
+    printf("---Barcos disponibles---\n\n\n");
     for(int i = 0; i < t; i++){          //Recorre el vector de estructuras
         printf("Nombre: %s\n", barcos[i].nombre);
         printf("Id: %c\n", barcos[i].Id_Barco);
@@ -86,11 +88,13 @@ void crearBarco(Barco* barcos){
         printf("No hay memoria suficiente\n");
         return;
     }
-    printf("Introduce el nombre del barco: ");          //Pide al usuario que introduzca el nombre del barco
+    system("cls");
+    printf("Introduce el nombre del barco\n--> ");          //Pide al usuario que introduzca el nombre del barco
     fflush(stdin);
     strcpy(barcos[NBarcos-1].nombre, leerCadena());
     fflush(stdin);
-    printf("Introduce el tamano del barco: ");          //Pide al usuario que introduzca el tamaño del barco
+    system("cls");
+    printf("Introduce el tamano del barco\n--> ");          //Pide al usuario que introduzca el tamaño del barco
     scanf("%i", &barcos[NBarcos-1].Tam_Barco);
     barcos[NBarcos-1].Id_Barco = obtenerIDBarco(barcos[NBarcos-1].nombre);          //Obtiene el ID del barco
     
@@ -103,7 +107,7 @@ void eliminarBarco(Barco* barcos){
     int i; 
     char Id_Barco;
     mostrarBarcos(barcos);
-    printf("Escriba el Id que desee eliminar: ");
+    printf("Escriba el Id que desee eliminar\n\n--> ");
     fflush(stdin);
     scanf("%c", &Id_Barco);          //Pide al usuario que introduzca el ID del barco a eliminar
     fflush(stdin);
@@ -123,17 +127,19 @@ void modificarBarco(Barco* barcos){
     mostrarBarcos(barcos);
     int NBarcos = obtenerNBarcos();
     char Id_Barco;
-    printf("Escriba el Id que desee modificar: ");
+    printf("Escriba el Id que desee modificar\n\n--> ");          //Pide al usuario que introduzca el ID del barco a modificar
     fflush(stdin);
     scanf("%c", &Id_Barco);
     fflush(stdin);
     for(int i = 0 ; i < NBarcos ; i++){
         if(Id_Barco == barcos[i].Id_Barco){
-            printf("Introduce el nombre del barco: ");          //Pide al usuario que introduzca el nombre del barco
+            system("cls");
+            printf("Introduce el nombre del barco\n--> ");          //Pide al usuario que introduzca el nombre del barco
             fflush(stdin);
             strcpy(barcos[i].nombre, leerCadena());
             fflush(stdin);
-            printf("Introduce el tamano del barco: ");          //Pide al usuario que introduzca el tamaño del barco
+            system("cls");
+            printf("Introduce el tamano del barco\n--> ");          //Pide al usuario que introduzca el tamaño del barco
             scanf("%i", &barcos[i].Tam_Barco);
             barcos[i].Id_Barco = obtenerIDBarco(barcos[i].nombre);          //Obtiene el ID del barco
         }

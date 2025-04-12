@@ -3,7 +3,30 @@
 
 int main(){
     system("cls");
-    printf("Hola mundo\n");     // PONER EL TITULO DEL JUEGO
+    printf(" __ __  __ __  ____   ___    ____  ____      \n");
+    printf("|  |  ||  |  ||    \\ |   \\  |    ||    \\     \n");
+    printf("|  |  ||  |  ||  _  ||    \\  |  | |  D  )    \n");
+    printf("|  _  ||  |  ||  |  ||  D  | |  | |    /     \n");
+    printf("|  |  ||  :  ||  |  ||     | |  | |    \\     \n");
+    printf("|  |  ||  :  ||  |  ||     | |  | |     \\     \n");
+    printf("|  |  ||     ||  |  ||     | |  | |  .   \\    \n");
+    printf("|__|__| \\__,_||__|__||_____||____||__|\\__|    \n");
+    printf(" _       ____     \n");
+    printf("| |     /    |    \n");
+    printf("| |    |  o  |    \n");
+    printf("| |___ |     |    \n");
+    printf("|     ||  _  |    \n");
+    printf("|     ||  |  |    \n");
+    printf("|_____||__|__|    \n");
+    printf(" _____  _       ___   ______   ____     \n");
+    printf("|     || |     /   \\ |      | /    |    \n");
+    printf("|   __|| |    |     ||      ||  o  |    \n");
+    printf("|  |_  | |___ |  O  ||_|  |_||     |    \n");
+    printf("|   _] |     ||     |  |  |  |  _  |    \n");
+    printf("|  |   |     ||     |  |  |  |  |  |    \n");
+    printf("|__|   |_____| \\___/   |__|  |__|__|    \n");
+    printf("\n\n");
+
     system("pause");
     int opcion = 0, configurado = 0;
     Configuracion *datos;       //Declaro el vector de estructuras
@@ -22,7 +45,7 @@ int main(){
             printf("1. Configuracion\n\n");
             printf("2. Jugar\n\n");
             printf("3. Salir\n\n");
-            printf("Introduzca un numero para continuar\n\n\n");
+            printf("Introduzca un numero para continuar\n\n\n--> ");
             scanf("%d", &opcion);
             switch(opcion){
                 case 1:
@@ -42,6 +65,7 @@ int main(){
                     break;
                 default:
                     printf("Opcion no valida\n");
+                    system("pause");
                     break;
             }
         }while(opcion < 1 || opcion > 3);
