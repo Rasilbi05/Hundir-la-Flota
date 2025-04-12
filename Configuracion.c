@@ -43,7 +43,8 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
 }
 
 void introducirDatos(Configuracion* configuracion){
-    int suma = 0, comienza = 0;        //Variables auxiliares para el numero de barcos y la suma de ellos y para saber quien comienza
+    int suma = 0, comienza = 0, aleatorio;        //Variables auxiliares para el numero de barcos y la suma de ellos y para saber quien comienza
+    char opcion;        //Variable para elegir el tiro
     int Barcos = obtenerNBarcos();      //Obtiene el numero de barcos
     Barco* barcos = cargarBarcos();     //Carga los barcos
     configuracion[0].NBarcos = (int*)malloc(Barcos*sizeof(int));        //Reserva memoria para el vector de barcos
@@ -58,6 +59,7 @@ void introducirDatos(Configuracion* configuracion){
         configuracion[i].NDisparos = 0;
         configuracion[i].agua = 0;
         configuracion[i].tocadas = 0;
+        configuracion[i].hundidas = 0;
         configuracion[i].barHundidos = 0;
     }
     for(int i = 0; i < Barcos; i++){
@@ -70,23 +72,51 @@ void introducirDatos(Configuracion* configuracion){
     configuracion[1].totalBarcos = suma;
     configuracion[0].barRestantes = suma;
     configuracion[1].barRestantes = suma;
-    do{                    //Bucle para comprobar que se introduce una opcion valida
-        printf("Introduce quien comienza (0: Jugador1, 1: Jugador2): ");
-        scanf("%d", &comienza);
-        switch(comienza){
-            case 0:
-                configuracion[0].comienza = 1;
-                configuracion[1].comienza = 0;
+    
+    do{
+        printf("Itroduce como quieres seleccionar quien comienzo (M: Manual, A: Aleatorio): ");
+        fflush(stdin);
+        scanf("%c", &opcion);
+        fflush(stdin);
+        switch(opcion){
+            case 'M':
+                do{                    //Bucle para comprobar que se introduce una opcion valida
+                    printf("Introduce quien comienza (0: Jugador1, 1: Jugador2): ");
+                    scanf("%d", &comienza);
+                    switch(comienza){
+                    case 0:
+                        configuracion[0].comienza = 1;
+                        configuracion[1].comienza = 0;
+                        break;
+                    case 1:
+                        configuracion[0].comienza = 0;
+                        configuracion[1].comienza = 1;
+                        break;
+                    default:
+                        printf("Opcion no valida\n");
+                        break;
+                    }
+                }while(comienza != 0 && comienza != 1);
                 break;
-            case 1:
-                configuracion[0].comienza = 0;
-                configuracion[1].comienza = 1;
+            case 'A':
+                    aleatorio = rand()%2;        //Genera un numero aleatorio entre 0 y 1
+                    if(aleatorio == 0){
+                        configuracion[0].comienza = 1;
+                        configuracion[1].comienza = 0;
+                    }else{
+                        configuracion[0].comienza = 0;
+                        configuracion[1].comienza = 1;
+                    }
                 break;
             default:
                 printf("Opcion no valida\n");
                 break;
         }
-    }while(comienza != 0 && comienza != 1);
+    }while(opcion != 'M' && opcion != 'A');        //Bucle para comprobar que se introduce una opcion valida
+    
+    
+        
+    
 
     /*while(comprobarTamano(configuracion) == 0){              //Bucle para comprobar que el tamaño del tablero es valido
         printf("Introduce el tamaño del tablero: ");
