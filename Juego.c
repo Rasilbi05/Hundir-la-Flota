@@ -242,10 +242,18 @@ void jugarPartida(Configuracion* conf,int cargar){
     }
 
     //mostramos por pantalla si alguien ha ganado, si es así, se muestra cual de los dos ha ganado
-    for(i=0;i<2;i++)
+    for(i=0;i<2;i++){
 
-        if(conf[i].ganador==1)
+        if(conf[i].ganador==1){
+
             printf("FELICIDADES %s, HAS GANADO!!!", conf[i].nombre);
+               
+            //mostramos un resumen de la partida
+            resumenPartida(conf);
+        
+        }
+         
+    }
     
 }
 
