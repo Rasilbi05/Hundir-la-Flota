@@ -140,26 +140,28 @@ void jugarPartida(Configuracion* conf,int cargar){
 
             }else{
 
-                conf[i].oponente[f][c]='T'; //marcamos en estado de 'Tocado' en el tablero oponente
                 
                 while(conf[op].flota[f][c]!=' '){//hacemos que el jugador pueda seguir disparando hasta que de en agua
                     
-                    comprobarDisparo(conf,f,c,i,op); //comprobamos si se ha hundido un barco
+                    conf[i].oponente[f][c]='T'; //marcamos en estado de 'Tocado' en el tablero oponente
+                    printf("Casilla tocada!!\n");
                     
+                    comprobarDisparo(conf,f,c,i,op); //comprobamos si se ha hundido un barco
+                        
+                    conf[i].tocadas++;      //aumentamos las casillas que ha tocado el jugador
+                    
+                    //preguntamos si quiere guardar la partida tras disparar
+                    printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar\n--> ");
+                    scanf("%d",&resp);
+
+                    if(resp==1)
+                        guardarDatos(conf);
+
                     do{
-                        
-                        conf[i].tocadas++;      //aumentamos las casillas que ha tocado el jugador
-                        
-                        //preguntamos si quiere guardar la partida tras disparar
-                        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
-                        scanf("%d",&resp);
-
-                        if(resp==1)
-                            guardarDatos(conf);
-
+                            
                         printf("Elija las coordenadas del disparo:\n--> ");
                         scanf("%d %d",&f,&c);
-        
+            
                         if(conf[i].oponente[f][c]!=' '){
 
                             //pedimos al jugador que elija otra posición y le mostramos cual es el estado de la que ha elegido
@@ -178,7 +180,7 @@ void jugarPartida(Configuracion* conf,int cargar){
             }
 
             //preguntamos si quiere guardar la partida tras disparar
-            printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+            printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar\n--> ");
             scanf("%d",&resp);
 
         if(resp==1)
@@ -186,7 +188,7 @@ void jugarPartida(Configuracion* conf,int cargar){
 
         }else{//disparo automático
 
-            disparoAutomatico(conf,f,c,i,op);    //llamamos a la función que realiza el disparo automático
+            disparoAutomatico(conf,i,op);    //llamamos a la función que realiza el disparo automático
 
         }
 
@@ -200,9 +202,9 @@ void jugarPartida(Configuracion* conf,int cargar){
         
         //a no ser de que el usuario decida no guardar, guardamos la partida
         if(resp!=2)
-        guardarPartida();  
+            guardarPartida();  
         else if(resp==3)    //y si ha decidido salir, termina el juego, habiendo guardado previamente la partida y despidiendo al jugador
-        printf("Saliendo de la partida, que tenga un buen dia.");
+            printf("Saliendo de la partida, que tenga un buen dia.");
         
         
         //comprobamos si ha ganado la partida
@@ -387,19 +389,22 @@ void MostrarTableros(Configuracion* conf, int j){
 //Precondición: El usuario ha realizado un disparo
 //Postcondición: Devuelve si el barco ha sido hundido o no
 void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
-    
-    int fO=f, cO=c,i=1,j=1,tam=1,tocadas=1; //declaramos las variables para guardar las coordenadas del origen del barco
+
+    int fO=f, cO=c,i=1,j=1,tam=1,tocadas=1,comprobado=0; //declaramos las variables para guardar las coordenadas del origen del barco
     //i nos sirve para ir comprobando las coordenadas origen
     //j nos sirve para comprobar la otra parte tras encontrar las coordenadas origen
     //tam sirve para ver el tamaño del barco (está a 1 ya que ya hemos dado a una casilla)
     //tocadas nos sirve para ver cuantas casillas están en estado 'Tocado' en nuestro tablero
-    
+    //comprobado nos sirve para saber si se ha comprobado por ese lado previamente
+
     /*cuando encuentro un barco, necesito saber donde empieza este, asi que compruebo todas las casillas posibles
     si se encuentra una, intento buscar en la zona opuesta a la encontrada, para ver si sigue el barco por ahí,
     sino sigo por donde he dado previamente*/
 
     //El barco es de tamaño 1
-    if(conf[op].flota[f-1][c]==' '&&conf[op].flota[f+1][c]==' '&&conf[op].flota[f][c-1]==' '&&conf[op].flota[f][c+1]==' '&&conf[op].flota[f-1][c-1]==' '&&conf[op].flota[f-1][c+1]==' '&&conf[op].flota[f+1][c-1]==' '&&conf[op].flota[f+1][c+1]==' '){
+    if(comprobado==0&&conf[op].flota[f+1][c]==' '&&conf[op].flota[f+1][c+1]==' '&&conf[op].flota[f+1][c-1]==' '&&conf[op].flota[f-1][c]==' '&&conf[op].flota[f-1][c+1]==' '&&conf[op].flota[f-1][c-1]==' '&&conf[op].flota[f][c+1]==' '&&conf[op].flota[f][c-1]==' '){
+
+        comprobado++;
 
         //marcamos las casillas de alrededor como Agua
         conf[op].flota[f-1][c]='*';
@@ -414,12 +419,17 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         conf[at].hundidas++;        //aumentamos el número de casillas
         conf[at].tocadas--;          //restamos las que estaban marcadas como tocadas
         conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-        conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente 
+        conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
     }
 
     //El barco está en vertical (comprobando si sigue por arriba)
-    if(conf[op].flota[f-1][c]=='X'){
+    if(conf[op].flota[f-1][c]=='X'&&comprobado==0){
+
+        comprobado++;
+
+        if(conf[op].flota[f+1][c]=='X')
+            tocadas--;
 
         i=f;
         j=f;
@@ -458,8 +468,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
         if(tocadas==tam){//se ha tocado todo el barco
 
-            i=0;
-
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
             conf[at].oponente[fO][cO-1]='*';
@@ -468,34 +476,36 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO+1][cO-1]='*';
             conf[at].oponente[fO+1][cO+1]='*';
 
-            while(conf[at].oponente[fO-i][cO]!=' '){
+            while(conf[at].oponente[fO-1][cO]!=' '){
 
-                conf[at].oponente[fO-i][cO]='H';    //vamos marcando como Hundido todas las casillas
-                
+                conf[at].oponente[fO-1][cO]='H';    //vamos marcando como Hundido todas las casillas
+
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO-i][cO-1]='*';
-                conf[at].oponente[fO-i][cO+1]='*';
+                conf[at].oponente[fO-1][cO-1]='*';
+                conf[at].oponente[fO-1][cO+1]='*';
 
-                i++;
+                fO--;
 
             }
-            
+
             //marcamos las casillas alrededor de la casilla final del barco como Agua
-            conf[at].oponente[fO-i][cO]='*';
-            conf[at].oponente[fO-i][cO-1]='*';
-            conf[at].oponente[fO-i][cO+1]='*';
+            conf[at].oponente[fO-1][cO]='*';
+            conf[at].oponente[fO-1][cO-1]='*';
+            conf[at].oponente[fO-1][cO+1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente 
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
     }
 
-    //El barco está en vertical (comprobando si sigue por abajo)    
-    if(conf[op].flota[f+1][c]=='X'){
+    //El barco está en vertical (comprobando si sigue por abajo)
+    if(conf[op].flota[f+1][c]=='X'&&comprobado==0){
+
+        comprobado++;
 
         i=f;
         j=f;
@@ -534,8 +544,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
         if(tocadas==tam){//se ha tocado todo el barco
 
-            i=0;
-
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
             conf[at].oponente[fO][cO-1]='*';
@@ -544,15 +552,15 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO-1][cO-1]='*';
             conf[at].oponente[fO-1][cO+1]='*';
 
-            while(conf[at].oponente[fO+i][cO]!=' '){
+            while(conf[at].oponente[fO+1][cO]!=' '){
 
-                conf[at].oponente[fO+i][cO]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO+1][cO]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO+i][cO-1]='*';
-                conf[at].oponente[fO+i][cO+1]='*';
+                conf[at].oponente[fO+1][cO-1]='*';
+                conf[at].oponente[fO+1][cO+1]='*';
 
-                i++;
+                fO++;
 
             }
 
@@ -564,170 +572,179 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente 
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
     }
 
     //El barco está en horizontal (comprobando si sigue por la izquierda)
-    if(conf[op].flota[f][c-1]=='X'){
+    if(conf[op].flota[f][c-1]=='X'&&comprobado==0){
+
+        comprobado++;
+
+        //comprobamos si la casilla se encuentra en el medio del barco,
+        //ya que por la forma de recorrer el barco al comprobar si se encuentra en el medio la casilla la sumará de nuevo
+        if(conf[op].flota[f][c+1]=='X')
+            tocadas--;
 
         i=c;
-        f=c;
-
-        //Comprobamos cuales son las coordenadas iniciales
+        j=c;
+        //comprobamos cuales son las coordenadas iniciales
         while(conf[op].flota[f][i+1]!=' '){
 
-            i++;    //vamos avanzando hacia la derecha
+            i++;    //vamos hacia la derecha buscando el origen del barco
             tam++;
 
         }
 
         cO=i;   //tenemos la coordenada Y origen, la X ya la tenemos ya que está en horizontal
 
-        //comprobamos el resto para determinar el tamaño del barco
+        //comprobamos el resto para determinar el tamaño total del barco
         while(conf[op].flota[f][j-1]!=' '){
 
-            j--;    //vamos avanzando hacia la izquierda
+            j--;    //vamos hacia la izquierda hasta llegar al final del barco
             tam++;
 
         }
 
         i=1;    //reiniciamos la variable i
 
-        //comprobamos si el jugador ha tocado todas las casillas del barco
+        //Comprobamos si el usuario ha dado a todas las casillas
         while(conf[op].flota[fO][cO-i]!=' '){
 
-            if(conf[at].oponente[fO][cO-i]=='T'){
+            if(conf[at].oponente[fO][cO-i]=='T'){   //comprobamos si se han marcado como tocadas las posiciones del barco
 
                 tocadas++;
 
             }
 
             i++;
-            
+
         }
 
-        //si ha dado a todas, marcamos el barco como hundido
-        if(tam==tocadas){
-
-            i=0;
+        if(tocadas==tam){//se ha tocado todo el barco
 
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
-            conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO-1][cO]='*';
+            conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO][cO+1]='*';
             conf[at].oponente[fO-1][cO+1]='*';
             conf[at].oponente[fO+1][cO+1]='*';
 
-            while(conf[at].oponente[fO][cO-i]!=' '){
+            while(conf[at].oponente[fO][cO-1]!=' '){
 
-                conf[at].oponente[fO][cO-i]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO][cO-1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO+1][cO-i]='*';
-                conf[at].oponente[fO-1][cO-i]='*';
+                conf[at].oponente[fO-1][cO-1]='*';
+                conf[at].oponente[fO+1][cO-1]='*';
 
-                i++;
+                cO--;
 
             }
 
             //marcamos las casillas alrededor de la casilla final del barco como Agua
             conf[at].oponente[fO][cO-1]='*';
-            conf[at].oponente[fO+1][cO-1]='*';
             conf[at].oponente[fO-1][cO-1]='*';
+            conf[at].oponente[fO+1][cO-1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente  
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
     }
 
     //El barco está en horizontal (comprobando si sigue por la derecha)
-    if(conf[op].flota[f][c+1]=='X'){
+    if(conf[op].flota[f][c+1]=='X'&&comprobado==0){
+
+        comprobado++;
 
         i=c;
-        f=c;
-
-        //Comprobamos cuales son las coordenadas iniciales
+        j=c;
+        //comprobamos cuales son las coordenadas iniciales
         while(conf[op].flota[f][i-1]!=' '){
 
-            i--;    //vamos avanzando hacia la izquierda
+            i--;    //vamos hacia la izquierda buscando el origen del barco
             tam++;
 
         }
 
-        cO=i;   //tenemos la coordenada Y origen, la X ya la tenemos ya que está en horizontal
+        cO=i;   //tenemos la coordenada y origen, la X ya la tenemos ya que está en horizontal
 
-        //comprobamos el resto para determinar el tamaño del barco
+        //comprobamos el resto para determinar el tamaño total del barco
         while(conf[op].flota[f][j+1]!=' '){
 
-            j++;    //vamos avanzando hacia la derecha
+            j++;    //vamos hacia la derecha hasta llegar al final del barco
             tam++;
 
         }
 
         i=1;    //reiniciamos la variable i
 
-        //comprobamos si el jugador ha tocado todas las casillas del barco
+        //Comprobamos si el usuario ha dado a todas las casillas
         while(conf[op].flota[fO][cO+i]!=' '){
 
-            if(conf[at].oponente[fO][cO+i]=='T'){
+            if(conf[at].oponente[fO][cO+i]=='T'){   //comprobamos si se han marcado como tocadas las posiciones del barco
 
                 tocadas++;
 
             }
 
             i++;
-            
+
         }
 
-        //si ha dado a todas, marcamos el barco como hundido
-        if(tam==tocadas){
-
-            i=0;
+        if(tocadas==tam){//se ha tocado todo el barco
 
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
-            conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO-1][cO]='*';
+            conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO][cO-1]='*';
             conf[at].oponente[fO-1][cO-1]='*';
             conf[at].oponente[fO+1][cO-1]='*';
 
-            while(conf[at].oponente[fO][cO+i]!=' '){
+            while(conf[at].oponente[fO][cO+1]!=' '){
 
-                conf[at].oponente[fO][cO+i]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO][cO+1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO+1][cO+i]='*';
-                conf[at].oponente[fO-1][cO+i]='*';
+                conf[at].oponente[fO-1][cO+1]='*';
+                conf[at].oponente[fO+1][cO+1]='*';
 
-                i++;
+                cO++;
 
             }
 
             //marcamos las casillas alrededor de la casilla final del barco como Agua
             conf[at].oponente[fO][cO+1]='*';
-            conf[at].oponente[fO+1][cO+1]='*';
             conf[at].oponente[fO-1][cO+1]='*';
+            conf[at].oponente[fO+1][cO+1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente 
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
     }
 
     //El barco está en diagonal (comprobando si sigue por arriba-izquierda)
-    if(conf[op].flota[f-1][c-1]=='X'){
+    if(conf[op].flota[f-1][c-1]=='X'&&comprobado==0){
+
+        comprobado++;
+
+        //comprobamos si la casilla se encuentra en el medio del barco,
+        //ya que por la forma de recorrer el barco al comprobar si se encuentra en el medio la casilla la sumará de nuevo
+        if(conf[op].flota[f+1][c+1]=='X')
+            tocadas--;
+
 
         i=f;
         j=c;
@@ -752,7 +769,7 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //vamos avanzando en diagonal hacia arriba-izquierda
             i--;
             j--;
-            
+
             tam++;
 
         }
@@ -778,9 +795,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         //comprobamos si se ha hundido el barco
         if(tam==tocadas){
 
-            i=0;
-            j=0;
-
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
             conf[at].oponente[fO][cO-1]='*';
@@ -791,35 +805,43 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO-1][cO]='*';
             conf[at].oponente[fO-1][cO+1]='*';
 
-            while(conf[at].oponente[fO-i][cO-j]!=' '){
+            while(conf[at].oponente[fO-1][cO-1]!=' '){
 
-                conf[at].oponente[fO-i][cO-j]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO-1][cO-1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO-i][cO-j-1]='*';
-                conf[at].oponente[fO-i+1][cO-j-1]='*';
-                conf[at].oponente[fO-i-1][cO-j]='*';
-                conf[at].oponente[fO-i-1][cO-j+1]='*';
+                conf[at].oponente[fO-1][cO-1-1]='*';
+                conf[at].oponente[fO-1+1][cO-1-1]='*';
+                conf[at].oponente[fO-1-1][cO-1]='*';
+                conf[at].oponente[fO-1-1][cO-1+1]='*';
 
-                i++;
-                j++;
+                fO--;
+                cO--;
 
             }
 
             //marcamos las casillas alrededor de la casilla final del barco como Agua
-            conf[at].oponente[fO-i-1][cO-j-1]='*';
+            conf[at].oponente[fO-1][cO-1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente 
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
     }
 
     //El barco está en diagonal (comprobando si sigue por arriba-derecha)
-    if(conf[op].flota[f-1][c+1]=='X'){
+    if(conf[op].flota[f-1][c+1]=='X'&&comprobado==0){
+
+        comprobado=7;
+
+        //comprobamos si la casilla se encuentra en el medio del barco,
+        //ya que por la forma de recorrer el barco al comprobar si se encuentra en el medio la casilla la sumará de nuevo
+        if(conf[op].flota[f+1][c-1]=='X')
+            tocadas--;
+
 
         i=f;
         j=c;
@@ -844,7 +866,7 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //vamos avanzando en diagonal hacia arriba-derecha
             i--;
             j++;
-            
+
             tam++;
 
         }
@@ -870,48 +892,47 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         //comprobamos si se ha hundido el barco
         if(tam==tocadas){
 
-            i=0;
-            j=0;
-
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
             conf[at].oponente[fO][cO-1]='*';
             conf[at].oponente[fO][cO+1]='*';
-            conf[at].oponente[fO-1][cO]='*';
-            conf[at].oponente[fO-1][cO-1]='*';
-            conf[at].oponente[fO-1][cO+1]='*';
             conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO+1][cO-1]='*';
+            conf[at].oponente[fO+1][cO+1]='*';
+            conf[at].oponente[fO-1][cO]='*';
+            conf[at].oponente[fO-1][cO-1]='*';
 
-            while(conf[at].oponente[fO-i][cO+j]!=' '){
+            while(conf[at].oponente[fO-1][cO+1]!=' '){
 
-                conf[at].oponente[fO-i][cO+j]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO-1][cO+1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO-i][cO-j+1]='*';
-                conf[at].oponente[fO-i+1][cO-j+1]='*';
-                conf[at].oponente[fO-i-1][cO-j]='*';
-                conf[at].oponente[fO-i-1][cO-j-1]='*';
+                conf[at].oponente[fO-1-1][cO+1]='*';
+                conf[at].oponente[fO-1-1][cO+1-1]='*';
+                conf[at].oponente[fO-1][cO+1+1]='*';
+                conf[at].oponente[fO-1+1][cO+1+1]='*';
 
-                i++;
-                j++;
+                fO--;
+                cO++;
 
             }
 
             //marcamos las casillas alrededor de la casilla final del barco como Agua
-            conf[at].oponente[fO-i-1][cO-j+1]='*';
+            conf[at].oponente[fO-1][cO+1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente        
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
 
     }
 
     //El barco está en diagonal (comprobando si sigue por abajo-izquierda)
-    if(conf[op].flota[f+1][c-1]=='X'){
+    if(conf[op].flota[f+1][c-1]=='X'&&comprobado==0){
+
+        comprobado++;
 
         i=f;
         j=c;
@@ -936,7 +957,7 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //vamos avanzando en diagonal hacia abajo-izquierda
             i++;
             j--;
-            
+
             tam++;
 
         }
@@ -962,9 +983,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         //comprobamos si se ha hundido el barco
         if(tam==tocadas){
 
-            i=0;
-            j=0;
-
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
             conf[at].oponente[fO][cO-1]='*';
@@ -975,35 +993,38 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO+1][cO+1]='*';
 
-            while(conf[at].oponente[fO+i][cO-j]!=' '){
+            while(conf[at].oponente[fO+1][cO-1]!=' '){
 
-                conf[at].oponente[fO+i][cO-j]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO+1][cO-1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO-i][cO-j-1]='*';
-                conf[at].oponente[fO-i-1][cO-j-1]='*';
-                conf[at].oponente[fO-i+1][cO-j]='*';
-                conf[at].oponente[fO-i+1][cO-j+1]='*';
+                conf[at].oponente[fO+1][cO-1-1]='*';
+                conf[at].oponente[fO+1-1][cO-1-1]='*';
+                conf[at].oponente[fO+1+1][cO-1]='*';
+                conf[at].oponente[fO+1+1][cO-1+1]='*';
 
-                i++;
-                j++;
+                fO++;
+                cO--;
 
             }
 
             //marcamos las casillas alrededor de la casilla final del barco como Agua
-            conf[at].oponente[fO-i+1][cO-j-1]='*';
+            conf[at].oponente[fO+1][cO-1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente      
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
+
 
     }
 
     //El barco está en diagonal (comprobamos si sigue por abajo-derecha)
-    if(conf[op].flota[f+1][c+1]=='X'){
+    if(conf[op].flota[f+1][c+1]=='X'&&comprobado==0){
+
+        comprobado++;
 
         i=f;
         j=c;
@@ -1028,7 +1049,7 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             //vamos avanzando en diagonal hacia abajo-derecha
             i++;
             j++;
-            
+
             tam++;
 
         }
@@ -1054,9 +1075,6 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         //comprobamos si se ha hundido el barco
         if(tam==tocadas){
 
-            i=0;
-            j=0;
-
             //primero, marcamos las casillas cercanas al origen del barco como Agua, y la casilla de origen como Hundido
             conf[at].oponente[fO][cO]='H';
             conf[at].oponente[fO][cO-1]='*';
@@ -1067,30 +1085,31 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
             conf[at].oponente[fO+1][cO]='*';
             conf[at].oponente[fO+1][cO-1]='*';
 
-            while(conf[at].oponente[fO+i][cO+j]!=' '){
+            while(conf[at].oponente[fO+1][cO+1]!=' '){
 
-                conf[at].oponente[fO+i][cO+j]='H';    //vamos marcando como Hundido todas las casillas
+                conf[at].oponente[fO+1][cO+1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
-                conf[at].oponente[fO-i][cO-j+1]='*';
-                conf[at].oponente[fO-i-1][cO-j+1]='*';
-                conf[at].oponente[fO-i+1][cO-j]='*';
-                conf[at].oponente[fO-i+1][cO-j-1]='*';
+                conf[at].oponente[fO+1][cO+1+1]='*';
+                conf[at].oponente[fO+1-1][cO+1+1]='*';
+                conf[at].oponente[fO+1+1][cO+1]='*';
+                conf[at].oponente[fO+1+1][cO+1-1]='*';
 
-                i++;
-                j++;
+                fO++;
+                cO++;
 
             }
 
             //marcamos las casillas alrededor de la casilla final del barco como Agua
-            conf[at].oponente[fO-i+1][cO-j+1]='*';
+            conf[at].oponente[fO+1][cO+1]='*';
 
             conf[at].hundidas+=tam;        //aumentamos el número de casillas
             conf[at].tocadas-=tam;          //restamos las que estaban marcadas como tocadas
             conf[at].barRestantes--;    //resto 1 a los barcos restantes para que gane
-            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente       
+            conf[op].barHundidos++;     //suma 1 a los barcos que tiene hundidos el oponente
 
         }
+
 
     }
 
@@ -1100,6 +1119,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
         printf("\nBarco hundido.\n");
 
     }
+
+    printf("\n\nTAMANO %d TOCADAS %d COMPROBADO %d\n\n",tam,tocadas,comprobado);
 
 }
 
@@ -1216,9 +1237,8 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
         printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
         scanf("%d",&resp);
         
-        
         if(resp==1)
-        guardarDatos(conf);
+            guardarDatos(conf);
         
         //disparamos en el sentido que la máquina ha elegido
         x+=sX;
@@ -1275,7 +1295,7 @@ void primerDisparo(Configuracion* conf, int x, int y, int at, int op, int sX, in
         scanf("%d",&resp);
 
         if(resp==1)
-        guardarDatos(conf);
+            guardarDatos(conf);
 
         //la máquina decide donde disparar tras su primer disparo
         srand(time(NULL));
