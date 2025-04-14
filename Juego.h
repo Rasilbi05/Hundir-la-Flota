@@ -20,10 +20,10 @@ void menuJuego(Configuracion* conf);
 //Postcondición: Comenzar el juego
 void jugarPartida(Configuracion* conf,int cargar);
 
-//Cabecera: void reiniciarPartida(Configuracion*)
+//Cabecera: void reiniciarPartida(Configuracion*,int*)
 //Precondición:
 //Postcondición: Reinicia los datos de la partida
-void reiniciarPartida(Configuracion* conf);
+void reiniciarPartida(Configuracion* conf, int* cargar);
 
 //Cabecera: void resumenPartida(Configuracion*)
 //Precondición:
@@ -45,9 +45,9 @@ void disparoAutomatico(Configuracion* conf, int at, int op);
 //Postcondición: Devuelve si el barco ha sido hundido o no
 void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op);
 
-//Cabecera: primerDisparo(Configuracion*, int, int, int, int, int, int)
+//Cabecera: primerDisparo(Configuracion*, int*, int*, int, int, int*, int*)
 //Precondición: el sistema va a realizar el primer disparo ya que no hay ningún barco tocado
 //Postcondición: realiza el primer disparo del sistema
-void primerDisparo(Configuracion* conf, int x, int y, int at, int op, int sX, int sY);
+void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX, int* sY);
 
 #endif
