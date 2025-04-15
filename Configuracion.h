@@ -5,7 +5,7 @@
 #include <string.h>
 #include <time.h>
 #include "Barcos.h"
-//#include "Tablero.h"
+#include "Tablero.h"
 
 
 typedef struct{
@@ -38,9 +38,13 @@ void guardarDatos(Configuracion* datos);
 //pre: recibe el vector de estructuras de configuración
 //post: carga los datos de un fichero
 void cargarDatos(Configuracion* datos);
-//cabecera: int comprobarTamano(Configuracion* datos)
-//pre: recibe el vector de estructuras de configuración y la posicion del jugador en el vector de estructuras jugador
+//int barcosHundidos(Configuracion* datos, int tamTablero)
+//pre: recibe una matriz y el tamaño del tablero
 //post: devuelve 1 si el tamaño del tablero es válido, 0 si no lo es
-int barcosHundidos(Configuracion* datos, int jugador);
+int barcosHundidos(char **oponente, int tamTablero);
+//cabecera: void testBarcosHundidos(char **oponente, int tamTablero, int esperado)
+//pre: recibe una matriz, el tamaño del tablero y el resultado esperado
+//post: comprueba si el resultado es correcto
+void testBarcosHundidos(char **oponente, int tamTablero, int esperado);
 
 #endif // _CONFIGURACION_

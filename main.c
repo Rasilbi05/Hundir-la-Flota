@@ -1,5 +1,5 @@
 #include "Configuracion.h"
-//#include "Juego.h"
+#include "Juego.h"
 
 int main(){
     system("cls");
@@ -57,7 +57,7 @@ int main(){
                         printf("Primero debes configurar el juego\n");
                         system("pause");
                     }else{
-                        //menuJuego(datos);
+                        menuJuego(datos);
                     }
                     break;
                 case 3:

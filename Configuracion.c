@@ -124,16 +124,12 @@ void introducirDatos(Configuracion* configuracion){
         }
     }while(opcion != 'M' && opcion != 'A');        //Bucle para comprobar que se introduce una opcion valida
     
-    
-        
-    
-
-    /*while(comprobarTamano(configuracion) == 0){              //Bucle para comprobar que el tamaño del tablero es valido
+    while(comprobarTamano(configuracion) == 0){              //Bucle para comprobar que el tamaño del tablero es valido
         printf("Introduce el tamaño del tablero: ");
         scanf("%d", &configuracion[0].tamTablero);
         if(comprobarTamano(configuracion) == 0)
             printf("El tamaño del tablero no es valido\n");
-    }*/
+    }
 }
 
 void mostrarDatos(Configuracion* datos){
@@ -487,7 +483,7 @@ void cargarDatos(Configuracion* datos){
     }
 
     for(int i = 0; i < 2; i++){
-        datos[i].barHundidos = barcosHundidos(datos, i);        //Calcula el numero de barcos hundidos
+        datos[i].barHundidos = barcosHundidos(datos[i].oponente, datos[i].tamTablero);        //Calcula el numero de barcos hundidos
         datos[i].barRestantes = datos[i].totalBarcos - datos[i].barHundidos;        //Calcula el numero de barcos restantes
     }
 
@@ -496,33 +492,33 @@ void cargarDatos(Configuracion* datos){
     system("pause");
 }
 
-int barcosHundidos(Configuracion* datos, int jugador){
+int barcosHundidos(char **oponente, int tamTablero){
     int hundidos = 0;
     
-    for(int f = 0; f < datos[jugador].tamTablero; f++){
-        for(int c = 0; c < datos[jugador].tamTablero; c++){
+    for(int f = 0; f < tamTablero; f++){
+        for(int c = 0; c < tamTablero; c++){
             if(f == 0){
                 if(c == 0){
-                    if(datos[jugador].oponente[f][c] == 'H'){
+                    if(oponente[f][c] == 'H'){
                         hundidos++;
                     }
                 }else{
-                    if(datos[jugador].oponente[f][c] == 'H' && datos[jugador].oponente[f][c-1] != 'H'){
+                    if(oponente[f][c] == 'H' && oponente[f][c-1] != 'H'){
                         hundidos++;
                     }
                 }
             }else{
-                if(c == datos[jugador].tamTablero){
-                    if(datos[jugador].oponente[f][c] == 'H' && datos[jugador].oponente[f-1][c] != 'H' && datos[jugador].oponente[f-1][c-1] != 'H'){
+                if(c == tamTablero){
+                    if(oponente[f][c] == 'H' && oponente[f-1][c] != 'H' && oponente[f-1][c-1] != 'H'){
                         hundidos++;
                     }
                 }else{
                     if(c == 0){
-                        if(datos[jugador].oponente[f][c] == 'H' && datos[jugador].oponente[f-1][c] != 'H' && datos[jugador].oponente[f-1][c+1] != 'H'){
+                        if(oponente[f][c] == 'H' && oponente[f-1][c] != 'H' && oponente[f-1][c+1] != 'H'){
                             hundidos++;
                         }
                     }else{
-                        if(datos[jugador].oponente[f][c] == 'H' && (datos[jugador].oponente[f][c-1] != 'H' && datos[jugador].oponente[f-1][c-1] != 'H' && datos[jugador].oponente[f-1][c] != 'H' && datos[jugador].oponente[f-1][c+1] != 'H')){
+                        if(oponente[f][c] == 'H' && (oponente[f][c-1] != 'H' && oponente[f-1][c-1] != 'H' && oponente[f-1][c] != 'H' && oponente[f-1][c+1] != 'H')){
                         hundidos++;
                         }
                     }
@@ -532,4 +528,9 @@ int barcosHundidos(Configuracion* datos, int jugador){
     }
 
     return hundidos;
+}
+
+void testBarcosHundidos(char **oponente, int tamTablero, int esperado){
+    int hundidos = barcosHundidos(oponente, tamTablero);
+    printf("Esperados: %i\nObtenidos: %i\nResultado: %s", esperado, hundidos, (esperado == hundidos) ? "Correcto" : "Incorrecto");
 }
