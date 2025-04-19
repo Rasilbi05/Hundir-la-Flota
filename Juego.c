@@ -131,7 +131,7 @@ void jugarPartida(Configuracion* conf,int cargar){
                 if(f>conf[i].tamTablero-1||c>conf[i].tamTablero-1)
                     printf("Ha superado el límite. Escoja otras coordenadas.\n");
 
-            }while(conf[i].oponente[f][c]!=' '&&f>conf[i].tamTablero-1&&c>conf[i].tamTablero-1);
+            }while(conf[i].oponente[f][c]!=' '||f>conf[i].tamTablero-1||c>conf[i].tamTablero-1);
 
             //comprobamos si el disparo ha sido o no agua
             if(conf[op].flota[f][c]==' '){
@@ -172,7 +172,7 @@ void jugarPartida(Configuracion* conf,int cargar){
                         if(f>conf[i].tamTablero-1||c>conf[i].tamTablero-1)
                             printf("Ha superado el límite. Escoja otras coordenadas.\n");
         
-                    }while(conf[i].oponente[f][c]!=' '&&f>conf[i].tamTablero-1&&c>conf[i].tamTablero-1);
+                    }while(conf[i].oponente[f][c]!=' '||f>conf[i].tamTablero-1||c>conf[i].tamTablero-1);
 
                 }
 
