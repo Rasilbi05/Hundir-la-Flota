@@ -47,7 +47,7 @@ void asignacionManual(Configuracion* datos, int u){
 		
 					switch(d){
 
-						case 1: 
+						case 1: //Diagonal
 
 							do{
 						
@@ -62,11 +62,16 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
 												}else{
 												
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f+1][c-1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -78,12 +83,17 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
 													}else{
 												
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c-1] == 'X'){
 															
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
+
 														}else{
 
 
@@ -95,11 +105,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
 													}else{
 	
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 
@@ -120,6 +135,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
 													}else{
 
 
@@ -136,6 +156,11 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -154,22 +179,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}	
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -187,6 +200,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}	
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -226,11 +266,16 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
 												}else{
 
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f-1][c-1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -242,11 +287,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c-1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 
@@ -259,11 +309,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -284,22 +339,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}	
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -317,6 +360,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}	
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -335,6 +405,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
 													}else{
 
 
@@ -351,6 +426,11 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -384,17 +464,22 @@ void asignacionManual(Configuracion* datos, int u){
 
 										break;
 
-									case 3: //Arriba_izquierda
+									case 3: //Arriba-izquierda
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 									
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
 
 												}else{
 
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f+1][c+1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -406,11 +491,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 
@@ -423,11 +513,16 @@ void asignacionManual(Configuracion* datos, int u){
 									
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 
@@ -448,6 +543,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
 													}else{
 
 
@@ -465,22 +565,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}	
-											}	
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -498,6 +586,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}	
+											}	
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -515,6 +630,11 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -554,11 +674,16 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[f][c] == ' '){
-
+												if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha 
+												
 												}else{
 
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f-1][c+1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -570,11 +695,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 											
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 
@@ -587,11 +717,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f-1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 
@@ -612,6 +747,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
 													}else{
 
 
@@ -629,22 +769,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}	
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -663,6 +791,33 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}	
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+							
 													}else{
 
 
@@ -679,6 +834,11 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -722,66 +882,50 @@ void asignacionManual(Configuracion* datos, int u){
 					
 							break;
 
-						case 2: 
+						case 2: //Vertical
 							do{
 								printf("Elija en qué sentido vertical se situará el barco:\n 1. Arriba\n 2. Abajo\n");
 								scanf("%d", &s);
 
 								switch(s){
 
-									case 1:
+									case 1: //Arriba
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 										
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
 												}else{
 
-												}
+													if(datos[u].flota[f+1][c-1] == 'X'){
 
-												if(d != 5){
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-													
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
 
-														}else{
-	
-	
-	
-														}
 
 													}
+
 												}
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
-
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+ 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -794,11 +938,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -811,11 +960,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c-1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -828,11 +982,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -843,23 +1002,7 @@ void asignacionManual(Configuracion* datos, int u){
 													}
 												}
 
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
+												
 											} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 										
 											if(d != 5){
@@ -870,22 +1013,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -903,6 +1034,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -934,17 +1092,22 @@ void asignacionManual(Configuracion* datos, int u){
 
 										break;
 
-									case 2:
+									case 2: //Abajo
 							
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
 												}else{
 
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f-1][c-1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -956,11 +1119,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -973,11 +1141,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f-1][c] == 'X'){
 
 														}else{
 	
@@ -990,11 +1158,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c-1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1007,62 +1180,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c+1] == 'X'){
 
-														}else{
-	
-	
-	
-														}
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1083,22 +1210,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1116,6 +1231,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1157,24 +1299,29 @@ void asignacionManual(Configuracion* datos, int u){
 					
 							break;
 
-						case 3: 
+						case 3: //Horizontal
 							do{
 								printf("Elija en qué sentido horizontal se situará el barco:\n 1. Izquierda\n 2. Derecha\n");
 								scanf("%d", &s);
 
 								switch(s){
 
-									case 1:
+									case 1: //Izquierda
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
 
 												}else{
 
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f-1][c+1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1186,11 +1333,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1203,11 +1355,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1220,11 +1377,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
 													}else{	
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f-1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1237,11 +1399,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1251,57 +1418,6 @@ void asignacionManual(Configuracion* datos, int u){
 
 													}
 												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}	
 
 											} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 									
@@ -1313,22 +1429,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1346,6 +1450,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1377,17 +1508,22 @@ void asignacionManual(Configuracion* datos, int u){
 
 										break;
 
-									case 2:
+									case 2: //Derecha
 							
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
 											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-												if(datos[u].flota[f][c] == ' '){
+												if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
 												}else{
 
-													if(datos[u].flota[f][c] == 'X'){
+													if(datos[u].flota[f-1][c-1] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1399,11 +1535,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1416,11 +1557,16 @@ void asignacionManual(Configuracion* datos, int u){
 											
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c-1] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1433,11 +1579,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 										
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f-1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1450,11 +1601,16 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[f][c] == ' '){
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+															d=5;
+															t=barcos[j].Tam_Barco;
 
 														}else{
 	
@@ -1465,57 +1621,6 @@ void asignacionManual(Configuracion* datos, int u){
 													}
 												}
 
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-	
-	
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-														}else{
-	
-															
-	
-														}
-
-													}
-												}
-									
 											} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
 									
 											if(d != 5){
@@ -1526,22 +1631,10 @@ void asignacionManual(Configuracion* datos, int u){
 
 													if(datos[u].flota[f][c] == 'X'){
 
-													}else{
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
 
-
-
-													}
-
-												}
-											}
-
-											if(d != 5){
-
-												if(datos[u].flota[f][c] == ' '){
-
-												}else{
-
-													if(datos[u].flota[f][c] == 'X'){
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
@@ -1559,6 +1652,33 @@ void asignacionManual(Configuracion* datos, int u){
 												}else{
 
 													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+
+
+													}
+
+												}
+											}
+
+											if(d != 5){
+
+												if(datos[u].flota[f][c] == ' '){
+
+												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+														printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
