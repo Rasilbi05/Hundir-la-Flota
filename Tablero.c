@@ -4,7 +4,7 @@ char **generarTablero(int n){
 	int i, j;
 	char **M;
 	
-	M=(char**) malloc(sizeof(char)*n);
+	M = (char**) malloc(sizeof(char*)*n);
 	for(i=0;i<n;i++){
 	
 		M[i] = (char*) malloc(sizeof(char)*n);
@@ -18,7 +18,7 @@ char **generarTablero(int n){
 
 		}
 	}
-	return **M;
+	return M;
 }
 
 void asignacionManual(Configuracion* datos, int u){
@@ -26,7 +26,7 @@ void asignacionManual(Configuracion* datos, int u){
 	int i=obtenerNBarcos();
 	Barco* barcos = malloc(sizeof(Barco)*i);
 	barcos = cargarBarcos();
-	int c_origen, f_origen;
+	int f_origen, c_origen;
 	int d;
 	int s;
 	int j, k, t;
@@ -34,12 +34,12 @@ void asignacionManual(Configuracion* datos, int u){
 	for(j=0;j<i;j++){
 
 		for(k=0;k<datos[0].NBarcos[j];k++){
-			printf("Elija las coordenadas de inicio de un barco de tamaño %d (c f), siendo c columna y f fila.\n", barcos[j].Tam_Barco);
-			scanf("%d, %d", &c_origen, &f_origen);
+			printf("Elija las coordenadas de inicio de un barco de tamaño %d (f c), siendo f fila y c columna.\n", barcos[j].Tam_Barco);
+			scanf("%d, %d", &f_origen, &c_origen);
 
-			int c=c_origen, f=f_origen;
+			int f=f_origen, c=c_origen;
 
-			if(datos[u].flota[c][f] == ' '){
+			if(datos[u].flota[f][c] == ' '){
 
 				do{
 					printf("A continuación, elija en qué dirección desea situar el barco:\n 1. Diagonal\n 2. Vertical\n 3. Horizontal\n");
@@ -60,13 +60,13 @@ void asignacionManual(Configuracion* datos, int u){
 										
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 									
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 												
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -78,11 +78,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 												
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 															
 														}else{
 
@@ -95,11 +95,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 	
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 
 														}else{
 
@@ -114,11 +114,11 @@ void asignacionManual(Configuracion* datos, int u){
 								
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{	
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -131,11 +131,11 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(d != 5){
 										
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -148,11 +148,11 @@ void asignacionManual(Configuracion* datos, int u){
 								
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -165,11 +165,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -182,11 +182,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -197,22 +197,22 @@ void asignacionManual(Configuracion* datos, int u){
 												}	
 											}
 										
-											c=c+1; 
-											f=f-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+											f=f-1; 
+											c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
 
 										}
 										
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
-												c=c+1;
-												f=f-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+												f=f-1;
+												c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
 
 											}
 
@@ -224,13 +224,13 @@ void asignacionManual(Configuracion* datos, int u){
 								
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 									
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -242,11 +242,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 
 														}else{
 
@@ -259,11 +259,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -278,11 +278,11 @@ void asignacionManual(Configuracion* datos, int u){
 							
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -295,11 +295,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -312,11 +312,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -329,11 +329,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{	
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -346,11 +346,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -361,23 +361,22 @@ void asignacionManual(Configuracion* datos, int u){
 												}
 											}	
 										
-											c=c+1;
 											f=f+1;
+											c=c+1;
 										
 										}
 								
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
-												c=c+1;
-												f=f+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
-
+												f=f+1;
+												c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
 
 											}
 
@@ -389,13 +388,13 @@ void asignacionManual(Configuracion* datos, int u){
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 									
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -407,11 +406,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 
 														}else{
 
@@ -424,11 +423,11 @@ void asignacionManual(Configuracion* datos, int u){
 									
 												if(d != 5){
 
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 
 														}else{
 
@@ -443,11 +442,11 @@ void asignacionManual(Configuracion* datos, int u){
 							
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -460,11 +459,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -477,11 +476,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -494,11 +493,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -511,11 +510,11 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(d != 5){
 							
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -526,23 +525,22 @@ void asignacionManual(Configuracion* datos, int u){
 												}
 											}	
 										
-											c=c-1;
 											f=f-1;
+											c=c-1;
 										
 										}
 
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
  
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
-												c=c-1;
-												f=f-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
-
+												f=f-1;
+												c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
 
 											}
 
@@ -554,13 +552,13 @@ void asignacionManual(Configuracion* datos, int u){
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 									
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -572,11 +570,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 											
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 
 														}else{
 
@@ -589,11 +587,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(datos[u].flota[c][f] == ' '){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 
-														if(datos[u].flota[c][f] == 'X'){
+														if(datos[u].flota[f][c] == 'X'){
 
 														}else{
 
@@ -608,11 +606,11 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -625,11 +623,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -642,11 +640,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -659,11 +657,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -676,11 +674,11 @@ void asignacionManual(Configuracion* datos, int u){
 
 											if(d != 5){
 
-												if(datos[u].flota[c][f] == ' '){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
-													if(datos[u].flota[c][f] == 'X'){
+													if(datos[u].flota[f][c] == 'X'){
 
 													}else{
 
@@ -691,22 +689,22 @@ void asignacionManual(Configuracion* datos, int u){
 												}
 											}	
 										
-											c=c-1;
 											f=f+1;
+											c=c-1;
 										
 										}
 										
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
-												c=c-1;
-												f=f+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+												f=f+1;
+												c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
 
 											}
 
@@ -735,9 +733,9 @@ void asignacionManual(Configuracion* datos, int u){
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 										
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
@@ -745,63 +743,119 @@ void asignacionManual(Configuracion* datos, int u){
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
+													
+													}
+												}
+
+												if(d != 5){
+
+													if(datos[u].flota[f][c] == ' '){
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
 
-													}
-												}
+														if(datos[u].flota[f][c] == 'X'){
 
-												if(d != 5){
-
-													if(){
-
-													}else{
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
@@ -810,40 +864,67 @@ void asignacionManual(Configuracion* datos, int u){
 										
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}	
+										
+											f=f-1;
+										
 										}
 
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
 												f=f-1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
 
@@ -857,73 +938,137 @@ void asignacionManual(Configuracion* datos, int u){
 							
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
+
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
@@ -932,40 +1077,67 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}	
+										
+											f=f+1;
+										
 										}
 
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
 												f=f+1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
 
@@ -996,73 +1168,137 @@ void asignacionManual(Configuracion* datos, int u){
 
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
+
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{	
 
-													}
-												}
+														if(datos[u].flota[f][c] == 'X'){
 
-												if(d != 5){
-
-													if(){
-
-													}else{
-
-													}
-												}
-
-												if(d != 5){
-
-													if(){
-
-													}else{
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
+
+													}
+												}
+
+												if(d != 5){
+
+													if(datos[u].flota[f][c] == ' '){
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
+
+													}
+												}
+
+												if(d != 5){
+
+													if(datos[u].flota[f][c] == ' '){
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}	
@@ -1071,40 +1307,67 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
+
 												}
 											}
+										
+											c=c-1;
+										
 										}
 
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
 												c=c-1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
 
@@ -1118,73 +1381,137 @@ void asignacionManual(Configuracion* datos, int u){
 							
 										for(t=0;t<barcos[j].Tam_Barco;t++){
 
-											if(t=0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+											if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 											
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 										
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+	
+	
+														}
 
 													}
 												}
 
 												if(d != 5){
 
-													if(){
+													if(datos[u].flota[f][c] == ' '){
 
 													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+														}else{
+	
+															
+	
+														}
 
 													}
 												}
@@ -1193,40 +1520,67 @@ void asignacionManual(Configuracion* datos, int u){
 									
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
+
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
 
 												}
 											}
 
 											if(d != 5){
 
-												if(){
+												if(datos[u].flota[f][c] == ' '){
 
 												}else{
 
+													if(datos[u].flota[f][c] == 'X'){
+
+													}else{
+
+
+
+													}
+
 												}
 											}
+										
+											c=c+1;
+										
 										}	
 
 										if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
 
-											c=c_origen;
-											f=f_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+											f=f_origen;
+											c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
-												datos[u].flota[c][f] == 'X';
+												datos[u].flota[f][c] == 'X';
 												
 												c=c+1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
 
@@ -1256,7 +1610,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 			}else{
 
-				if(datos[u].flota[c][f] == 'X'){
+				if(datos[u].flota[f][c] == 'X'){
 			
 					printf("Introduzca otras coordenadas, estas ya están ocupadas por otro barco.");
 		
@@ -1305,7 +1659,7 @@ int comprobarTamano(Configuracion* datos){
 
 	}
 
-	if (t_total<=datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
+	if(t_total<=datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
 		
 		return 1;
 	
