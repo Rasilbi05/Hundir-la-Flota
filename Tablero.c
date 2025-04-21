@@ -1644,13 +1644,1429 @@ void asignacionAutomatica(Configuracion* datos, int u){
 	int i=obtenerNBarcos();
 	Barco* barcos = malloc(sizeof(Barco)*i);
 	barcos = cargarBarcos();
-	int j;
-	int k;
+	int f_origen, c_origen; //Coordenadas generadas inicialmente
+	int d; //Valor para elegir la dirección
+	int s; //Valor para elegir el sentido dentro de cada dirección
+	int j, k, t; //Índices para los bucles for
+	int r; //Valor para generar otras coordenadas válidas para el mismo barco (0 si queremos evitar la repetición y 1 si queremos otras coordenadas)
+	int e; //Valor para detectar el error (estará a 5 en caso de fallo y a 0 para indicar que no hay)
+	int v; //Valor para evitar analizar el resto de sentidos y direcciones (se asigna el valor 1 cuando el barco ya ha sido colocado)
 
 	for(j=0;j<i;j++){
 		
 		for(k=0;k<datos[0].NBarcos[j];k++){
+			
+			do{
+        		
+				srand(time(NULL)); //Originará enteros distintos cada vez
 
+				f_origen = rand() % datos[0].tamTablero;   //Origina una coordenada para la fila origen entre 0 y tamTablero-1
+       			c_origen = rand() % datos[0].tamTablero;   //Origina una coordenada para la columna origen entre 0 y tamTablero-1
+
+				int f=f_origen, c=c_origen;
+
+				if(datos[u].flota[f][c] == ' '){
+
+					for(d=0;d<3;d++){
+		
+						switch(d){
+
+							case 0: //Diagonal
+
+								for(s=0;s<4;s++){
+
+									switch(s){
+
+										case 0: //Arriba-derecha
+										
+											e=0;
+
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+												
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+														}else{
+												
+															if(datos[u].flota[f][c-1] == 'X'){
+															
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+														}else{
+	
+															if(datos[u].flota[f+1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}	
+													}
+
+												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco	
+								
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{	
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+									
+												if(e != 5){
+										
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+													}else{
+
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+								
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+													}else{
+
+														if(datos[u].flota[f-1][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+													}else{
+
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+													}else{
+
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+
+														}
+
+													}	
+												}
+										
+												f=f-1; 
+												c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+											}
+										
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													f=f-1;
+													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+												}
+
+												v=1;
+												s=4;
+												d=3;
+
+											}
+
+											break;
+
+										case 1: //Abajo-derecha
+								
+											e=0;
+
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+									
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+														}else{
+
+															if(datos[u].flota[f][c-1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+														}else{
+
+															if(datos[u].flota[f][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+															}
+
+														}	
+													}
+
+												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+							
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+													}else{
+
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															e=5;	
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+													}else{
+
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+													}else{	
+
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+													}else{
+
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+
+														}
+
+													}
+												}	
+										
+												f=f+1;
+												c=c+1;
+										
+											}
+								
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													f=f+1;
+													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+												}
+
+												v=1;
+												s=4;
+												d=3;
+
+											}
+
+											break;
+
+										case 2: //Arriba-izquierda
+
+											e=0;
+
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+									
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+													}else{
+
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{
+
+															if(datos[u].flota[f][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}	
+									
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+														}else{
+
+															if(datos[u].flota[f+1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}	
+													}
+
+												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+							
+												if(e != 5){
+
+													if(datos[u].flota[f][c] == ' '){ //Casilla arriba-derecha
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}	
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c] == ' '){ //Casilla arriba
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}	
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c] == ' '){ //Casilla izquierda
+ 
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;	
+
+														}
+
+													}
+												}
+									
+												if(e != 5){
+							
+													if(datos[u].flota[f][c] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+
+														}
+
+													}
+												}	
+										
+												f=f-1;
+												c=c-1;
+										
+											}
+
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+ 
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													f=f-1;
+													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado	
+
+												}
+
+												v=1;
+												s=4;
+												d=3;
+
+											}
+
+											break;
+						
+										case 3: //Abajo-izquierda
+
+											e=0;
+
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+									
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha 
+												
+													}else{
+
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+											
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{
+
+															if(datos[u].flota[f][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+														}else{
+
+															if(datos[u].flota[f-1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+												}//Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+									
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}	
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+													}else{
+
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+													}else{
+
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}	
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+													}else{
+
+														if(datos[u].flota[f][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+							
+														}
+
+													}		
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+
+														}
+
+													}
+												}	
+										
+												f=f+1;
+												c=c-1;
+										
+											}
+										
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+													
+													f=f+1;
+													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+												}
+
+												v=1,
+												s=4;
+												d=3;
+
+											}
+
+											break;
+									}
+								}
+
+								break;
+							
+							case 1: //Vertical
+								
+								for(s=0;s<2;s++){	
+
+									switch(s){
+
+										case 0: //Arriba
+
+											e=0;
+
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+										
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+ 
+														}else{
+
+															if(datos[u].flota[f+1][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+														}else{
+
+															if(datos[u].flota[f+1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+														}else{
+
+															if(datos[u].flota[f][c-1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{
+
+															if(datos[u].flota[f][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+												
+												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+										
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;	
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+													}else{
+
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+													}else{
+
+														if(datos[u].flota[f-1][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+														
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+														}
+
+													}
+												}	
+										
+												f=f-1;
+										
+											}
+
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													f=f-1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
+
+												}
+
+												v=1;
+												s=2;
+												d=3;
+
+											}
+
+											break;
+
+										case 1: //Abajo
+							
+											e=0;
+										
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+									
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+														}else{
+
+															if(datos[u].flota[f-1][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+														}else{
+
+															if(datos[u].flota[f-1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+														}else{
+
+															if(datos[u].flota[f][c-1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{
+
+															if(datos[u].flota[f][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+												}//Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+									
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+													}else{
+
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+													}else{
+
+														if(datos[u].flota[f+1][c] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+
+														}
+
+													}
+												}	
+										
+												f=f+1;
+										
+											}
+
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													f=f+1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
+
+												}
+
+												v=1;
+												s=2;
+												d=3;
+
+											}
+
+											break;	
+									}
+								}	
+								
+								break;
+
+							case 2: //Horizontal
+
+								for(s=0;s<2;s++){	
+
+									switch(s){
+
+										case 0: //Izquierda
+
+											e=0;
+
+											for(t=0;t<barcos[j].Tam_Barco;t++){	
+
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+									
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+													}else{
+
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+														}else{
+
+															if(datos[u].flota[f+1][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{
+
+															if(datos[u].flota[f][c+1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+														}else{	
+
+															if(datos[u].flota[f-1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+														}else{
+
+															if(datos[u].flota[f+1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}	
+
+												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+									
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+													}else{
+
+														if(datos[u].flota[f+1][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+													}else{
+
+														if(datos[u].flota[f][c-1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+
+														}
+
+													}
+												}
+										
+												c=c-1;
+										
+											}
+
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													c=c-1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
+
+												}
+
+												v=1;
+												s=2;
+												d=3;
+
+											}
+
+											break;
+
+										case 1: //Derecha
+							
+											for(t=0;t<barcos[j].Tam_Barco;t++){
+
+												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+									
+													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+													}else{
+
+														if(datos[u].flota[f-1][c-1] == 'X'){
+
+															d=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+														}else{
+
+															if(datos[u].flota[f+1][c-1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+											
+													if(e != 5){
+
+														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+														}else{
+
+															if(datos[u].flota[f][c-1] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+										
+														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+														}else{
+
+															if(datos[u].flota[f-1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+													if(e != 5){
+
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+														}else{
+
+															if(datos[u].flota[f+1][c] == 'X'){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}
+													}
+
+												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+									
+												if(e != 5){
+
+													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+													}else{
+
+														if(datos[u].flota[f-1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+													}else{
+
+														if(datos[u].flota[f+1][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+
+													}
+												}
+
+												if(e != 5){
+
+													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+													}else{
+
+														if(datos[u].flota[f][c+1] == 'X'){
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(t != barcos[j].Tam_Barco-1){
+
+																e=5;
+																t=barcos[j].Tam_Barco;
+															}
+														}
+
+													}
+												}
+										
+												c=c+1;
+										
+											}	
+
+											if(e != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+												f=f_origen;
+												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													datos[u].flota[f][c] == 'X';
+												
+													c=c+1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
+
+												}
+
+												v=1;
+												s=2;
+												d=3;
+
+											}
+
+											break;
+									}
+								}
+
+								break;
+						}
+					}
+				
+					if(v == 1){ //Si el barco se ha podido colocar, evitamos la reptición del do-while, es decir, no queremos otras coordenadas nuevas para este mismo barco, sino pasar al siguiente barco
+					
+						r=0;	
+
+					}else{ //No se ha podido colocar el barco, por tanto generamos otras coordenadas
+
+						r=1;
+						v=0;
+
+					}
+
+				}else{ //Si las coordenadas originadas no son agua, se originarán otras
+		
+					r=1;
+				}
+			}while(r = 1); //Hace generar otras coordenadas para el mismo barco
 		}
 	}
 }		
