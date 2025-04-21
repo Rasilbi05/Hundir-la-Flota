@@ -1,7 +1,7 @@
 #include "Barcos.h"
 
 
-void menuBarcos(){
+void menuBarcos(Configuracion* datos){
     int opcion;
     Barco* barcos = cargarBarcos();
     while(opcion != 5){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
@@ -16,9 +16,13 @@ void menuBarcos(){
             scanf("%i", &opcion);
             switch(opcion){
                 case 1:
+                    datos[0].NBarcos = realloc(datos[0].NBarcos, (obtenerNBarcos()+1)*sizeof(int));        //Reserva memoria para un barco mas
+                    datos[1].NBarcos = realloc(datos[1].NBarcos, (obtenerNBarcos()+1)*sizeof(int));        //Reserva memoria para un barco mas
                     crearBarco(barcos);
                     break;
                 case 2:
+                    datos[0].NBarcos = realloc(datos[0].NBarcos, (obtenerNBarcos()-1)*sizeof(int));        //Reserva memoria para un barco menos
+                    datos[1].NBarcos = realloc(datos[1].NBarcos, (obtenerNBarcos()-1)*sizeof(int));        //Reserva memoria para un barco menos
                     eliminarBarco(barcos);
                     break;
                 case 3:

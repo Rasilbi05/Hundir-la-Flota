@@ -2,7 +2,7 @@
 
 
 void menuConfiguracion(Configuracion *datos, Barco* barcos){
-    int opcion = 0, completado = 0;
+    int opcion = 0, completado = 0, opcionB = 0;
     while(opcion != 6 && completado == 0){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
         do{
             system("cls");
@@ -16,11 +16,15 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
             scanf("%i", &opcion);
             switch(opcion){
                 case 1:
+                    printf("Desea crear, modificar o eliminar barcos?(1-SI || 2-NO)\n\n-->");
+                    scanf("%i", &opcionB);
+                    if(opcionB == 1)
+                        menuBarcos(datos);
                     introducirDatos(datos);
                     completado = 1;        //Si se ha completado la configuracion, se cambia la variable a 1
                     break;
                 case 2:
-                    menuBarcos();
+                    menuBarcos(datos);
                     break;
                 case 3:
                     mostrarDatos(datos);
