@@ -13,7 +13,7 @@ int comprobarTamano(Configuracion* datos){
 
 	for(j=0;j<i;j++){
 
-		t_total=t_total+(barcos[j].Tam_Barco+(8+4*(barcos[j].Tam_Barco-1)))*datos[0].NBarcos[j]; //Va almacenando en t_total: lo que habia en t_total + (el nº de casillas que ocupa cada barco + el nº de casillas que debe tener libre alrededor) * el número de barcosque haya de ese tipo
+		t_total=t_total+(barcos[j].Tam_Barco+(8+4*(barcos[j].Tam_Barco-1)))*datos[0].NBarcos[j]; //Va almacenando en t_total: lo que habia en t_total + (el nº de casillas que ocupa cada barco + el nº de casillas que debe tener libre alrededor) * el número de barcos que haya de ese tipo
 
 	}
 
@@ -1246,7 +1246,7 @@ void asignacionManual(Configuracion* datos, int u){
 											break;
 									}
 								
-									if(d == 5){ //Únicaamente si ha habido fallo
+									if(d == 5){ //Únicamente si ha habido fallo
 
 									printf("Si quiere probar el otro sentido vertical introduzca un 5, si no, introduzca cualquier otro entero.\n");
 									scanf("%d", &r1);
