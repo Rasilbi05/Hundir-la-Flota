@@ -197,7 +197,7 @@ void jugarPartida(Configuracion* conf,int cargar){
         
         //a no ser de que el usuario decida no guardar, guardamos la partida
         if(resp!=2)
-            guardarPartida();  
+            guardarDatos(conf);  
         else if(resp==3)    //y si ha decidido salir, termina el juego, habiendo guardado previamente la partida y despidiendo al jugador
             printf("Saliendo de la partida, que tenga un buen dia.");
         
@@ -1525,7 +1525,7 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
 
         conf[at].oponente[*x][*y]='T'; //marcamos en estado de 'Tocado' en el tablero oponente
 
-        comprobarDisparo(conf,x,y,at,op); //comprobamos si se ha hundido un barco
+        comprobarDisparo(conf,*x,*y,at,op); //comprobamos si se ha hundido un barco
 
         //preguntamos si quiere guardar la partida tras disparar
         printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
