@@ -65,19 +65,28 @@ void jugarPartida(Configuracion* conf,int cargar){
             conf[cont].flota=generarTablero(conf[cont].tamTablero);
             conf[cont].oponente=generarTablero(conf[cont].tamTablero);
 
-            printf("De que forma desea colocar sus barcos %s?\n1. Manual\n2.Automatico\n--> ",conf[cont].nombre);
-            scanf("%d",&resp);
 
-            //llamamos a la función respectiva pasando como parámetro el tablero FLOTA
-            if(resp==1){
+            do{
 
-                asignacionManual(conf,i);   //llamamos a la función encargada de realizar la asignación manual de los barcos
+                printf("De que forma desea colocar sus barcos %s?\n1. Manual\n2.Automatico\n--> ",conf[cont].nombre);
+                scanf("%d",&resp);
 
-            }else{
+                switch(resp){
 
-                asignacionAutomatica(conf,i);   //llamamos a la función encargada de realizar la asignación automática de los barcos
+                    case 1:
+                        asignacionManual(conf,i);   //llamamos a la función encargada de realizar la asignación manual de los barcos
+                    break;
 
-            }
+                    case 2:
+                        asignacionAutomatica(conf,i);   //llamamos a la función encargada de realizar la asignación automática de los barcos
+                    break;
+                    default:
+                        printf("Opcion no valida, elija de nuevo.");
+                        system("cls");
+                    break;
+                }
+
+            }while(resp<1||resp>2);
 
             cont++;
 
@@ -133,11 +142,14 @@ void jugarPartida(Configuracion* conf,int cargar){
                 if(f>conf[i].tamTablero-1||c>conf[i].tamTablero-1)
                     printf("Ha superado el limite. Escoja otras coordenadas.\n");
 
+                system("cls");
+
             }while(conf[i].oponente[f][c]!=' '||f>conf[i].tamTablero-1||c>conf[i].tamTablero-1);
 
             //comprobamos si el disparo ha sido o no agua
             if(conf[op].flota[f][c]==' '){
 
+                conf[i].NDisparos++;
                 printf("Agua\n");
                 conf[i].oponente[f][c]='*';
 
@@ -152,6 +164,7 @@ void jugarPartida(Configuracion* conf,int cargar){
                     comprobarDisparo(conf,f,c,i,op); //comprobamos si se ha hundido un barco
                         
                     conf[i].tocadas++;      //aumentamos las casillas que ha tocado el jugador
+                    conf[i].NDisparos++;
                     
                     //preguntamos si quiere guardar la partida tras disparar
                     printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar\n--> ");
@@ -173,6 +186,8 @@ void jugarPartida(Configuracion* conf,int cargar){
         
                         if(f>conf[i].tamTablero-1||c>conf[i].tamTablero-1)
                             printf("Ha superado el limite. Escoja otras coordenadas.\n");
+
+                        system("cls");
         
                     }while(conf[i].oponente[f][c]!=' '||f>conf[i].tamTablero-1||c>conf[i].tamTablero-1);
 
@@ -181,6 +196,7 @@ void jugarPartida(Configuracion* conf,int cargar){
                 //como ha salido del bucle al dar en agua, se lo indicamos y lo marcamos
                 printf("Agua\n");  
                 conf[i].oponente[f][c]='*';
+                conf[i].NDisparos++;
 
             }
 
@@ -189,6 +205,8 @@ void jugarPartida(Configuracion* conf,int cargar){
             disparoAutomatico(conf,i,op);    //llamamos a la función que realiza el disparo automático
 
         }
+
+        system("cls");
 
         //mostramos los tableros del jugador
         MostrarTableros(conf,i);
@@ -521,7 +539,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO-1][cO]!=' '&&fO>0){
 
-                conf[at].oponente[fO-1][cO]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO-1][cO]=='T')
+                    conf[at].oponente[fO-1][cO]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
 
@@ -620,7 +639,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO+1][cO]!=' '&&fO<conf[at].tamTablero-1){
 
-                conf[at].oponente[fO+1][cO]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO+1][cO]=='T')
+                    conf[at].oponente[fO+1][cO]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
                 if(cO-1>=0)
@@ -725,7 +745,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO][cO-1]!=' '&&cO>0){
 
-                conf[at].oponente[fO][cO-1]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO][cO-1]=='T')
+                    conf[at].oponente[fO][cO-1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
                 if(fO-1>=0)
@@ -827,7 +848,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO][cO+1]!=' '&&cO<conf[at].tamTablero-1){
 
-                conf[at].oponente[fO][cO+1]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO][cO+1]=='T')
+                    conf[at].oponente[fO][cO+1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
                 if(fO-1>=0)
@@ -953,7 +975,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO-1][cO-1]!=' '&&fO>0&&cO>0){
 
-                conf[at].oponente[fO-1][cO-1]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO-1][cO-1]=='T')
+                    conf[at].oponente[fO-1][cO-1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
 
@@ -1081,7 +1104,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO-1][cO+1]!=' '&&fO>0&&cO<conf[at].tamTablero-1){
 
-                conf[at].oponente[fO-1][cO+1]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO-1][cO+1]=='T')
+                    conf[at].oponente[fO-1][cO+1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
                 if(fO-1-1>=0){
@@ -1202,7 +1226,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO+1][cO-1]!=' '&&fO<conf[at].tamTablero-1&&cO>0){
 
-                conf[at].oponente[fO+1][cO-1]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO+1][cO-1]=='T')
+                    conf[at].oponente[fO+1][cO-1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
                 if(cO-1-1>=0){
@@ -1324,7 +1349,8 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 
             while(conf[at].oponente[fO+1][cO+1]!=' '&&fO<conf[at].tamTablero-1&&cO<conf[at].tamTablero-1){
 
-                conf[at].oponente[fO+1][cO+1]='H';    //vamos marcando como Hundido todas las casillas
+                if(conf[at].oponente[fO+1][cO+1]=='T')
+                    conf[at].oponente[fO+1][cO+1]='H';    //vamos marcando como Hundido todas las casillas
 
                 //marcamos como Agua las casillas de alrededor
 
@@ -1465,6 +1491,9 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
 
         }
 
+        x+=sX;
+        y+=sY;
+
     }
 
     while(conf[op].flota[x][y]!=' '){//hacemos que la máquina pueda seguir disparando hasta que de en agua
@@ -1472,6 +1501,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
         printf("Casilla tocada.\n");
     
         conf[at].tocadas++; //aumentamos el número de casillas tocadas
+        conf[at].NDisparos++;
 
         //marcamos como tocado
         conf[at].oponente[x][y]='T';
@@ -1496,6 +1526,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
 
     }
 
+    conf[at].NDisparos++;
     printf("\nAgua\n");
     conf[at].oponente[x][y]='*';
 
@@ -1524,6 +1555,7 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
         printf("Casilla tocada\n");
 
         conf[at].tocadas++; //aumentamos el número de casillas tocadas
+        conf[at].NDisparos++;
 
         conf[at].oponente[*x][*y]='T'; //marcamos en estado de 'Tocado' en el tablero oponente
 
