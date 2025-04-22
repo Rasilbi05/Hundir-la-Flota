@@ -1479,7 +1479,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
         comprobarDisparo(conf,x,y,at,op); //comprobamos si se ha hundido un barco
 
         //preguntamos si quiere guardar la partida tras disparar
-        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar\n--> ");
         scanf("%d",&resp);
 
         if(resp==1)
@@ -1530,7 +1530,7 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
         comprobarDisparo(conf,*x,*y,at,op); //comprobamos si se ha hundido un barco
 
         //preguntamos si quiere guardar la partida tras disparar
-        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar");
+        printf("Desea guardar la partida?\n1. Guardar partida\n2.Continuar sin guardar\n--> ");
         scanf("%d",&resp);
 
         if(resp==1)
