@@ -238,7 +238,7 @@ void jugarPartida(Configuracion* conf,int cargar){
             
         }
         
-        if(restantes-hundidas==0)
+        if(barcosHundidos(conf[i].oponente,conf[i].tamTablero)==conf[op].totalBarcos)
             conf[i].ganador=1;
         
         //este condicional nos sirve para ir intercambiando entre los turnos de los jugadores
@@ -1491,10 +1491,11 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
 
         }
 
-        x+=sX;
-        y+=sY;
-
     }
+
+    //le damos el sentido correspondiente
+    x+=sX;
+    y+=sY;
 
     while(conf[op].flota[x][y]!=' '){//hacemos que la máquina pueda seguir disparando hasta que de en agua
 
@@ -1537,21 +1538,22 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
 //Postcondición: realiza el primer disparo del sistema
 void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX, int* sY){
 
-    int resp=0;
+    int resp=0,repetir=0;
+
+    //hacemos que los números varíen en cada ejecución
+    srand(time(NULL));
 
     //hacemos que la máquina elija las coordenadas
     do{
 
-        //hacemos que los números varíen en cada ejecución
-        srand(time(NULL));
         *x = rand() % conf[at].tamTablero;   //elige un número entre 0 y tamTablero-1
         *y = rand() % conf[at].tamTablero;   //elige un número entre 0 y tamTablero-1
 
-    }while(conf[at].oponente[*x][*y]!=' ');
+    }while(conf[at].oponente[*x][*y]!=' '||repetir==1);
 
     //La máquina dispara
     if(conf[op].flota[*x][*y]!=' '){  //acierta el tiro
-            
+
         printf("Casilla tocada\n");
 
         conf[at].tocadas++; //aumentamos el número de casillas tocadas
@@ -1568,15 +1570,20 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
         if(resp==1)
             guardarDatos(conf);
 
-        //la máquina decide donde disparar tras su primer disparo
-        srand(time(NULL));
-        *sX=(rand() % 3) - 1;    //elegimos un valor entre [-1,1]
-        *sY=(rand() % 3) - 1;    //elegimos un valor entre [-1,1]
+    
+        do{
 
-        //realizamos los cambios en las coordenadas
-        *x+= *sX;
-        *y+= *sY;
+            repetir=0;
 
+            //la máquina decide donde disparar tras su primer disparo
+            srand(time(NULL));
+            *sX=rand() % 2;    //elegimos un valor entre [-1,1]
+            *sY=rand() % 2;    //elegimos un valor entre [-1,1]
+
+            if(*sX==0&&*sY==0)
+                repetir=1;
+            
+        }while(repetir==1);
     }
 
 }
