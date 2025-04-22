@@ -304,7 +304,10 @@ void cargarDatos(Configuracion* datos){
         c++;
         while(c < datos[0].tamTablero-1){
             token = strtok(NULL, " ");
-            datos[0].flota[l][c] = token[0];
+            if(token[0] == '-')
+                datos[0].flota[l][c] = ' ';
+            else
+                datos[0].flota[l][c] = token[0];
             c++;
         }
         token = strtok(NULL, "\n");
@@ -413,7 +416,10 @@ void cargarDatos(Configuracion* datos){
         c++;
         while(c < datos[1].tamTablero-1){
             token = strtok(NULL, " ");
-            datos[1].flota[l][c] = token[0];
+            if(token[0] == '-')
+                datos[1].flota[l][c] = ' ';
+            else
+                datos[1].flota[l][c] = token[0];
             c++;
         }
         token = strtok(NULL, "\n");
