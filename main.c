@@ -28,7 +28,7 @@ int main(){
     printf("\n\n");
 
     system("pause");
-    int opcion = 0, configurado = 0;
+    int opcion = 0, configurado = 0, cargado = 0;
     Configuracion *datos;       //Declaro el vector de estructuras
     datos = malloc(sizeof(Configuracion)*2);        //Reservo memoria para el vector de estructuras
     datos[0].NBarcos = (int*)malloc(sizeof(int)*obtenerNBarcos());        //Reservo memoria para el vector de barcos del jugador 1
@@ -49,7 +49,7 @@ int main(){
             scanf("%d", &opcion);
             switch(opcion){
                 case 1:
-                    menuConfiguracion(datos, barcos);     //Llama a la funcion de configuracion
+                    cargado = menuConfiguracion(datos);     //Llama a la funcion de configuracion
                     configurado = 1;
                     break;
                 case 2:
@@ -57,7 +57,10 @@ int main(){
                         printf("Primero debes configurar el juego\n");
                         system("pause");
                     }else{
-                        menuJuego(datos);
+                        if(cargado == 0)
+                            menuJuego(datos);
+                        else
+                            jugarPartida(datos, 1);
                     }
                     break;
                 case 3:

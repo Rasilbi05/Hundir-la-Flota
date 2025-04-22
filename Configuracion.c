@@ -1,8 +1,7 @@
 #include "Configuracion.h"
 
-
-void menuConfiguracion(Configuracion *datos, Barco* barcos){
-    int opcion = 0, completado = 0, opcionB = 0;
+int menuConfiguracion(Configuracion *datos){
+    int opcion = 0, completado = 0, opcionB = 0, cargado = 0;
     while(opcion != 6 && completado == 0){     //Bucle para mostrar el menu de configuracion, sale de el cuando se elige la opcion 5
         do{
             system("cls");
@@ -19,12 +18,16 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
                     printf("Desea crear, modificar o eliminar barcos?(1-SI || 2-NO)\n\n-->");
                     scanf("%i", &opcionB);
                     if(opcionB == 1)
-                        menuBarcos(datos);
+                        menuBarcos();
+                    datos[0].NBarcos = (int*)malloc(obtenerNBarcos()*sizeof(int));        //Reserva memoria para el vector de barcos
+                    datos[1].NBarcos = (int*)malloc(obtenerNBarcos()*sizeof(int));        //Reserva memoria para el vector de barcos
                     introducirDatos(datos);
                     completado = 1;        //Si se ha completado la configuracion, se cambia la variable a 1
                     break;
                 case 2:
-                    menuBarcos(datos);
+                    menuBarcos();
+                    datos[0].NBarcos = (int*)malloc(obtenerNBarcos()*sizeof(int));        //Reserva memoria para el vector de barcos
+                    datos[1].NBarcos = (int*)malloc(obtenerNBarcos()*sizeof(int));        //Reserva memoria para el vector de barcos
                     break;
                 case 3:
                     mostrarDatos(datos);
@@ -34,6 +37,7 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
                     break;
                 case 5:
                     cargarDatos(datos);
+                    cargado = 1;
                     completado = 1;        //Si se ha completado la configuracion, se cambia la variable a 1
                     break;
                 case 6:
@@ -45,6 +49,10 @@ void menuConfiguracion(Configuracion *datos, Barco* barcos){
             }
         }while(opcion < 1 || opcion > 6);
     }
+    if(cargado == 1){
+        return 1;
+    }
+    return 0;
 }
 
 void introducirDatos(Configuracion* configuracion){
@@ -128,11 +136,13 @@ void introducirDatos(Configuracion* configuracion){
         }
     }while(opcion != 'M' && opcion != 'A');        //Bucle para comprobar que se introduce una opcion valida
     
+    printf("Introduce el tamano del tablero: ");
+    scanf("%d", &configuracion[0].tamTablero);
+
     while(comprobarTamano(configuracion) == 0){              //Bucle para comprobar que el tamaño del tablero es valido
-        printf("Introduce el tamaño del tablero: ");
+        printf("El tamano del tablero no es valido\n");
+        printf("Introduce el tamano del tablero: ");
         scanf("%d", &configuracion[0].tamTablero);
-        if(comprobarTamano(configuracion) == 0)
-            printf("El tamaño del tablero no es valido\n");
     }
 }
 
@@ -537,4 +547,21 @@ int barcosHundidos(char **oponente, int tamTablero){
 void testBarcosHundidos(char **oponente, int tamTablero, int esperado){
     int hundidos = barcosHundidos(oponente, tamTablero);
     printf("Esperados: %i\nObtenidos: %i\nResultado: %s", esperado, hundidos, (esperado == hundidos) ? "Correcto" : "Incorrecto");
+}
+
+int comprobarTamano(Configuracion* datos){
+
+	int i=obtenerNBarcos();
+	Barco* barcos = malloc(sizeof(Barco)*i);
+	barcos = cargarBarcos();
+	int j;
+	int t_total=0;
+    for(j=0;j<i;j++){
+        t_total=t_total+(barcos[j].Tam_Barco+(8+4*(barcos[j].Tam_Barco-1)))*datos[0].NBarcos[j]; //Va almacenando en t_total: lo que habia en t_total + (el nº de casillas que ocupa cada barco + el nº de casillas que debe tener libre alrededor) * el número de barcos que haya de ese tipo
+    }
+    if(t_total<=datos[0].tamTablero*datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
+		return 1;
+	} else {
+		return 0;
+	} 
 }

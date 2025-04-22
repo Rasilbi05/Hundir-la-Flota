@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Configuracion.h"
 
 
 typedef struct{         //Estructura de los barcos
@@ -13,10 +12,10 @@ typedef struct{         //Estructura de los barcos
 }Barco;
 
 
-//cabecera: void menuBarcos(Configuracion* datos)
+//cabecera: void menuBarcos()
 //pre: -
 //post: muestra el menu de barcos
-void menuBarcos(Configuracion* datos);
+void menuBarcos();
 //cabecera: int obtenerNBarcos()
 //pre: -
 //post: devuelve el numero de barcos

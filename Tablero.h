@@ -9,10 +9,6 @@
 #include "Configuracion.h"
 #include "Barcos.h"
 
-//Cabecera: int comprobarTamano(Configuracion*)
-//Precondición: Se deben haber elegido el tamaño de los barcos, el número de cada uno de estos y un tamaño para el tablero 
-//Postcondición: Devuelve 1 si el tamaño del tablero es válido (si hay alguna manera de que los barcos puedan situarse) y un 0 si no lo es
-int comprobarTamano(Configuracion* datos);
 
 //Cabecera: char **generarTablero(int)
 //Precondición: Se debe haber determinado que el tamaño del tablero respecto al espacio que ocuparán los barcos es válido

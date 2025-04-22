@@ -1,32 +1,5 @@
 #include "Tablero.h"
 
-//Cabecera: int comprobarTamano(Configuracion*)
-//Precondición: Se deben haber elegido el tamaño de los barcos, el número de cada uno de estos y un tamaño para el tablero 
-//Postcondición: Devuelve 1 si el tamaño del tablero es válido (si hay alguna manera de que los barcos puedan situarse) y un 0 si no lo es
-int comprobarTamano(Configuracion* datos){
-
-	int i=obtenerNBarcos();
-	Barco* barcos = malloc(sizeof(Barco)*i);
-	barcos = cargarBarcos();
-	int j;
-	int t_total=0;
-
-	for(j=0;j<i;j++){
-
-		t_total=t_total+(barcos[j].Tam_Barco+(8+4*(barcos[j].Tam_Barco-1)))*datos[0].NBarcos[j]; //Va almacenando en t_total: lo que habia en t_total + (el nº de casillas que ocupa cada barco + el nº de casillas que debe tener libre alrededor) * el número de barcos que haya de ese tipo
-
-	}
-
-	if(t_total<=datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
-		
-		return 1;
-	
-	} else {
-		
-		return 0;
-	} 
-}
-
 //Cabecera: char **generarTablero(int)
 //Precondición: Se debe haber determinado que el tamaño del tablero respecto al espacio que ocuparán los barcos es válido
 //Postcondición: Genera el tablero del tamaño deseado

@@ -5,8 +5,6 @@
 #include <string.h>
 #include <time.h>
 #include "Barcos.h"
-#include "Tablero.h"
-
 
 typedef struct{
     char nombre[20];
@@ -21,7 +19,7 @@ typedef struct{
 //cabecera: Configuracion* menuConfiguracion()
 //pre: -
 //post: modifica el vector de estructuras de configuración
-void menuConfiguracion();
+int menuConfiguracion(Configuracion *datos);
 //cabecera: Configuracion* introducirDatos(Configuracion* configuracion)
 //pre: -
 //post: devuelve el vector de estructuras de configuración con los datos introducidos
@@ -46,5 +44,9 @@ int barcosHundidos(char **oponente, int tamTablero);
 //pre: recibe una matriz, el tamaño del tablero y el resultado esperado
 //post: comprueba si el resultado es correcto
 void testBarcosHundidos(char **oponente, int tamTablero, int esperado);
+//Cabecera: int comprobarTamano(Configuracion*)
+//Precondición: Se deben haber elegido el tamaño de los barcos, el número de cada uno de estos y un tamaño para el tablero 
+//Postcondición: Devuelve 1 si el tamaño del tablero es válido (si hay alguna manera de que los barcos puedan situarse) y un 0 si no lo es
+int comprobarTamano(Configuracion* datos);
 
 #endif // _CONFIGURACION_
