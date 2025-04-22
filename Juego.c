@@ -1489,7 +1489,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
 
         //si la siguiente casilla está marcada por agua, indicará que el barco se ha hundido, por lo que buscamos otra posición
         if(conf[at].oponente[x][y]=='*')
-            primerDisparo(conf,x,y,at,op,sX,sY);
+            primerDisparo(conf,&x,&y,at,op,&sX,&sY);
 
 
     }
