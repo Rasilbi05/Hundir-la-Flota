@@ -7,6 +7,8 @@ void menuJuego(Configuracion* conf){
 
     int n,cargar;
 
+    system("cls");
+
     printf("1. Jugar partida\n2. Reiniciar partida\n3. Resumen\n4. Volver\n--> ");  //mostramos al usuario las distintas opciones que tiene
     scanf("%d",&n);
 
@@ -63,7 +65,7 @@ void jugarPartida(Configuracion* conf,int cargar){
             conf[cont].flota=generarTablero(conf[cont].tamTablero);
             conf[cont].oponente=generarTablero(conf[cont].tamTablero);
 
-            printf("¿De que forma desea colocar sus barcos %s?\n1. Manual\n2.Automático\n--> ",conf[cont].nombre);
+            printf("De que forma desea colocar sus barcos %s?\n1. Manual\n2.Automatico\n--> ",conf[cont].nombre);
             scanf("%d",&resp);
 
             //llamamos a la función respectiva pasando como parámetro el tablero FLOTA
@@ -129,7 +131,7 @@ void jugarPartida(Configuracion* conf,int cargar){
                 }
 
                 if(f>conf[i].tamTablero-1||c>conf[i].tamTablero-1)
-                    printf("Ha superado el límite. Escoja otras coordenadas.\n");
+                    printf("Ha superado el limite. Escoja otras coordenadas.\n");
 
             }while(conf[i].oponente[f][c]!=' '||f>conf[i].tamTablero-1||c>conf[i].tamTablero-1);
 
@@ -170,7 +172,7 @@ void jugarPartida(Configuracion* conf,int cargar){
                         }
         
                         if(f>conf[i].tamTablero-1||c>conf[i].tamTablero-1)
-                            printf("Ha superado el límite. Escoja otras coordenadas.\n");
+                            printf("Ha superado el limite. Escoja otras coordenadas.\n");
         
                     }while(conf[i].oponente[f][c]!=' '||f>conf[i].tamTablero-1||c>conf[i].tamTablero-1);
 
@@ -313,7 +315,7 @@ void resumenPartida(Configuracion* conf){
 
     //mostramos por pantalla el resumen
     printf("                     |         Valor de las casillas       |                       |\n");
-    printf("       Jugador       |Disparos|Vacías|Agua|Tocadas|Hundidas|Hundidos|Restan|Ganador|\n");
+    printf("       Jugador       |Disparos|Vacias|Agua|Tocadas|Hundidas|Hundidos|Restan|Ganador|\n");
     printf("---------------------|--------|------|----|-------|--------|--------|------|-------|\n");
     for(int i=0;i<2;i++){
 
