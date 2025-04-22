@@ -1,5 +1,35 @@
 #include "Tablero.h"
 
+//Cabecera: int comprobarTamano(Configuracion*)
+//Precondición: Se deben haber elegido el tamaño de los barcos, el número de cada uno de estos y un tamaño para el tablero 
+//Postcondición: Devuelve 1 si el tamaño del tablero es válido (si hay alguna manera de que los barcos puedan situarse) y un 0 si no lo es
+int comprobarTamano(Configuracion* datos){
+
+	int i=obtenerNBarcos();
+	Barco* barcos = malloc(sizeof(Barco)*i);
+	barcos = cargarBarcos();
+	int j;
+	int t_total=0;
+
+	for(j=0;j<i;j++){
+
+		t_total=t_total+(barcos[j].Tam_Barco+(8+4*(barcos[j].Tam_Barco-1)))*datos[0].NBarcos[j]; //Va almacenando en t_total: lo que habia en t_total + (el nº de casillas que ocupa cada barco + el nº de casillas que debe tener libre alrededor) * el número de barcosque haya de ese tipo
+
+	}
+
+	if(t_total<=datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
+		
+		return 1;
+	
+	} else {
+		
+		return 0;
+	} 
+}
+
+//Cabecera: char **generarTablero(int)
+//Precondición: Se debe haber determinado que el tamaño del tablero respecto al espacio que ocuparán los barcos es válido
+//Postcondición: Genera el tablero del tamaño deseado
 char **generarTablero(int n){
 	int i, j;
 	char **M;
@@ -21,16 +51,21 @@ char **generarTablero(int n){
 	return M;
 }
 
+//Cabecera: void asignacionManual(Configuracion*, int)
+//Precondición: Se debe haber seleccionado el modo de asignación manual
+//Postcondición: Modifica el tablero situando los barcos, totalmente a elección de los usuarios
 void asignacionManual(Configuracion* datos, int u){
 	
 	int i=obtenerNBarcos();
 	Barco* barcos = malloc(sizeof(Barco)*i);
 	barcos = cargarBarcos();
 	int f_origen, c_origen; //Coordenadas que elige inicialmente el usuario
-	int d; //Valor para elegir la dirección, se pondrá a 5 para indicar que ha habido fallo en alguna casilla (el barco no puede situarse en ese sentido)
+	int d; //Valor para elegir la dirección, se pondrá a 5 para indicar que ha habido fallo en alguna casilla (el barco no puede situarse en ese sentido), se pondrá a 0 en cada caso para reiniciar el valor y poder cumplir su función de verificación de fallo
 	int s; //Valor para elegir el sentido dentro de cada dirección
 	int j, k, t; //Índices para los bucles for
 	int r1, r2; //Valores para indicar la repetición voluntaria de alguno de los do-while, ya sea para comprobar otros sentidos, otras direcciones o directamente introducir otras coordenadas (todo esto siempre en caso de fallo)
+				//r1 se pondrá a 1, valor disntinto de 5 y no se repita el bucle, o cualquier entero distinto de 5 introducido por el usuario cuando no se desee elegir otro sentido
+				//r2 se pondrá a 1, valor disntinto de 5 y no se repita el bucle, o cualquier entero distinto de 5 introducido por el usuario cuando no se desee elegir otra dirección
 
 	for(j=0;j<i;j++){
 
@@ -62,6 +97,8 @@ void asignacionManual(Configuracion* datos, int u){
 
 										case 1: //Arriba-derecha
 										
+											d=0;
+
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 									
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
@@ -231,7 +268,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f-1;
 													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
@@ -246,6 +283,8 @@ void asignacionManual(Configuracion* datos, int u){
 
 										case 2: //Abajo-derecha
 								
+											d=0;
+
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 									
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
@@ -415,7 +454,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f+1;
 													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
@@ -429,6 +468,8 @@ void asignacionManual(Configuracion* datos, int u){
 											break;
 
 										case 3: //Arriba-izquierda
+
+											d=0;
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 									
@@ -599,7 +640,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f-1;
 													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado	
@@ -613,6 +654,8 @@ void asignacionManual(Configuracion* datos, int u){
 											break;
 						
 										case 4: //Abajo-izquierda
+
+											d=0;
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 									
@@ -783,7 +826,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 													
 													f=f+1;
 													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
@@ -805,13 +848,13 @@ void asignacionManual(Configuracion* datos, int u){
 											break;
 									}
 							
-									if(d = 5){ //Únicamente si ha habido fallo
+									if(d == 5){ //Únicamente si ha habido fallo
 								
 									printf("Si quiere probar otro sentido diagonal introduzca un 5, si no, introduzca cualquier otro entero.\n");
 									scanf("%d", &r1);
 										
 									}
-								}while(r1 = 5); //Si el usuario no quiere seguir probando sentidos diagonales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
+								}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos diagonales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
 					
 								r2=1;
 
@@ -827,6 +870,8 @@ void asignacionManual(Configuracion* datos, int u){
 									switch(s){
 
 										case 1: //Arriba
+
+											d=0;
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
@@ -996,7 +1041,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f-1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
 
@@ -1010,6 +1055,8 @@ void asignacionManual(Configuracion* datos, int u){
 
 										case 2: //Abajo
 							
+											d=0;
+
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
@@ -1178,7 +1225,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f+1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
 
@@ -1199,13 +1246,13 @@ void asignacionManual(Configuracion* datos, int u){
 											break;
 									}
 								
-									if(d = 5){ //Únicaamente si ha habido fallo
+									if(d == 5){ //Únicaamente si ha habido fallo
 
 									printf("Si quiere probar el otro sentido vertical introduzca un 5, si no, introduzca cualquier otro entero.\n");
 									scanf("%d", &r1);
 							
 									}
-								}while(r1 = 5); //Si el usuario no quiere seguir probando sentidos verticales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
+								}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos verticales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
 					
 								r2=1;
 
@@ -1221,6 +1268,8 @@ void asignacionManual(Configuracion* datos, int u){
 									switch(s){
 
 										case 1: //Izquierda
+
+											d=0;
 
 											for(t=0;t<barcos[j].Tam_Barco;t++){	
 
@@ -1390,7 +1439,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													c=c-1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
 
@@ -1404,6 +1453,8 @@ void asignacionManual(Configuracion* datos, int u){
 
 										case 2: //Derecha
 							
+											d=0;
+
 											for(t=0;t<barcos[j].Tam_Barco;t++){
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
@@ -1570,7 +1621,7 @@ void asignacionManual(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													c=c+1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
 
@@ -1591,13 +1642,13 @@ void asignacionManual(Configuracion* datos, int u){
 											break;
 									}
 							
-									if(d = 5){ //Únicamente si ha habido fallo
+									if(d == 5){ //Únicamente si ha habido fallo
 
 									printf("Si quiere probar el otro sentido horizontal introduzca un 5, si no, introduzca cualquier otro entero.\n");
 									scanf("%d", &r1);
 
 									}
-								}while(r1 = 5); //Si el usuario no quiere seguir probando sentidos horizontales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
+								}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos horizontales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
 								
 								r2=1;
 
@@ -1612,7 +1663,7 @@ void asignacionManual(Configuracion* datos, int u){
 								break;
 						}
 				
-						if(d = 5 && r1 != 5){ //Primeramente si ha habido fallo, y luego si el usuario ha decidido no probar más sentidos, es decir, quiere elegir otra dirección u otras coordenadas
+						if(d == 5 && r1 != 5){ //Primeramente si ha habido fallo, y luego si el usuario ha decidido no probar más sentidos, es decir, quiere elegir otra dirección u otras coordenadas
 
 							printf("Si quieres seguir probando direcciones introduce un 5, si no, introduzca cualquier otro entero. Esta otra elección le llevará a introducir de nuevo otras coordenadas.\n");
 							scanf("%d", &r2);
@@ -1632,13 +1683,16 @@ void asignacionManual(Configuracion* datos, int u){
 				
 					}
 		
-					return asignacionManual;
+					asignacionManual(datos, u);
 				}
-			}while(d = 5 && r2 != 5); //Si ha habido algún fallo pero el usuario no quiere elegir otra dirección, se le pedirán otras coordenadas para el mismo barco
+			}while(d == 5 && r2 != 5); //Si ha habido algún fallo pero el usuario no quiere elegir otra dirección, se le pedirán otras coordenadas para el mismo barco
 		}
 	}
 }
 
+//Cabecera: void asignacionAutomatica(Configuracion*, int)
+//Precondición: Se debe haber seleccionado el modo de asignación automática
+//Postcondición: Modifica el tablero situando los barcos, aleatoriamente y sin intervención de los usuarios
 void asignacionAutomatica(Configuracion* datos, int u){
 	
 	int i=obtenerNBarcos();
@@ -1660,8 +1714,8 @@ void asignacionAutomatica(Configuracion* datos, int u){
         		
 				srand(time(NULL)); //Originará enteros distintos cada vez
 
-				f_origen = rand() % datos[0].tamTablero;   //Origina una coordenada para la fila origen entre 0 y tamTablero-1
-       			c_origen = rand() % datos[0].tamTablero;   //Origina una coordenada para la columna origen entre 0 y tamTablero-1
+				f_origen=rand() % datos[0].tamTablero;  //Origina una coordenada para la fila origen entre 0 y tamTablero-1
+       			c_origen=rand() % datos[0].tamTablero;  //Origina una coordenada para la columna origen entre 0 y tamTablero-1
 
 				int f=f_origen, c=c_origen;
 
@@ -1832,7 +1886,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f-1;
 													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
@@ -2002,7 +2056,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f+1;
 													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
@@ -2172,7 +2226,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f-1;
 													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado	
@@ -2342,7 +2396,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 													
 													f=f+1;
 													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
@@ -2521,7 +2575,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f-1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
 
@@ -2689,7 +2743,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													f=f+1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
 
@@ -2867,7 +2921,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													c=c-1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
 
@@ -3031,7 +3085,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												for(t=0;t<barcos[j].Tam_Barco;t++){
 
-													datos[u].flota[f][c] == 'X';
+													datos[u].flota[f][c] = 'X';
 												
 													c=c+1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
 
@@ -3066,34 +3120,7 @@ void asignacionAutomatica(Configuracion* datos, int u){
 		
 					r=1;
 				}
-			}while(r = 1); //Hace generar otras coordenadas para el mismo barco
+			}while(r == 1); //Hace generar otras coordenadas para el mismo barco
 		}
 	}
 }		
-	
-
-
-int comprobarTamano(Configuracion* datos){
-
-	int i=obtenerNBarcos();
-	Barco* barcos = malloc(sizeof(Barco)*i);
-	barcos = cargarBarcos();
-	int j;
-	int k;
-	int t_total=0;
-
-	for(j=0;j<i;j++){
-
-		t_total=t_total+(barcos[j].Tam_Barco+(8+4*(barcos[j].Tam_Barco-1)))*datos[0].NBarcos[j];
-
-	}
-
-	if(t_total<=datos[0].tamTablero){ //Devuelve un 1 si el tamaño es válido, y un 0 en caso contrario
-		
-		return 1;
-	
-	} else {
-		
-		return 0;
-	} 
-}
