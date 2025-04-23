@@ -7,20 +7,23 @@ char **generarTablero(int n){
 	int i, j;
 	char **M;
 	
-	M = (char**) malloc(sizeof(char*)*n);
+	M = (char**) malloc(sizeof(char*)*n); //Reserva las filas 
+	
 	for(i=0;i<n;i++){
 	
-		M[i] = (char*) malloc(sizeof(char)*n);
+		M[i] = (char*) malloc(sizeof(char)*n); //Reserva las columnas
 	
 	}
+	
 	for(i=0;i<n;i++){
 
 		for(j=0;j<n;j++){
 
-		M[i][j] = ' ';
+		M[i][j] = ' '; //Recorre la matriz dinámica y rellena cada casilla con huecos en blanco
 
 		}
 	}
+	
 	return M;
 }
 
@@ -46,1618 +49,1550 @@ void asignacionManual(Configuracion* datos, int u){
 			
 			do{
 			
-				printf("Elija las coordenadas de inicio de un barco de tamaño %d (f c), siendo f fila y c columna.\n", barcos[j].Tam_Barco);
+				printf("Elija las coordenadas de inicio de un barco de tamaño %d (f,c), siendo f fila y c columna.\n", barcos[j].Tam_Barco);
 				scanf("%d, %d", &f_origen, &c_origen);
 
 				int f=f_origen, c=c_origen;
-
-				if(datos[u].flota[f][c] == ' '){
-
-					do{
-						printf("A continuación, elija en qué dirección desea situar el barco:\n 1. Diagonal\n 2. Vertical\n 3. Horizontal\n");
-						scanf("%d", &d);
-		
-						switch(d){
-
-							case 1: //Diagonal
-
-								do{
-
-									printf("Elija en qué sentido diagonal se situará el barco:\n 1. Arriba-derecha\n 2. Abajo-derecha\n 3. Arriba-izquierda\n 4. Abajo-izquierda\n");
-									scanf("%d", &s);
-
-									switch(s){
-
-										case 1: //Arriba-derecha
-										
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-									
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-												
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-														}else{
-												
-															if(datos[u].flota[f][c-1] == 'X'){
-															
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-														}else{
-	
-															if(datos[u].flota[f+1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}	
-													}
-
-												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco	
-								
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{	
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-									
-												if(d != 5){
-										
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-								
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-													}else{
-
-														if(datos[u].flota[f-1][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-													}else{
-
-														if(datos[u].flota[f][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-
-														}
-
-													}	
-												}
-										
-												f=f-1; 
-												c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
-
-											}
-										
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													f=f-1;
-													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
-
-												}
-
-											}
-										
-											r1=1;
-
-											break;
-
-										case 2: //Abajo-derecha
-								
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-									
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-														}else{
-
-															if(datos[u].flota[f][c-1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-														}else{
-
-															if(datos[u].flota[f][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-															}
-
-														}	
-													}
-
-												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
-							
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;	
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-													}else{
-
-														if(datos[u].flota[f+1][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-													}else{	
-
-														if(datos[u].flota[f][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-
-														}
-
-													}
-												}	
-										
-												f=f+1;
-												c=c+1;
-										
-											}
-								
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													f=f+1;
-													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-
-										case 3: //Arriba-izquierda
-
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-									
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-														}else{
-
-															if(datos[u].flota[f][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}	
-									
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-														}else{
-
-															if(datos[u].flota[f+1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}	
-													}
-
-												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
-							
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}	
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){ //Casilla arriba
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}	
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c] == ' '){ //Casilla izquierda
- 
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;	
-
-														}
-
-													}
-												}
-									
-												if(d != 5){
-							
-													if(datos[u].flota[f][c] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-
-														}
-
-													}
-												}	
-										
-												f=f-1;
-												c=c-1;
-										
-											}
-
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
- 
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario	
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													f=f-1;
-													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado	
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-						
-										case 4: //Abajo-izquierda
-
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-									
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha 
-												
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-											
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-														}else{
-
-															if(datos[u].flota[f][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-														}else{
-
-															if(datos[u].flota[f-1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-												}//Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
-									
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}	
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-													}else{
-
-														if(datos[u].flota[f+1][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-													}else{
-
-														if(datos[u].flota[f][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-							
-														}
-
-													}		
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-
-														}
-
-													}
-												}	
-										
-												f=f+1;
-												c=c-1;
-										
-											}
-										
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-													
-													f=f+1;
-													c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-							
-										default:
-
-											printf("Elija una opción válida: 1, 2, 3 ó 4.");
-
-											r1=5;
-
-											break;
-									}
-							
-									if(d == 5){ //Únicamente si ha habido fallo
-								
-									printf("Si quiere probar otro sentido diagonal introduzca un 5, si no, introduzca cualquier otro entero.\n");
-									scanf("%d", &r1);
-										
-									}
-								}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos diagonales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
-					
-								r2=1;
-
-								break;
-
-							case 2: //Vertical
-							
-								do{
-								
-									printf("Elija en qué sentido vertical se situará el barco:\n 1. Arriba\n 2. Abajo\n");
-									scanf("%d", &s);
-
-									switch(s){
-
-										case 1: //Arriba
-
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-										
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
- 
-														}else{
-
-															if(datos[u].flota[f+1][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-														}else{
-
-															if(datos[u].flota[f+1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-														}else{
-
-															if(datos[u].flota[f][c-1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-														}else{
-
-															if(datos[u].flota[f][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-												
-												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
-										
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;	
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-													}else{
-
-														if(datos[u].flota[f-1][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-														
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-														}
-
-													}
-												}	
-										
-												f=f-1;
-										
-											}
-
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													f=f-1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-
-										case 2: //Abajo
-							
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-									
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-														}else{
-
-															if(datos[u].flota[f-1][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-														}else{
-
-															if(datos[u].flota[f-1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, esto no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-														}else{
-
-															if(datos[u].flota[f][c-1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-														}else{
-
-															if(datos[u].flota[f][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-												}//Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
-									
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-													}else{
-
-														if(datos[u].flota[f+1][c] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-
-														}
-
-													}
-												}	
-										
-												f=f+1;
-										
-											}
-
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													f=f+1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-
-										default:
-
-											printf("Elija una opción válida: 1 ó 2.");
-
-											r1=5;
-
-											break;
-									}
-								
-									if(d == 5){ //Únicamente si ha habido fallo
-
-									printf("Si quiere probar el otro sentido vertical introduzca un 5, si no, introduzca cualquier otro entero.\n");
-									scanf("%d", &r1);
-							
-									}
-								}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos verticales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
-					
-								r2=1;
-
-								break;
-
-							case 3: //Horizontal
-							
-								do{
-
-									printf("Elija en qué sentido horizontal se situará el barco:\n 1. Izquierda\n 2. Derecha\n");
-									scanf("%d", &s);
-
-									switch(s){
-
-										case 1: //Izquierda
-
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){	
-
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-									
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-														}else{
-
-															if(datos[u].flota[f+1][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-														}else{
-
-															if(datos[u].flota[f][c+1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-														}else{	
-
-															if(datos[u].flota[f-1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-														}else{
-
-															if(datos[u].flota[f+1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}	
-
-												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
-									
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-													}else{
-
-														if(datos[u].flota[f][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-
-														}
-
-													}
-												}
-										
-												c=c-1;
-										
-											}
-
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													c=c-1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-
-										case 2: //Derecha
-							
-											d=0;
-
-											for(t=0;t<barcos[j].Tam_Barco;t++){
-
-												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-									
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
-
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-														}else{
-
-															if(datos[u].flota[f+1][c-1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-											
-													if(d != 5){
-
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-														}else{
-
-															if(datos[u].flota[f][c-1] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-										
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-														}else{
-
-															if(datos[u].flota[f-1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-													if(d != 5){
-
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-														}else{
-
-															if(datos[u].flota[f+1][c] == 'X'){
-
-																printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-
-															}
-
-														}
-													}
-
-												} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
-									
-												if(d != 5){
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(d != 5){
-
-													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-													}else{
-
-														if(datos[u].flota[f][c+1] == 'X'){
-
-															printf("El barco no tiene al menos una casilla de separación con otro barco, este no es un sentido posible.\n");
-
-															d=5;
-															t=barcos[j].Tam_Barco;
-
-														}else{
-
-															if(t != barcos[j].Tam_Barco-1){
-
-																printf("El barco se sale del tablero, este no es un sentido posible.\n");
-
-																d=5;
-																t=barcos[j].Tam_Barco;
-															}
-														}
-
-													}
-												}
-										
-												c=c+1;
-										
-											}	
-
-											if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
-
-												f=f_origen;
-												c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
-
-												for(t=0;t<barcos[j].Tam_Barco;t++){
-
-													datos[u].flota[f][c] = 'X';
-												
-													c=c+1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
-
-												}
-
-											}
-
-											r1=1;
-
-											break;
-
-										default:
-
-											printf("Elija una opción válida: 1 ó 2.");
-								
-											r1=5;
-
-											break;
-									}
-							
-									if(d == 5){ //Únicamente si ha habido fallo
-
-									printf("Si quiere probar el otro sentido horizontal introduzca un 5, si no, introduzca cualquier otro entero.\n");
-									scanf("%d", &r1);
-
-									}
-								}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos horizontales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
-								
-								r2=1;
-
-								break;
-
-							default: 
 				
-								printf("Elija una opción válida: 1, 2 ó 3.");
+				if((f > -1 && f < datos[0].tamTablero) && (c > -1 && c < datos[0].tamTablero)){ //Para comprobar si las coordenadas están dentro del tablero
+					
+					if(datos[u].flota[f][c] == ' '){ //Una vez están dentro comprobamos si es agua, en caso contrario, será un barco
 
-								r2=5;
-
-								break;
-						}
-				
-						if(d == 5 && r1 != 5){ //Primeramente si ha habido fallo, y luego si el usuario ha decidido no probar más sentidos, es decir, quiere elegir otra dirección u otras coordenadas
-
-							printf("Si quieres seguir probando direcciones introduce un 5, si no, introduzca cualquier otro entero. Esta otra elección le llevará a introducir de nuevo otras coordenadas.\n");
-							scanf("%d", &r2);
-
-						}
-					}while(r2 == 5); //Si el usuario no quiere seguir probando direcciones, pues se irá consecuentemente al siguiente while. Este también se repite si no ha introducido una dirección válida
-
-				}else{
-
-					if(datos[u].flota[f][c] == 'X'){
+						do{
+							printf("A continuacion, elija en que direccion desea situar el barco:\n 1. Diagonal\n 2. Vertical\n 3. Horizontal\n");
+							scanf("%d", &d);
 			
-					printf("Introduzca otras coordenadas, estas ya están ocupadas por otro barco.");
-		
+							switch(d){
+
+								case 1: //Diagonal
+
+									do{
+
+										printf("Elija en que sentido diagonal se situara el barco:\n 1. Arriba-derecha\n 2. Abajo-derecha\n 3. Arriba-izquierda\n 4. Abajo-izquierda\n");
+										scanf("%d", &s);
+
+										switch(s){
+
+											case 1: //Arriba-derecha
+											
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+										
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+														if(f != datos[0].tamTablero-1 && c != 0){
+
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+
+														}	
+														
+														if(d != 5){
+
+															if(c != 0){
+															
+																if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+																}else{
+																
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+															if(f != datos[0].tamTablero-1){
+															
+																if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}	
+															}
+														}
+
+													} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco	
+									
+													if(d != 5){
+
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{	
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+											
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+															}else{
+																	
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}	
+
+													if(d != 5){
+
+														if(f != 0){
+														
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(t != barcos[j].Tam_Barco-1 && (f == 0 || c == datos[j].tamTablero-1)){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(f != 0 && c != datos[j].tamTablero-1){
+
+																if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}
+
+													f=f-1; 
+													c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+												}
+											
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+													
+														f=f-1;
+														c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+													}
+
+												}
+											
+												r1=1;
+
+												break;
+
+											case 2: //Abajo-derecha
+									
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+										
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+
+														if(d != 5){
+
+															if(c != 0){
+
+																if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(f != 0){
+															
+																if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}	
+															}
+														}
+
+													} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+								
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c != 0){
+
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;	
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+															}else{	
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(t != barcos[j].Tam_Barco-1 && (f == datos[j].tamTablero-1 || c == datos[j].tamTablero-1)){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(f != datos[j].tamTablero-1 && c != datos[j].tamTablero-1){
+
+																if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}	
+											
+													f=f+1;
+													c=c+1;
+											
+												}
+									
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+													
+														f=f+1;
+														c=c+1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+
+											case 3: //Arriba-izquierda
+
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+										
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+
+														if(d != 5){
+
+															if(c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}	
+										
+														if(d != 5){
+
+															if(f != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}	
+															}
+														}
+
+													} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+								
+													if(d != 5){
+
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f][c] == ' '){ //Casilla arriba-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c != 0){
+
+															if(datos[u].flota[f][c] == ' '){ //Casilla abajo-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}	
+													}
+
+													if(d != 5){
+
+														if(f != 0){
+
+															if(datos[u].flota[f][c] == ' '){ //Casilla arriba
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}	
+													}
+
+													if(d != 5){
+
+														if(c != 0){
+
+															if(datos[u].flota[f][c] == ' '){ //Casilla izquierda
+	
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+										
+													if(d != 5){
+								
+														if(t != barcos[j].Tam_Barco-1 && (f == 0 || c == 0)){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(f != 0 && c != 0){
+
+																if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}	
+											
+													f=f-1;
+													c=c-1;
+											
+												}
+
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+	
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario	
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+													
+														f=f-1;
+														c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado	
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+							
+											case 4: //Abajo-izquierda
+
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+										
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha 
+													
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+															
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+
+														if(d != 5){
+												
+															if(c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(f != 0){
+
+																if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+													}//Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay tres anteriormente analizadas y una de estas es la posición asignada al barco
+										
+													if(d != 5){
+
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}	
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}	
+														}
+													}
+
+													if(d != 5){
+
+														if(c != 0){
+
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}		
+														}
+													}
+
+													if(d != 5){
+
+														if(t != barcos[j].Tam_Barco-1 && (f == datos[j].tamTablero-1 || c == 0)){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(f != datos[j].tamTablero-1 && c != 0){
+
+																if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}
+
+													f=f+1;
+													c=c-1;
+											
+												}
+											
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+														
+														f=f+1;
+														c=c-1; //Para ir moviéndome de casilla diagonalmente en el sentido indicado
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+								
+											default:
+
+												printf("Elija una opcion valida: 1, 2, 3 o 4.");
+
+												r1=5;
+
+												break;
+										}
+								
+										if(d == 5){ //Únicamente si ha habido fallo
+									
+										printf("Si quiere probar otro sentido diagonal introduzca un 5, si no, introduzca cualquier otro entero.\n");
+										scanf("%d", &r1);
+											
+										}
+									}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos diagonales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
+						
+									r2=1;
+
+									break;
+
+								case 2: //Vertical
+								
+									do{
+									
+										printf("Elija en que sentido vertical se situara el barco:\n 1. Arriba\n 2. Abajo\n");
+										scanf("%d", &s);
+
+										switch(s){
+
+											case 1: //Arriba
+
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+														
+														if(f != datos[0].tamTablero-1 && c != 0){
+
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+
+														if(d != 5){
+
+															if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+	
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(f != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(c != 0){
+
+																if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+													
+													} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+											
+													if(d != 5){
+
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+
+															}
+														}
+													}
+
+													if(d != 5){
+
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+
+													if(d != 5){
+
+														if(t != barcos[j].Tam_Barco-1 && f == 0){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(f != 0){
+
+																if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}	
+											
+													f=f-1;
+											
+												}
+
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+													
+														f=f-1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+
+											case 2: //Abajo
+								
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+														
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+
+														if(d != 5){
+															
+															if(f != 0 && c != datos[j].tamTablero-1){
+															
+																if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}	
+
+														if(d != 5){
+
+															if(f != 0){
+
+																if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, esto no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(c != 0){
+
+																if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+													}//Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+										
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c!= 0){
+
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}	
+
+													if(d != 5){
+
+														if(t != barcos[j].Tam_Barco-1 && f == datos[0].tamTablero-1){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(f != datos[j].tamTablero-1){
+
+																if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}	
+											
+													f=f+1;
+											
+												}
+
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+													
+														f=f+1; //Para ir moviéndome de casilla verticalmente en el sentido indicado
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+
+											default:
+
+												printf("Elija una opción valida: 1 o 2.");
+
+												r1=5;
+
+												break;
+										}
+									
+										if(d == 5){ //Únicamente si ha habido fallo
+
+										printf("Si quiere probar el otro sentido vertical introduzca un 5, si no, introduzca cualquier otro entero.\n");
+										scanf("%d", &r1);
+								
+										}
+									}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos verticales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
+						
+									r2=1;
+
+									break;
+
+								case 3: //Horizontal
+								
+									do{
+
+										printf("Elija en que sentido horizontal se situara el barco:\n 1. Izquierda\n 2. Derecha\n");
+										scanf("%d", &s);
+
+										switch(s){
+
+											case 1: //Izquierda
+
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){	
+
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+										
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+
+														if(d != 5){
+
+															if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(c != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+														if(d != 5){
+
+															if(f != 0){
+
+																if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+															
+														if(d != 5){
+
+															if(f != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}	
+
+													} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+										
+													if(d != 5){
+
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c != 0){
+
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+
+													if(d != 5){
+
+														if(t != barcos[j].Tam_Barco-1 && c == 0){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(c != 0){
+
+																if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+														}
+													}
+														
+													c=c-1;
+											
+												}
+
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+													
+														c=c-1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+
+											case 2: //Derecha
+								
+												d=0;
+
+												for(t=0;t<barcos[j].Tam_Barco;t++){
+
+													if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
+										
+														if(f != 0 && c != 0){
+
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+															}
+														}
+
+														if(d != 5){
+
+															if(f != datos[0].tamTablero-1 && c != 0){
+
+																if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+															
+														if(d != 5){
+
+															if(c != 0){
+
+																if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+					
+																}
+															}
+														}
+
+														if(d != 5){
+															
+															if(f != 0){
+
+																if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}	
+														}
+
+														if(d != 5){
+															if(f != datos[0].tamTablero-1){
+
+																if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+																}else{
+
+																	printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+
+																}
+															}
+														}
+
+													} //Cuando son las siguientes iteraciones solo debo analizar algunas en concreto, hay cinco anteriormente analizadas y una de estas es la posición asignada al barco
+									
+													if(d != 5){
+
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+
+													if(d != 5){
+
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+															}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+															}
+														}
+													}
+
+													if(d != 5){
+													
+														if(t != barcos[j].Tam_Barco-1 && c == datos[0].tamTablero-1){
+
+															printf("El barco se sale del tablero, este no es un sentido posible.\n");
+
+																d=5;
+																t=barcos[j].Tam_Barco;
+
+														}else{
+
+															if(c != datos[j].tamTablero-1){
+
+																if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+																}else{
+
+																printf("El barco no tiene al menos una casilla de separacion con otro barco, este no es un sentido posible.\n");
+
+																	d=5;
+																	t=barcos[j].Tam_Barco;
+																}	
+															}
+													}
+													}	
+
+													c=c+1;
+										
+												}	
+
+												if(d != 5){ //Comprobamos si el bucle ha acabado exitosamente, y colocamos el barco en las casillas correspondientes marcándolas con una 'X'
+
+													f=f_origen;
+													c=c_origen; //Devuelve los valores de las coordenadas, modificadas en el bucle anterior, a los valores de origen que proporciona el usuario
+
+													for(t=0;t<barcos[j].Tam_Barco;t++){
+
+														datos[u].flota[f][c] = 'X';
+												
+														c=c+1; //Para ir moviéndome de casilla horizontalmente en el sentido indicado
+
+													}
+
+												}
+
+												r1=1;
+
+												break;
+
+											default:
+
+												printf("Elija una opcion valida: 1 o 2.");
+								
+												r1=5;
+
+												break;
+										}
+							
+										if(d == 5){ //Únicamente si ha habido fallo
+
+										printf("Si quiere probar el otro sentido horizontal introduzca un 5, si no, introduzca cualquier otro entero.\n");
+										scanf("%d", &r1);
+
+										}
+									}while(r1 == 5); //Si el usuario no quiere seguir probando sentidos horizontales, tal vez querrá probar otras direcciones, y no directamente cambiar de coordenadas. Este también se repite si no ha introducido un sentido válido
+								
+									r2=1;
+
+									break;
+
+								default: 
+				
+									printf("Elija una opcion valida: 1, 2 o 3.");
+
+									r2=5;
+
+									break;
+							}
+				
+							if(d == 5 && r1 != 5){ //Primeramente si ha habido fallo, y luego si el usuario ha decidido no probar más sentidos, es decir, quiere elegir otra dirección u otras coordenadas
+
+								printf("Si quieres seguir probando direcciones introduce un 5, si no, introduzca cualquier otro entero. Esta otra eleccion le llevara a introducir de nuevo otras coordenadas.\n");
+								scanf("%d", &r2);
+
+							}
+						}while(r2 == 5); //Si el usuario no quiere seguir probando direcciones, pues se irá consecuentemente al siguiente while. Este también se repite si no ha introducido una dirección válida
+
 					}else{
 			
-					printf("Introduzca otras coordenadas, estas se salen de los límites del tablero.");
-				
-					}
+						printf("Introduzca otras coordenadas, estas ya estan ocupadas por otro barco.");
 		
-					asignacionManual(datos, u);
+						d=5;
+						r2=1;
+					}
+				}else{
+
+					printf("Introduzca otras coordenadas, estas no estan dentro de los limites del tablero.");
+		
+					d=5;
+					r2=1;
 				}
+
 			}while(d == 5 && r2 != 5); //Si ha habido algún fallo pero el usuario no quiere elegir otra dirección, se le pedirán otras coordenadas para el mismo barco
 		}
 	}
@@ -1712,48 +1647,45 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+													if(f != datos[0].tamTablero-1 && c != 0){
 
-													}else{
-												
-														if(datos[u].flota[f+1][c-1] == 'X'){
+														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
+														}else{
+													
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+														if(c != 0){
 
-														}else{
-												
-															if(datos[u].flota[f][c-1] == 'X'){
-															
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+															}else{
+
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+														if(f != datos[0].tamTablero-1){
 
-														}else{
-	
-															if(datos[u].flota[f+1][c] == 'X'){
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}	
 													}
 
@@ -1761,90 +1693,84 @@ void asignacionAutomatica(Configuracion* datos, int u){
 								
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
 
-													}else{	
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
-														if(datos[u].flota[f-1][c-1] == 'X'){
+														}else{	
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
-													}	
+													}
 												}
 									
 												if(e != 5){
 										
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+													if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
 
-													}else{
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
 
-														if(datos[u].flota[f+1][c+1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}
 								
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+													if(f != 0){
 
-													}else{
-
-														if(datos[u].flota[f-1][c] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-													}else{
-
-														if(datos[u].flota[f][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
 														}else{
 
-															if(t != barcos[j].Tam_Barco-1){
-
-																e=5;
-																t=barcos[j].Tam_Barco;
-															}
+															e=5;
+															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
+												}
+
+												if(e != 5){
+
+													if(c != datos[0].tamTablero-1){
+
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+													}	
+												}
+
+												if(e != 5){
+
+													if(t != barcos[j].Tam_Barco-1 && (f == 0 || c == datos[j].tamTablero-1)){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+														if(f != 0 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+															}else{
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+															}
+														}	
+													}
 												}
 										
 												f=f-1; 
@@ -1882,48 +1808,44 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
 
-													}else{
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
-														if(datos[u].flota[f-1][c-1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+														if(c != 0){
 
-														}else{
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
-															if(datos[u].flota[f][c-1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
+														if(f != 0){
+															
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+															}else{
 
-														}else{
-
-															if(datos[u].flota[f][c] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+																e=5;
+																t=barcos[j].Tam_Barco;
 
 															}
-
 														}	
 													}
 
@@ -1931,89 +1853,83 @@ void asignacionAutomatica(Configuracion* datos, int u){
 							
 												if(e != 5){
 
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+													if(f != datos[0].tamTablero-1 && c != 0){
 
-													}else{
+														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
-														if(datos[u].flota[f+1][c-1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}
 
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+													if(f != 0 && c != datos[j].tamTablero-1){
 
-													}else{
+														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
 
-														if(datos[u].flota[f-1][c+1] == 'X'){
+														}else{
 
 															e=5;	
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}
 
 												if(e != 5){
 
-													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+													if(f != datos[0].tamTablero-1){
 
-													}else{
-
-														if(datos[u].flota[f+1][c] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-													}else{	
-
-														if(datos[u].flota[f][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
 														}else{
 
-															if(t != barcos[j].Tam_Barco-1){
-
-																e=5;
-																t=barcos[j].Tam_Barco;
-															}
+															e=5;
+															t=barcos[j].Tam_Barco;
 
 														}
+													}	
+												}
 
+												if(e != 5){
+
+													if(c != datos[0].tamTablero-1){
+
+														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+														}else{	
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+													}	
+												}
+
+												if(e != 5){
+
+													if(t != barcos[j].Tam_Barco-1 && (f == datos[j].tamTablero-1 || c == datos[j].tamTablero-1)){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+														if(f != datos[j].tamTablero-1 && c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+															}else{
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+															}
+														}	
 													}
 												}	
 										
@@ -2052,48 +1968,45 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+													if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
 
-													}else{
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
 
-														if(datos[u].flota[f+1][c+1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+														if(c != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
-															if(datos[u].flota[f][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}	
 									
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+														if(f != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
-															if(datos[u].flota[f+1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}	
 													}
 
@@ -2101,89 +2014,83 @@ void asignacionAutomatica(Configuracion* datos, int u){
 							
 												if(e != 5){
 
-													if(datos[u].flota[f][c] == ' '){ //Casilla arriba-derecha
+													if(f != 0 && c != datos[j].tamTablero-1){
 
-													}else{
+														if(datos[u].flota[f][c] == ' '){ //Casilla arriba-derecha
 
-														if(datos[u].flota[f][c] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}
 
 												if(e != 5){
 
-													if(datos[u].flota[f][c] == ' '){ //Casilla abajo-izquierda
+													if(f != datos[0].tamTablero-1 && c != 0){
 
-													}else{
+														if(datos[u].flota[f][c] == ' '){ //Casilla abajo-izquierda
 
-														if(datos[u].flota[f][c] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}	
-												}	
-
-												if(e != 5){
-
-													if(datos[u].flota[f][c] == ' '){ //Casilla arriba
-
-													}else{
-
-														if(datos[u].flota[f][c] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}	
 
 												if(e != 5){
 
-													if(datos[u].flota[f][c] == ' '){ //Casilla izquierda
- 
-													}else{
+													if(f != 0){
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(datos[u].flota[f][c] == ' '){ //Casilla arriba
+
+														}else{
 
 															e=5;
-															t=barcos[j].Tam_Barco;	
+															t=barcos[j].Tam_Barco;
 
 														}
+													}	
+												}	
 
+												if(e != 5){
+
+													if(c != 0){
+
+														if(datos[u].flota[f][c] == ' '){ //Casilla izquierda
+	
+														}else{
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
 													}
 												}
 									
 												if(e != 5){
 							
-													if(datos[u].flota[f][c] == ' '){ //Casilla arriba-izquierda
+													if(t != barcos[j].Tam_Barco-1 && (f == 0 || c == 0)){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
-														if(datos[u].flota[f][c] == 'X'){
+														if(f != 0 && c != 0){
 
-															e=5;
-															t=barcos[j].Tam_Barco;
+															if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
-														}else{
+															}else{
 
-															if(t != barcos[j].Tam_Barco-1){
-
-																e=5;
-																t=barcos[j].Tam_Barco;
+																d=5;
+																t=barcos[j].Tam_Barco;	
 															}
-
-														}
-
+														}	
 													}
 												}	
 										
@@ -2222,48 +2129,45 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha 
-												
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
+													if(f != 0 && c != datos[j].tamTablero-1){
+														
+														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha 
+													
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 											
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+														if(c != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
-															if(datos[u].flota[f][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+														if(f != 0){
+															
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
-														}else{
-
-															if(datos[u].flota[f-1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
@@ -2271,89 +2175,83 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
+														
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
+														}else{
+		
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}	
 
 												if(e != 5){
 
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+													if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
 
-													}else{
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
 
-														if(datos[u].flota[f+1][c+1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}
 
 												if(e != 5){
 
-													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+													if(f != datos[0].tamTablero-1){
+														
+														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
-													}else{
-
-														if(datos[u].flota[f+1][c] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}	
 												}
 
 												if(e != 5){
 
-													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+													if(c != 0){
+														
+														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
-													}else{
-
-														if(datos[u].flota[f][c-1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
-							
-														}
 
+														}
 													}		
 												}
 
 												if(e != 5){
 
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+													if(t != barcos[j].Tam_Barco-1 && (f == datos[j].tamTablero-1 || c == 0)){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
 
 													}else{
 
-														if(datos[u].flota[f+1][c-1] == 'X'){
+														if(f != datos[j].tamTablero-1 && c != 0){
 
-															e=5;
-															t=barcos[j].Tam_Barco;
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
-														}else{
+															}else{
 
-															if(t != barcos[j].Tam_Barco-1){
-
-																e=5;
-																t=barcos[j].Tam_Barco;
+																d=5;
+																t=barcos[j].Tam_Barco;	
 															}
-
-														}
-
+														}	
 													}
 												}	
 										
@@ -2402,80 +2300,75 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 										
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+													if(f != datos[j].tamTablero-1 && c != 0){
 
-													}else{
+														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
-														if(datos[u].flota[f+1][c-1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
- 
-														}else{
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
 
-															if(datos[u].flota[f+1][c+1] == 'X'){
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+	
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+														if(f != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
-															if(datos[u].flota[f+1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+														if(c != 0){
 
-														}else{
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
-															if(datos[u].flota[f][c-1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+														if(c != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
-															if(datos[u].flota[f][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
@@ -2484,56 +2377,53 @@ void asignacionAutomatica(Configuracion* datos, int u){
 										
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
 
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;	
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
-
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
-
-													}else{
-
-														if(datos[u].flota[f-1][c] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
 														}else{
-														
-															if(t != barcos[j].Tam_Barco-1){
 
-																e=5;
-																t=barcos[j].Tam_Barco;
-															}
+															e=5;
+															t=barcos[j].Tam_Barco;
+
 														}
+													}
+												}
 
+												if(e != 5){
+													
+													if(f != 0 && c != datos[j].tamTablero-1){
+
+														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+
+														}else{
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+													}
+												}
+
+												if(e != 5){
+
+													if(t != barcos[j].Tam_Barco-1 && f == 0){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+														if(f != 0){
+
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+
+															}else{
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+															}
+														}	
 													}
 												}	
 										
@@ -2570,80 +2460,74 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
 
-													}else{
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
-														if(datos[u].flota[f-1][c-1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+														if(f != 0 && c != datos[j].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
 
-															if(datos[u].flota[f-1][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+														if(f != 0){
 
-														}else{
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
-															if(datos[u].flota[f-1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+														if(c != 0){
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
-														}else{
-
-															if(datos[u].flota[f][c-1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+														if(c != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
-															if(datos[u].flota[f][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
@@ -2651,57 +2535,53 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(e != 5){
 
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+													if(f != datos[j].tamTablero-1 && c != 0){
 
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
-
-													}else{
-
-														if(datos[u].flota[f+1][c] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
 														}else{
 
-															if(t != barcos[j].Tam_Barco-1){
-
-																e=5;
-																t=barcos[j].Tam_Barco;
-															}
+															e=5;
+															t=barcos[j].Tam_Barco;
 
 														}
+													}
+												}
 
+												if(e != 5){
+
+													if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+														}else{
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+													}
+												}
+
+												if(e != 5){
+
+													if(t != barcos[j].Tam_Barco-1 && f == datos[j].tamTablero-1){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+														if(f != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+
+															}else{
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+															}
+														}	
 													}
 												}	
 										
@@ -2747,81 +2627,76 @@ void asignacionAutomatica(Configuracion* datos, int u){
 											for(t=0;t<barcos[j].Tam_Barco;t++){	
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
-									
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+													
+													if(f != 0 && c != datos[j].tamTablero-1){
 
-													}else{
+														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
 
-														if(datos[u].flota[f-1][c+1] == 'X'){
+														}else{
 
 															e=5;
 															t=barcos[j].Tam_Barco;
 
 														}
-
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+														if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
 
-															if(datos[u].flota[f+1][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+														if(c != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
 
-															if(datos[u].flota[f][c+1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+														if(f != 0){
 
-														}else{	
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
-															if(datos[u].flota[f-1][c] == 'X'){
+															}else{	
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+														if(f != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
-															if(datos[u].flota[f+1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}	
 
@@ -2829,57 +2704,53 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
 
-													}else{
-
-														if(datos[u].flota[f-1][c-1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
-
-													}else{
-
-														if(datos[u].flota[f+1][c-1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
-
-													}else{
-
-														if(datos[u].flota[f][c-1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
 														}else{
 
-															if(t != barcos[j].Tam_Barco-1){
-
-																e=5;
-																t=barcos[j].Tam_Barco;
-															}
+															e=5;
+															t=barcos[j].Tam_Barco;
 
 														}
+													}
+												}
 
+												if(e != 5){
+
+													if(f != datos[j].tamTablero-1 && c != 0){
+
+														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+
+														}else{
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+
+														}
+													}
+												}
+
+												if(e != 5){
+
+													if(t != barcos[j].Tam_Barco-1 && c == 0){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+														if(c != 0){
+
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+
+															}else{
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+															}
+														}	
 													}
 												}
 										
@@ -2914,79 +2785,74 @@ void asignacionAutomatica(Configuracion* datos, int u){
 
 												if(t == 0){ //Cuando es la primera posición del barco debo analizar todas las casillas alrededor
 									
-													if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
+													if(f != 0 && c != 0){
 
-													}else{
+														if(datos[u].flota[f-1][c-1] == ' '){ //Casilla arriba-izquierda
 
-														if(datos[u].flota[f-1][c-1] == 'X'){
+														}else{
 
 															d=5;
 															t=barcos[j].Tam_Barco;
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
+														if(f != datos[j].tamTablero-1 && c != 0){
 
-														}else{
+															if(datos[u].flota[f+1][c-1] == ' '){ //Casilla abajo-izquierda
 
-															if(datos[u].flota[f+1][c-1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 											
 													if(e != 5){
 
-														if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
+														if(c != 0){
 
-														}else{
+															if(datos[u].flota[f][c-1] == ' '){ //Casilla izquierda
 
-															if(datos[u].flota[f][c-1] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 										
-														if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
+														if(f != 0){
 
-														}else{
+															if(datos[u].flota[f-1][c] == ' '){ //Casilla arriba
 
-															if(datos[u].flota[f-1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
 													if(e != 5){
 
-														if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
+														if(f != datos[0].tamTablero-1){
 
-														}else{
+															if(datos[u].flota[f+1][c] == ' '){ //Casilla abajo
 
-															if(datos[u].flota[f+1][c] == 'X'){
+															}else{
 
 																e=5;
 																t=barcos[j].Tam_Barco;
 
 															}
-
 														}
 													}
 
@@ -2994,56 +2860,53 @@ void asignacionAutomatica(Configuracion* datos, int u){
 									
 												if(e != 5){
 
-													if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
+													if(f != 0 && c != datos[j].tamTablero-1){
 
-													}else{
-
-														if(datos[u].flota[f-1][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
-
-													}else{
-
-														if(datos[u].flota[f+1][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
-
-														}
-
-													}
-												}
-
-												if(e != 5){
-
-													if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
-
-													}else{
-
-														if(datos[u].flota[f][c+1] == 'X'){
-
-															e=5;
-															t=barcos[j].Tam_Barco;
+														if(datos[u].flota[f-1][c+1] == ' '){ //Casilla arriba-derecha
 
 														}else{
 
-															if(t != barcos[j].Tam_Barco-1){
+															e=5;
+															t=barcos[j].Tam_Barco;
 
-																e=5;
-																t=barcos[j].Tam_Barco;
-															}
 														}
+													}
+												}
 
+												if(e != 5){
+
+													if(f != datos[0].tamTablero-1 && c != datos[0].tamTablero-1){
+
+														if(datos[u].flota[f+1][c+1] == ' '){ //Casilla abajo-derecha
+
+														}else{
+
+															e=5;
+															t=barcos[j].Tam_Barco;
+				
+														}		
+													}
+												}
+
+												if(e != 5){
+
+													if(t != barcos[j].Tam_Barco-1 && c == datos[j].tamTablero-1){
+
+														d=5;
+														t=barcos[j].Tam_Barco;
+
+													}else{
+
+														if(c != datos[j].tamTablero-1){
+
+															if(datos[u].flota[f][c+1] == ' '){ //Casilla derecha
+
+															}else{
+
+																d=5;
+																t=barcos[j].Tam_Barco;	
+															}
+														}	
 													}
 												}
 										
