@@ -107,6 +107,9 @@ void jugarPartida(Configuracion* conf,int cargar){
 
     system("cls");
 
+    //esto nos servirá para que en caso de que sean automáticos los disparos, nos sirve para generar los números aleatorios
+    srand(time(NULL));
+
     //comprobamos si es el jugador2 el que empieza
     if(conf[1].comienza==1)
         i=1;
@@ -120,7 +123,7 @@ void jugarPartida(Configuracion* conf,int cargar){
         op++;
 
     //creamos el bucle principal para el juego
-    while(conf[0].ganador!=1||conf[1].ganador!=1||resp!=3){
+    while(conf[0].ganador!=1&&conf[1].ganador!=1&&resp!=3){
 
         printf("Turno de %s:\n",conf[i].nombre);
 
@@ -206,8 +209,6 @@ void jugarPartida(Configuracion* conf,int cargar){
 
         }
 
-        system("cls");
-
         //mostramos los tableros del jugador
         MostrarTableros(conf,i);
 
@@ -272,6 +273,8 @@ void jugarPartida(Configuracion* conf,int cargar){
          
     }
     
+    system("pause");
+
 }
 
 //Cabecera: void reiniciarPartida(Configuracion*, int* cargar)
@@ -1400,7 +1403,7 @@ void comprobarDisparo(Configuracion* conf, int f, int c, int at, int op){
 //Postcondición: El programa realiza los disparos de forma autática
 void disparoAutomatico(Configuracion* conf, int at, int op){
 
-    int x,y, resp=0,sX,sY,pDisparo=0;
+    int x=0,y=0, resp=0,sX=0,sY=0,pDisparo=0;
                              //x e y son las coordenadas que elige la máquina
                             //resp nos sirve para saber si el usuario quiere guardar
                             //sX y sY nos sirve para saber el sentido que va elegir la máquina tras acertar el disparo
@@ -1524,6 +1527,7 @@ void disparoAutomatico(Configuracion* conf, int at, int op){
         if(conf[at].oponente[x][y]=='*')
             primerDisparo(conf,&x,&y,at,op,&sX,&sY);
 
+        system("cls");
 
     }
 
@@ -1540,16 +1544,13 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
 
     int resp=0,repetir=0;
 
-    //hacemos que los números varíen en cada ejecución
-    srand(time(NULL));
-
     //hacemos que la máquina elija las coordenadas
     do{
 
         *x = rand() % conf[at].tamTablero;   //elige un número entre 0 y tamTablero-1
         *y = rand() % conf[at].tamTablero;   //elige un número entre 0 y tamTablero-1
 
-    }while(conf[at].oponente[*x][*y]!=' '||repetir==1);
+    }while(conf[at].oponente[*x][*y]!=' ');
 
     //La máquina dispara
     if(conf[op].flota[*x][*y]!=' '){  //acierta el tiro
@@ -1573,17 +1574,12 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
     
         do{
 
-            repetir=0;
-
             //la máquina decide donde disparar tras su primer disparo
-            srand(time(NULL));
-            *sX=(rand() % 3) -1;    //elegimos un valor entre [-1,1]
-            *sY=(rand() % 3) -1;    //elegimos un valor entre [-1,1]
+            *sX =(rand() % 3) - 1;    //elegimos un valor entre [-1,1]
+            *sY =(rand() % 3) - 1;    //elegimos un valor entre [-1,1]
 
-            if(*sX==0&&*sY==0)
-                repetir=1;
-            
-        }while(repetir==1);
+        } while (*sX == 0 && *sY == 0); //hacemos que no puedan ser sX=0 y sY=0 porque si fuese así no habría sentido a la hora de disparar
+
     }
 
 }
