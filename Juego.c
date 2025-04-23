@@ -1577,8 +1577,8 @@ void primerDisparo(Configuracion* conf, int* x, int* y, int at, int op, int* sX,
 
             //la máquina decide donde disparar tras su primer disparo
             srand(time(NULL));
-            *sX=rand() % 2;    //elegimos un valor entre [-1,1]
-            *sY=rand() % 2;    //elegimos un valor entre [-1,1]
+            *sX=(rand() % 3) -1;    //elegimos un valor entre [-1,1]
+            *sY=(rand() % 3) -1;    //elegimos un valor entre [-1,1]
 
             if(*sX==0&&*sY==0)
                 repetir=1;
