@@ -74,11 +74,11 @@ void jugarPartida(Configuracion* conf,int cargar){
                 switch(resp){
 
                     case 1:
-                        asignacionManual(conf,i);   //llamamos a la función encargada de realizar la asignación manual de los barcos
+                        asignacionManual(conf,cont);   //llamamos a la función encargada de realizar la asignación manual de los barcos
                     break;
 
                     case 2:
-                        asignacionAutomatica(conf,i);   //llamamos a la función encargada de realizar la asignación automática de los barcos
+                        asignacionAutomatica(conf,cont);   //llamamos a la función encargada de realizar la asignación automática de los barcos
                     break;
                     default:
                         printf("Opcion no valida, elija de nuevo.");
